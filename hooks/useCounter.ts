@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 
 export function useCounter(target: number, duration = 1800, start = false) {

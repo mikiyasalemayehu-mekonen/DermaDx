@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
+import { LogOut ,ChevronRight } from 'lucide-react';
+
+
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -58,33 +61,31 @@ const icons = {
       <line x1="12" y1="17" x2="12.01" y2="17" strokeLinecap="round" strokeWidth={2.5} />
     </svg>
   ),
-  SignOut: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-[18px] h-[18px]">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round" />
-    </svg>
-  ),
-  ChevronRight: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3">
-      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
+
 };
 
 // ── Nav items ─────────────────────────────────────────────────────────────────
 
+// const NAV_ITEMS = [
+//   { id: "dashboard", label: "Dashboard",  href: "/admindashboard",      icon: icons.Dashboard, badge: null },
+//   { id: "users",     label: "User Management", href: "/usermanagement ", icon: icons.Users,     badge: "3" },
+//   { id: "reports",   label: "System Reports",  href: "/systemreports", icon: icons.Reports,   badge: null },
+//   { id: "history",   label: "History",         href: "/adminhistory", icon: icons.History,   badge: null },
+//   { id: "settings",  label: "Settings",        href: "/adminsettings", icon: icons.Settings,  badge: null },
+// ];
 const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard",       icon: icons.Dashboard, badge: null },
-  { id: "users",     label: "User Management", icon: icons.Users,     badge: "3" },
-  { id: "reports",   label: "System Reports",  icon: icons.Reports,   badge: null },
+  { id: "users",     label: "User Management" , icon: icons.Users,     badge: "3" },
+  { id: "reports",   label: "System Reports",   icon: icons.Reports,   badge: null },
   { id: "history",   label: "History",         icon: icons.History,   badge: null },
   { id: "settings",  label: "Settings",        icon: icons.Settings,  badge: null },
 ];
 
+
+
 const BOTTOM_ITEMS = [
   { id: "support", label: "Support",  icon: icons.Support },
-  { id: "signout", label: "Sign Out", icon: icons.SignOut },
+  { id: "signout", label: "Sign Out", icon: LogOut },
 ];
 
 // Clinician colour tokens
@@ -142,7 +143,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
           title={collapsed ? "Expand" : "Collapse"}
         >
           <span className={`transition-transform duration-300 ${collapsed ? "rotate-0" : "rotate-180"}`}>
-            <icons.ChevronRight />
+            <ChevronRight className="w-3.5 h-3.5" />
           </span>
         </button>
       </div>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import logo from "@/public/logo.svg"
 import login from "@/public/images/login.png"
 import { useState } from "react";
+import { Mail, Lock,EyeIcon,EyeOffIcon } from 'lucide-react';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,19 +19,15 @@ export default function LoginPage() {
         />
         <div className="absolute inset-0 bg-[#0B2A4A]/80" />
       </div>
-
-      {/* RIGHT SIDE */}
       <div className="w-full md:w-1/2 bg-[#F3F5F8] flex items-center justify-center px-6">
         <div className="w-full max-w-md bg-white rounded-xl p-10 shadow-sm">
 
-          {/* ICON */}
           <div className="flex justify-center mb-6">
             <div className="w-12 h-12 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
             <Image
                 src={logo}
                 alt="Logo"
               />
-
             </div>
           </div>
 
@@ -49,9 +46,7 @@ export default function LoginPage() {
                 Email or Username
               </label>
               <div className="flex items-center bg-slate-100 rounded-md px-3 py-3">
-                <span className="material-symbols-outlined text-slate-400 text-lg mr-2">
-                  mail
-                </span>
+                <Mail className="text-slate-400 text-lg mr-2" />
                 <input
                   type="text"
                   placeholder="name@clinic-dx.com"
@@ -60,15 +55,12 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* PASSWORD */}
             <div>
               <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">
                 Password
               </label>
               <div className="flex items-center bg-slate-100 rounded-md px-3 py-3">
-                <span className="material-symbols-outlined text-slate-400 text-lg mr-2">
-                  lock
-                </span>
+                <Lock className="text-slate-400 text-lg mr-2" />
 
                 <input
                   type={showPassword ? "text" : "password"}
@@ -81,9 +73,14 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="text-slate-400 hover:text-slate-600"
                 >
-                  <span className="material-symbols-outlined text-lg">
-                    {showPassword ? "visibility_off" : "visibility"}
-                  </span>
+                  {
+                    showPassword? (
+                      <EyeOffIcon className="w-4 h-4" />
+                    ) : (
+                      <EyeIcon className="w-4 h-4" />
+
+                    )
+                  }
                 </button>
               </div>
             </div>

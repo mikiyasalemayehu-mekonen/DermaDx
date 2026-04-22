@@ -4,19 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/logo.svg"
-import {
- IconAnalysis,
-  IconFeedback,  IconSupport,
-  IconSignOut, IconDashboard, IconUpload,IconMicroscope
-} from "./icons";
-import {IconHistory ,IconSettings , type Icon } from "@tabler/icons-react"
+
+import { LogOut,Microscope,LayoutDashboard,MessageSquare ,CircleQuestionMark,History,Settings} from 'lucide-react';
 
 const NAV_ITEMS = [
-  { label: "Dashboard",    href: "/dashboard", icon: IconDashboard },
-  { label: "New Analysis", href: "/upload",    icon: IconMicroscope },
-  { label: "History",      href: "/history",   icon: IconHistory },
-  { label: "Feedback",     href: "/feedback",  icon: IconFeedback },
-  { label: "Settings",     href: "/settings/profile",  icon: IconSettings },
+  { label: "Dashboard",    href: "/dashboard", icon: LayoutDashboard},//className="w-5 h-5
+  { label: "New Analysis", href: "/upload",    icon: Microscope },
+  { label: "History",      href: "/history",   icon: History },
+  { label: "Feedback",     href: "/feedback",  icon: MessageSquare },
+  { label: "Settings",     href: "/settings/profile",  icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -67,10 +63,10 @@ export default function Sidebar() {
       {/* Bottom links */}
       <div className="px-3 pb-6 space-y-0.5 border-t border-[#e2e8f0] pt-2">
         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150">
-          <IconSupport /> Support
+          <CircleQuestionMark /> Support
         </button>
         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150">
-          <IconSignOut /> Sign Out
+          <LogOut /> Sign Out
         </button>
       </div>
     </aside>

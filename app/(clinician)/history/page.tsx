@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { TopBar } from "../_components/shell";
 import {
   IconPlus, IconEye, IconDownload,
-  IconCalendar, IconSliders, IconChevronLeft, IconChevronRight, IconChevronDown,
+  IconCalendar, IconSliders, IconChevronLeft, IconChevronDown,
   IconSearch, IconBell,
 } from "../_components/icons";
+import {ChevronRight } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -99,7 +99,7 @@ export default function HistoryPage() {
       <header className="bg-white border-b border-gray-100 px-8 py-3 flex items-center justify-between shrink-0">
         <nav className="flex items-center gap-1.5 text-sm text-gray-400">
           <span className="hover:text-[#0f2744] cursor-pointer transition-colors text-xs">Home</span>
-          <IconChevronRight />
+          <ChevronRight  className="w-3.5 h-3.5" />
           <span className="text-[#0f2744] font-bold uppercase tracking-wide text-[11px]">History</span>
         </nav>
         <div className="flex items-center gap-3">
@@ -273,7 +273,7 @@ export default function HistoryPage() {
                 onClick={() => setCurrentPage((p) => Math.min(5, p + 1))}
                 className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
               >
-                <IconChevronRight />
+                <ChevronRight className="w-3.5 h-3.5"  />
               </button>
             </div>
           </div>
