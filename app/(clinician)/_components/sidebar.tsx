@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
 import logo from "@/public/logo.svg"
 
-import { LogOut,Microscope,LayoutDashboard,MessageSquare ,CircleQuestionMark,History,Settings} from 'lucide-react';
+import { LogOut,Microscope,LayoutDashboard,MessageSquare ,CircleQuestionMark,History,Settings,ChevronRight} from 'lucide-react';
 
 const NAV_ITEMS = [
   { label: "Dashboard",    href: "/dashboard", icon: LayoutDashboard},//className="w-5 h-5
@@ -17,24 +18,38 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside className="w-56 min-h-screen bg-[#F8FAFC] flex flex-col shrink-0">
+    <aside
+      className="relative min-h-screen bg-[#F8FAFC] flex flex-col shrink-0 transition-all duration-300"
+      style={{ width: collapsed ? 68 : 224 }}
+    >
       {/* Brand */}
 
-      <div className="px-4 py-2 border-b border-[#e2e8f0] flex flex-row space-x-3 items-center">
-                  <div className="w-11 h-11 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
-                  <Image
-                      src={logo}
-                      alt="Logo"
-                    />
-
-                  </div>
-                  <div>
-
-        <p className="text-[#0f2744] font-bold text-lg tracking-wide leading-none">DermaDx</p>
-        <p className="text-[#0f2744]/40 text-[10px] tracking-[0.18em] uppercase mt-0.5">Clinical Portal</p>
+      <div className="relative px-4 py-2 border-b border-[#e2e8f0] flex flex-row space-x-3 items-center">
+        <div className="w-11 h-11 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
+          <Image
+            src={logo}
+            alt="Logo"
+          />
         </div>
+        {!collapsed && (
+          <div>
+            <p className="text-[#0f2744] font-bold text-lg tracking-wide leading-none">DermaDx</p>
+            <p className="text-[#0f2744]/40 text-[10px] tracking-[0.18em] uppercase mt-0.5">Clinical Portal</p>
+          </div>
+        )}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center border z-10 transition-all hover:scale-110"
+          style={{ background: "#F8FAFC", borderColor: "#e2e8f0", color: "#0f274466" }}
+          title={collapsed ? "Expand" : "Collapse"}
+        >
+          <span className={`transition-transform duration-300 ${collapsed ? "rotate-0" : "rotate-180"}`}>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </span>
+        </button>
       </div>
 
 
@@ -47,14 +62,19 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+              title={collapsed ? label : undefined}
+              className={`w-full flex items-center gap-3 rounded-lg text-sm font-medium transition-all duration-150 ${
                 isActive
                   ? "bg-[#0f2744] text-white"
                   : "text-[#0f2744] hover:bg-[#0f2744]/80 hover:text-white/80"
               }`}
+              style={{
+                padding: collapsed ? "10px 0" : "10px 12px",
+                justifyContent: collapsed ? "center" : "flex-start",
+              }}
             >
               <NavIcon />
-              {label}
+              {!collapsed && label}
             </Link>
           );
         })}
@@ -62,10 +82,24 @@ export default function Sidebar() {
 
       {/* Bottom links */}
       <div className="px-3 pb-6 space-y-0.5 border-t border-[#e2e8f0] pt-2">
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150">
+        <button
+          title={collapsed ? "Support" : undefined}
+          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150"
+          style={{
+            padding: collapsed ? "10px 0" : "10px 12px",
+            justifyContent: collapsed ? "center" : "flex-start",
+          }}
+        >
           <CircleQuestionMark /> Support
         </button>
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150">
+        <button
+          title={collapsed ? "Sign Out" : undefined}
+          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150"
+          style={{
+            padding: collapsed ? "10px 0" : "10px 12px",
+            justifyContent: collapsed ? "center" : "flex-start",
+          }}
+        >
           <LogOut /> Sign Out
         </button>
       </div>

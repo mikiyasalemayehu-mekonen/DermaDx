@@ -3,14 +3,15 @@
 import { useState } from "react";
 import { TopBar } from "../../_components/shell";
 import {
-  IconUser, IconShield, IconCheck, IconBell,
+  IconShield, IconCheck, IconBell,
   IconSave, IconCamera, IconChevronDown,
 } from "../../_components/icons";
+import { User } from "lucide-react";
 
 // ── Settings tab definitions ──────────────────────────────────────────────────
 
 const SETTINGS_TABS = [
-  { id: "profile",     label: "Profile",     Icon: IconUser },
+  { id: "profile",     label: "Profile",     Icon: User},
   { id: "security",    label: "Security",    Icon: IconShield },
   {
     id: "preferences", label: "Preferences",

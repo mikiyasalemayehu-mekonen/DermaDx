@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import AdminSidebar from "../_components/sidebar";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const CLINICIANS = [
@@ -284,6 +285,7 @@ function AddUserDrawer({ onClose, onCreated }: { onClose: () => void; onCreated:
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function UserManagementPage() {
+  const [activeNav, setActiveNav] = useState("users");
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [showDrawer, setShowDrawer] = useState(false);
@@ -329,6 +331,8 @@ export default function UserManagementPage() {
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-anim { animation: toastIn 0.3s ease; }
       `}</style>
+
+      <AdminSidebar active={activeNav} onNav={setActiveNav} />
 
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Top bar */}

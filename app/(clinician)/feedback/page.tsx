@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TopBar } from "../_components/shell";
-import { IconCheck, IconSend, IconChevronRight } from "../_components/icons";
+import { IconCheck, IconSend} from "../_components/icons";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
-import {  IconUser } from "./icons";
-import {ChevronRight, LogOut } from 'lucide-react';
+
+import {ChevronRight, LogOut ,Users} from 'lucide-react';
 
 interface TopBarProps {
   crumbs: string[];
@@ -26,7 +26,7 @@ export function TopBar({ crumbs }: TopBarProps) {
       </nav>
       <div className="flex items-center gap-2">
         <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
-          <IconUser />
+          <Users/>
         </button>
         <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
           <LogOut />

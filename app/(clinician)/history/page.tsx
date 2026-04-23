@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  IconPlus, IconEye, IconDownload,
+  IconPlus,  IconDownload,
   IconCalendar, IconSliders, IconChevronLeft, IconChevronDown,
   IconSearch, IconBell,
 } from "../_components/icons";
-import {ChevronRight } from 'lucide-react';
+import {ChevronRight ,EyeIcon} from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -224,7 +224,7 @@ export default function HistoryPage() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
                       <button className="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition-colors" title="View">
-                        <IconEye />
+                        <EyeIcon/>
                       </button>
                       <button className="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition-colors" title="Download">
                         <IconDownload />

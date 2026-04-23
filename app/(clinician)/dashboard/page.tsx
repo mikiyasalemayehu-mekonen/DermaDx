@@ -2,11 +2,12 @@ import Link from "next/link";
 import { TopBar } from "../_components/shell";
 import {
   IconPlus, IconCheck, IconTrendUp,
-  IconBell, IconLightning, IconShield, IconMicroscope,
+  IconBell, IconLightning, IconShield
 } from "../_components/icons";
+import { Microscope } from "lucide-react";
 
 const STATS = [
-  { label: "Total Analyses",   value: "1,240", badge: "+4.2%",         BadgeIcon: IconTrendUp, badgeColor: "text-emerald-600", borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: IconMicroscope, iconColor: "text-[#0f2744]" },
+  { label: "Total Analyses",   value: "1,240", badge: "+4.2%",         BadgeIcon: IconTrendUp, badgeColor: "text-emerald-600", borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: Microscope, iconColor: "text-[#0f2744]" },
   { label: "Pending Reviews",  value: "12",    badge: "Priority",      BadgeIcon: null,        badgeColor: "text-amber-500",  borderColor: "border-l-amber-400",  iconBg: "bg-amber-50",  Icon: IconBell,       iconColor: "text-amber-500" },
   { label: "Avg. Confidence",  value: "91%",   badge: "High Precision",BadgeIcon: null,        badgeColor: "text-teal-600",   borderColor: "border-l-teal-500",   iconBg: "bg-teal-50",   Icon: IconShield,     iconColor: "text-teal-600" },
   { label: "System Uptime",    value: "99.9%", badge: "Active",        BadgeIcon: null,        badgeColor: "text-[#0f2744]",  borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: IconLightning,  iconColor: "text-[#0f2744]" },

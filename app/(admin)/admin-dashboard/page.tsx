@@ -121,8 +121,10 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-         <AdminSidebar active="dashboard" />
+    <div className="flex min-h-screen">
+      <AdminSidebar active={activeNav} onNav={setActiveNav} />
+
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
       <style>{`
         @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
         .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -336,6 +338,7 @@ export default function AdminDashboard() {
             </table>
           </div>
         </main>
+      </div>
     </div>
   );
 }

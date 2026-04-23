@@ -1,5 +1,3 @@
-import AdminSidebar from "./_components/sidebar";
-
 function AdminFooter() {
   return (
     <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
