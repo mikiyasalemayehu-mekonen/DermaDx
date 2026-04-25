@@ -2,12 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  IconPlus,  IconDownload,
-  IconCalendar, IconSliders, IconChevronLeft, IconChevronDown,
-  IconSearch, IconBell,
-} from "../_components/icons";
-import {ChevronRight ,EyeIcon} from 'lucide-react';
+
+import {ChevronRight ,EyeIcon,Plus,Bell,Download,Calendar,SlidersVertical,ChevronLeft,ChevronDown,Search} from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -71,7 +67,7 @@ function Select({ label, value, options, onChange, icon }: {
           {options.map((o) => <option key={o}>{o}</option>)}
         </select>
         <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-          {icon ?? <IconChevronDown />}
+          {icon ?? <ChevronDown className="w-4 h-4"     />}
         </span>
       </div>
     </div>
@@ -104,7 +100,7 @@ export default function HistoryPage() {
         </nav>
         <div className="flex items-center gap-3">
           <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors relative">
-            <IconBell />
+            <Bell />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full" />
           </button>
           <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200">
@@ -134,7 +130,7 @@ export default function HistoryPage() {
             href="/upload"
             className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
           >
-            <IconPlus /> New Case Analysis
+            <Plus className="w-4 h-4"/> New Case Analysis
           </Link>
         </div>
 
@@ -145,7 +141,7 @@ export default function HistoryPage() {
             <div className="flex-1 min-w-[180px]">
               <label className="block text-[10px] text-gray-400 uppercase tracking-widest font-semibold mb-1.5">Search Case ID</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><IconSearch /></span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><Search className="w-4 h-4"/></span>
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -170,10 +166,10 @@ export default function HistoryPage() {
               />
             </div>
 
-            <Select label="Date Range" value={dateRange} options={DATE_RANGES} onChange={setDateRange} icon={<IconCalendar />} />
+            <Select label="Date Range" value={dateRange} options={DATE_RANGES} onChange={setDateRange} icon={<Calendar  className="w-4 h-4" strokeWidth={1.8} />} />
 
             <button className="w-9 h-9 border border-gray-200 bg-gray-50 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors shrink-0">
-              <IconSliders />
+              <SlidersVertical className="w-4 h-4 stroke-2" />
             </button>
           </div>
         </div>
@@ -227,7 +223,7 @@ export default function HistoryPage() {
                         <EyeIcon/>
                       </button>
                       <button className="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition-colors" title="Download">
-                        <IconDownload />
+                        <Download className="w-4 h-4"/>
                       </button>
                     </div>
                   </td>
@@ -247,7 +243,7 @@ export default function HistoryPage() {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
               >
-                <IconChevronLeft />
+                <ChevronLeft className="w-3.5 h-3.5" />
               </button>
               {[1, 2, 3].map((p) => (
                 <button

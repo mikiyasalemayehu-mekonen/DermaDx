@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { TopBar } from "../_components/shell";
-import {
-  IconPlus, IconCheck, IconTrendUp,
-  IconBell, IconLightning, IconShield
-} from "../_components/icons";
-import { Microscope } from "lucide-react";
+import { Microscope,Plus,Check,TrendingUp,Bell,Zap,Shield } from "lucide-react";
 
 const STATS = [
-  { label: "Total Analyses",   value: "1,240", badge: "+4.2%",         BadgeIcon: IconTrendUp, badgeColor: "text-emerald-600", borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: Microscope, iconColor: "text-[#0f2744]" },
-  { label: "Pending Reviews",  value: "12",    badge: "Priority",      BadgeIcon: null,        badgeColor: "text-amber-500",  borderColor: "border-l-amber-400",  iconBg: "bg-amber-50",  Icon: IconBell,       iconColor: "text-amber-500" },
-  { label: "Avg. Confidence",  value: "91%",   badge: "High Precision",BadgeIcon: null,        badgeColor: "text-teal-600",   borderColor: "border-l-teal-500",   iconBg: "bg-teal-50",   Icon: IconShield,     iconColor: "text-teal-600" },
-  { label: "System Uptime",    value: "99.9%", badge: "Active",        BadgeIcon: null,        badgeColor: "text-[#0f2744]",  borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: IconLightning,  iconColor: "text-[#0f2744]" },
+  { label: "Total Analyses",   value: "1,240", badge: "+4.2%",         BadgeIcon: TrendingUp, badgeColor: "text-emerald-600", borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: Microscope, iconColor: "text-[#0f2744]" },
+  { label: "Pending Reviews",  value: "12",    badge: "Priority",      BadgeIcon: null,        badgeColor: "text-amber-500",  borderColor: "border-l-amber-400",  iconBg: "bg-amber-50",  Icon: Bell,       iconColor: "text-amber-500" },
+  { label: "Avg. Confidence",  value: "91%",   badge: "High Precision",BadgeIcon: null,        badgeColor: "text-teal-600",   borderColor: "border-l-teal-500",   iconBg: "bg-teal-50",   Icon: Shield,     iconColor: "text-teal-600" },
+  { label: "System Uptime",    value: "99.9%", badge: "Active",        BadgeIcon: null,        badgeColor: "text-[#0f2744]",  borderColor: "border-l-[#0f2744]",  iconBg: "bg-[#eef3f9]", Icon: Zap,  iconColor: "text-[#0f2744]" },
 ];
 
 const ANALYSES = [
@@ -55,7 +51,7 @@ export default function DashboardPage() {
             href="/upload"
             className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
           >
-            <IconPlus /> Start New Analysis
+            <Plus className="w-4 h-4"/> Start New Analysis
           </Link>
         </div>
 
@@ -68,7 +64,7 @@ export default function DashboardPage() {
                   <span className={iconColor}><Icon /></span>
                 </div>
                 <span className={`flex items-center gap-1 text-xs font-semibold ${badgeColor}`}>
-                  {BadgeIcon && <BadgeIcon />}{badge}
+                  {BadgeIcon && <BadgeIcon  className="w-3.5 h-3.5"  />}{badge}
                 </span>
               </div>
               <div>
@@ -126,7 +122,7 @@ export default function DashboardPage() {
                 {GUIDELINES.map(({ label, desc }) => (
                   <li key={label} className="flex gap-2.5">
                     <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center shrink-0 mt-0.5">
-                      <span className="text-white"><IconCheck /></span>
+                      <span className="text-white"><Check className="w-3.5 h-3.5" /></span>
                     </div>
                     <div>
                       <p className="text-white text-xs font-semibold leading-tight">{label}</p>

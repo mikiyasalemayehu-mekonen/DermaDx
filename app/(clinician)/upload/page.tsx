@@ -2,10 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { TopBar } from "../_components/shell";
-import {
-  IconUpload, IconImage, IconArrowRight, IconInfo,
-  IconX, IconCheck, IconShield, IconLock, IconListCheck,
-} from "../_components/icons";
+import { Check,Shield,CloudUpload,Image,ArrowRight,Info ,X,SquareCheckBig,Lock} from "lucide-react";
 
 const QUALITY_REQS = [
   "Optimal focus on the lesion",
@@ -73,11 +70,11 @@ export default function UploadPage() {
                     onClick={clearFile}
                     className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-gray-600 hover:bg-white shadow transition-all"
                   >
-                    <IconX />
+                    <X className="w-4 h-4"/>
                   </button>
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                     <div className="flex items-center gap-2 bg-white/90 backdrop-blur rounded-lg px-3 py-1.5">
-                      <span className="text-[#0f2744]"><IconImage /></span>
+                      <span className="text-[#0f2744]"><Image   className="w-5 h-5"/></span>
                       <span className="text-xs font-semibold text-[#0f2744] truncate max-w-[200px]">{file?.name}</span>
                     </div>
                     <span className="bg-teal-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg tracking-widest">READY</span>
@@ -86,7 +83,7 @@ export default function UploadPage() {
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 px-8 text-center">
                   <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-5 transition-colors ${dragOver ? "bg-teal-100 text-teal-600" : "bg-gray-100 text-gray-400"}`}>
-                    <IconUpload />
+                    <CloudUpload className="w-8 h-8"/>
                   </div>
                   <p className="text-base font-bold text-[#0f2744] mb-1">Drag and drop your image here</p>
                   <p className="text-xs text-gray-400 mb-7">Accepted formats: JPEG, PNG, WebP. Maximum file size: 10MB.</p>
@@ -94,7 +91,7 @@ export default function UploadPage() {
                     onClick={() => inputRef.current?.click()}
                     className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
                   >
-                    <IconImage /> Browse Files
+                    <Image  className="w-5 h-5"/> Browse Files
                   </button>
                   <input
                     ref={inputRef}
@@ -113,10 +110,10 @@ export default function UploadPage() {
             {/* Privacy & Security */}
             <div className="bg-[#0f2744] rounded-xl p-5 relative overflow-hidden">
               <div className="absolute -bottom-6 -right-6 opacity-[0.07] text-white pointer-events-none">
-                <IconLock />
+                <Lock className="w-24 h-24" />
               </div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-teal-400 shrink-0"><IconShield /></span>
+                <span className="text-teal-400 shrink-0"><Shield className="w-5 h-5" /></span>
                 <h3 className="text-white text-[10px] font-bold uppercase tracking-widest">Privacy &amp; Security</h3>
               </div>
               <p className="text-white/55 text-xs leading-relaxed">
@@ -127,14 +124,14 @@ export default function UploadPage() {
             {/* Quality Requirements */}
             <div className="bg-white rounded-xl p-5 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-[#0f2744]"><IconListCheck /></span>
+                <span className="text-[#0f2744]"><SquareCheckBig className="w-5 h-5"/></span>
                 <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#0f2744]">Quality Requirements</h3>
               </div>
               <ul className="space-y-2.5">
                 {QUALITY_REQS.map((req) => (
                   <li key={req} className="flex items-center gap-2.5">
                     <div className="w-4 h-4 rounded-full bg-teal-500 flex items-center justify-center shrink-0">
-                      <span className="text-white"><IconCheck /></span>
+                      <span className="text-white"><Check className="w-3.5 h-3.5"/></span>
                     </div>
                     <span className="text-xs text-gray-700">{req}</span>
                   </li>
@@ -166,7 +163,7 @@ export default function UploadPage() {
       {/* Bottom action bar */}
       <div className="bg-white border-t border-gray-200 px-8 py-4 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2 text-gray-400">
-          <IconInfo />
+          <Info className="w-4 h-4" />
           <span className="text-xs">By submitting, you agree to our clinician terms and diagnostic guidelines.</span>
         </div>
         <button
@@ -175,7 +172,7 @@ export default function UploadPage() {
             file ? "bg-teal-500 hover:bg-teal-600 text-white cursor-pointer" : "bg-gray-100 text-gray-400 cursor-not-allowed"
           }`}
         >
-          Process Analysis <IconArrowRight />
+          Process Analysis <ArrowRight className="w-4 h-4"/>
         </button>
       </div>
     </div>
