@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AdminSidebar from "./AdminSidebar";
+import AdminSidebar from "../../(admin)/_components/sidebar";
 
 type Status = "pending" | "approved" | "rejected";
 

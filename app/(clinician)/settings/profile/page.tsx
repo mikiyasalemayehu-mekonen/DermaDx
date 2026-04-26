@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { TopBar } from "../../_components/shell";
 import {
-  IconShield, IconCheck, IconBell,
-  IconSave, IconCamera, IconChevronDown,
-} from "../../_components/icons";
-import { User } from "lucide-react";
+  Shield as IconShield,
+  Check as IconCheck,
+  Bell as IconBell,
+  Save as IconSave,
+  Camera as IconCamera,
+  ChevronDown as IconChevronDown,
+  User,
+} from "lucide-react";
 
 // ── Settings tab definitions ──────────────────────────────────────────────────
 
