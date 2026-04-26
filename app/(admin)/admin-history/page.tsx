@@ -2,25 +2,9 @@
 
 import { useState } from "react";
 import AdminSidebar from "../_components/sidebar";
+import { Case } from "@/types";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-interface Case {
-  id: string;
-  clinician: string;
-  clinicianRole: string;
-  condition: string;
-  conditionColor: string;
-  confidence: number;
-  confidenceColor: string;
-  iqa: "Pass" | "Marginal" | "Fail";
-  date: string;
-  skinType: string;
-  imageQuality: number;
-  finding: string;
-  risk: "high" | "medium" | "low";
-}
 
-// ── Data ──────────────────────────────────────────────────────────────────────
 const CASES: Case[] = [
   {
     id: "#DX-8291", clinician: "Dr. Aris Thorne",    clinicianRole: "Chief Dermatologist",
@@ -81,7 +65,6 @@ const CASES: Case[] = [
 const CONDITIONS = ["All Conditions", "Melanoma", "Nevus", "BCC", "Seborrheic K.", "Actinic K."];
 const CLINICIANS  = ["All Staff", "Dr. Aris Thorne", "Dr. Sarah Vance", "Dr. Marcus Sterling", "Dr. Priya Anand"];
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
 const XIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
     <line x1="18" y1="6" x2="6" y2="18" strokeLinecap="round" /><line x1="6" y1="6" x2="18" y2="18" strokeLinecap="round" />

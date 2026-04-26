@@ -2,16 +2,10 @@
 
 import { useState } from "react";
 import AdminSidebar from "../_components/sidebar";
+import { LogOut,User,Search,Plus} from 'lucide-react';
+import FairnessChart from "../_components/FairnessChart";
 
-// ── Inline recharts-style bar chart (pure SVG — no dep needed) ────────────────
-const FAIRNESS_DATA = [
-  { label: "F-I",   weekly: 96, monthly: 94 },
-  { label: "F-II",  weekly: 95, monthly: 93 },
-  { label: "F-III", weekly: 94, monthly: 92 },
-  { label: "F-IV",  weekly: 93, monthly: 90 },
-  { label: "F-V",   weekly: 91, monthly: 89 },
-  { label: "F-VI",  weekly: 88, monthly: 85 },
-];
+
 
 const ACTIVITY = [
   { name: "Dr. Julian Vance",    role: "Chief Pathologist",  action: "New Analysis Created", context: "Patient ID: #4492-Au", time: "2 mins ago",  status: "COMPLETED",  statusStyle: "bg-teal-100 text-teal-700",  avatar: "JV", avatarBg: "#0f4c75" },
@@ -27,88 +21,9 @@ const STAT_CARDS = [
   { label: "Avg. Confidence",   value: "94.8%",  delta: "Global model performance", positive: true, icon: "✅", borderColor: "#065f46" },
 ];
 
-// ── Icon set ──────────────────────────────────────────────────────────────────
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-4 h-4 text-slate-400">
-      <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" strokeLinecap="round" />
-    </svg>
-  );
-}
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
-function SignOutIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" strokeLinecap="round" /><line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round" />
-    </svg>
-  );
-}
-function PlusIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-4 h-4">
-      <line x1="12" y1="5" x2="12" y2="19" strokeLinecap="round" /><line x1="5" y1="12" x2="19" y2="12" strokeLinecap="round" />
-    </svg>
-  );
-}
 
-// ── Fairness bar chart (SVG) ──────────────────────────────────────────────────
-function FairnessChart({ view }: { view: "weekly" | "monthly" }) {
-  const W = 480; const H = 180;
-  const barW = 38; const gap = 34;
-  const totalW = FAIRNESS_DATA.length * (barW + gap) - gap;
-  const startX = (W - totalW) / 2;
-  const maxH = 130;
 
-  return (
-    <svg viewBox={`0 0 ${W} ${H + 36}`} className="w-full" style={{ fontFamily: "monospace" }}>
-      {/* Y-axis grid lines */}
-      {[80, 85, 90, 95, 100].map((v) => {
-        const y = H - ((v - 75) / 25) * maxH;
-        return (
-          <g key={v}>
-            <line x1={startX - 8} y1={y} x2={W - startX + 8} y2={y} stroke="#f1f5f9" strokeWidth="1" />
-            <text x={startX - 12} y={y + 4} textAnchor="end" fill="#94a3b8" fontSize="9">{v}%</text>
-          </g>
-        );
-      })}
 
-      {FAIRNESS_DATA.map(({ label, weekly, monthly }, i) => {
-        const val = view === "weekly" ? weekly : monthly;
-        const x = startX + i * (barW + gap);
-        const barH = ((val - 75) / 25) * maxH;
-        const y = H - barH;
-        const color = val >= 95 ? "#00c4a8" : val >= 92 ? "#0ea5e9" : val >= 89 ? "#f59e0b" : "#ef4444";
-        return (
-          <g key={label}>
-            {/* Background bar */}
-            <rect x={x} y={H - maxH} width={barW} height={maxH} rx="4" fill="#f8fafc" />
-            {/* Value bar with gradient */}
-            <defs>
-              <linearGradient id={`bar-${i}`} x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity="0.9" />
-                <stop offset="100%" stopColor={color} stopOpacity="0.5" />
-              </linearGradient>
-            </defs>
-            <rect x={x} y={y} width={barW} height={barH} rx="4" fill={`url(#bar-${i})`} />
-            {/* Value label on top */}
-            <text x={x + barW / 2} y={y - 5} textAnchor="middle" fill={color} fontSize="9" fontWeight="700">{val}%</text>
-            {/* X label */}
-            <text x={x + barW / 2} y={H + 18} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="600">{label}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-// ── Main page ─────────────────────────────────────────────────────────────────
 export default function AdminDashboard() {
   const [activeNav, setActiveNav] = useState("dashboard");
   const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
@@ -143,10 +58,10 @@ export default function AdminDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <UserIcon />
+              <User className="w-5 h-5" />
             </button>
             <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <SignOutIcon />
+              <LogOut className="w-5 h-5" />
             </button>
           </div>
         </header>
@@ -270,7 +185,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2"><SearchIcon /></span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2"><Search className="w-4 h-4" /></span>
                   <input
                     value={activitySearch}
                     onChange={(e) => setActivitySearch(e.target.value)}
@@ -280,7 +195,7 @@ export default function AdminDashboard() {
                 </div>
                 <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white transition-all hover:opacity-90"
                   style={{ background: "linear-gradient(135deg, #0b1f3a, #0d3260)" }}>
-                  <PlusIcon />Export
+                  <Plus className="h-4 w-4" />Export
                 </button>
               </div>
             </div>

@@ -2,25 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import DermThumb from "../_components/dermthumb";
 import {ChevronRight ,EyeIcon,Plus,Bell,Download,Calendar,SlidersVertical,ChevronLeft,ChevronDown,Search} from 'lucide-react';
+import { HistoryRow } from "@/types";
+import Select from "../_components/select";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
 
-interface HistoryRow {
-  id: string;
-  condition: string;
-  risk: string;
-  riskColor: string;
-  confidence: number;
-  barColor: string;
-  date: string;
-  status: string;
-  statusStyle: string;
-  imgColors: [string, string, string];
-}
-
-// ── Data ──────────────────────────────────────────────────────────────────────
 
 const HISTORY_DATA: HistoryRow[] = [
   { id: "DX-8842-A", condition: "Melanoma (Superficial)",  risk: "HIGH RISK",        riskColor: "text-rose-500",  confidence: 94, barColor: "bg-rose-500",  date: "Oct 24, 2023", status: "REVIEWED",    statusStyle: "bg-teal-100 text-teal-700",  imgColors: ["#1a2a3a", "#2a3f55", "#3a5570"] },
@@ -33,48 +20,6 @@ const CONDITIONS  = ["All Conditions", "Melanoma", "Seborrheic Keratosis", "Derm
 const DATE_RANGES = ["Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 6 Months", "All Time"];
 const TABLE_HEADS = ["Case ID", "Analysis View", "Suspected Condition", "Confidence", "Date Submitted", "Status", "Actions"];
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-function DermThumb({ colors }: { colors: [string, string, string] }) {
-  const [a, b, c] = colors;
-  return (
-    <svg viewBox="0 0 48 48" className="w-full h-full">
-      <rect width="48" height="48" fill={a} />
-      <circle cx="24" cy="24" r="18" fill={b} opacity="0.8" />
-      <circle cx="24" cy="24" r="11" fill={c} opacity="0.9" />
-      <circle cx="21" cy="21" r="4"  fill="#000" opacity="0.5" />
-      <circle cx="28" cy="27" r="2.5" fill="#000" opacity="0.35" />
-    </svg>
-  );
-}
-
-function Select({ label, value, options, onChange, icon }: {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (v: string) => void;
-  icon?: React.ReactNode;
-}) {
-  return (
-    <div className="min-w-[160px]">
-      <label className="block text-[10px] text-gray-400 uppercase tracking-widest font-semibold mb-1.5">{label}</label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none pl-3 pr-8 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0f2744]/20 cursor-pointer"
-        >
-          {options.map((o) => <option key={o}>{o}</option>)}
-        </select>
-        <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-          {icon ?? <ChevronDown className="w-4 h-4"     />}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function HistoryPage() {
   const [search,     setSearch]     = useState("");

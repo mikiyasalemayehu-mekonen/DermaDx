@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { TopBar } from "../_components/shell";
-import { IconCheck, IconSend} from "../_components/icons";
+import { FeedbackItem } from "@/types";
+import StarRating from "../_components/starrating";
+import { Check ,Send, Star} from "lucide-react";
 
-// ── Data ──────────────────────────────────────────────────────────────────────
 
 const FEEDBACK_CATEGORIES = [
   "AI Diagnosis Accuracy",
@@ -15,15 +16,7 @@ const FEEDBACK_CATEGORIES = [
   "Other",
 ];
 
-interface FeedbackItem {
-  id: string;
-  category: string;
-  excerpt: string;
-  date: string;
-  status: string;
-  statusStyle: string;
-  rating: number;
-}
+
 
 const RECENT_FEEDBACK: FeedbackItem[] = [
   {
@@ -56,57 +49,6 @@ const WHY_MATTERS = [
   { icon: "🩺", text: "Shapes the clinical workflow" },
 ];
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const [hovered, setHovered] = useState(0);
-  const LABELS = ["", "Poor", "Fair", "Good", "Very Good", "Excellent"];
-  return (
-    <div className="flex items-center gap-3">
-      <div className="flex gap-1">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <button
-            key={star}
-            type="button"
-            onMouseEnter={() => setHovered(star)}
-            onMouseLeave={() => setHovered(0)}
-            onClick={() => onChange(star)}
-            className="transition-transform hover:scale-110 active:scale-95"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="w-7 h-7"
-              fill={(hovered || value) >= star ? "#f59e0b" : "none"}
-              stroke={(hovered || value) >= star ? "#f59e0b" : "#d1d5db"}
-              strokeWidth={1.8}
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" strokeLinejoin="round" />
-            </svg>
-          </button>
-        ))}
-      </div>
-      {value > 0 && <span className="text-xs text-gray-400">{LABELS[value]}</span>}
-    </div>
-  );
-}
-
-function StarDisplay({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-0.5 mt-2">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <svg key={s} viewBox="0 0 24 24" className="w-3.5 h-3.5"
-          fill={rating >= s ? "#f59e0b" : "none"}
-          stroke={rating >= s ? "#f59e0b" : "#e5e7eb"}
-          strokeWidth={1.8}
-        >
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" strokeLinejoin="round" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function FeedbackPage() {
   const [category,  setCategory]  = useState("");
@@ -161,7 +103,7 @@ export default function FeedbackPage() {
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <div className="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center mb-4">
-                    <span className="text-teal-600"><IconCheck /></span>
+                    <span className="text-teal-600"><Check className="w-4 h-4"/></span>
                   </div>
                   <p className="text-lg font-bold text-[#0f2744]">Thank you for your feedback!</p>
                   <p className="text-sm text-gray-400 mt-1">Your submission has been received and will be reviewed by our team.</p>
@@ -237,7 +179,7 @@ export default function FeedbackPage() {
                           : "bg-gray-100 text-gray-400 cursor-not-allowed"
                       }`}
                     >
-                      <IconSend /> Submit Feedback
+                      <Send className="w-4 h-4"/> Submit Feedback
                     </button>
                   </div>
                 </>
@@ -291,7 +233,7 @@ export default function FeedbackPage() {
                         <span className="text-xs text-gray-400">{fb.date}</span>
                       </div>
                       <p className="text-sm text-gray-600 leading-relaxed">{fb.excerpt}</p>
-                      <StarDisplay rating={fb.rating} />
+                      <Star />
                     </div>
                     <span className={`shrink-0 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest ${fb.statusStyle}`}>
                       {fb.status}

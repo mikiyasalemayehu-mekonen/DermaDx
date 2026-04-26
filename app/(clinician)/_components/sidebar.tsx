@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import logo from "@/public/logo.svg"
-
 import { LogOut,Microscope,LayoutDashboard,MessageSquare ,CircleQuestionMark,History,Settings,ChevronRight} from 'lucide-react';
 
 const NAV_ITEMS = [
