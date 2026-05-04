@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 
-export function useCounter(target: number, duration = 1800, start = false) {
+function useCounter(target: number, duration = 1800, start = false) {
   const [value, setValue] = useState(0);
   useEffect(() => {
     if (!start) return;
@@ -17,3 +17,5 @@ export function useCounter(target: number, duration = 1800, start = false) {
   }, [start, target, duration]);
   return value;
 }
+
+export default useCounter;

@@ -1,9 +1,9 @@
 "use client"
 import { useState, useEffect } from "react";
-import { useCounter } from "@/hooks/useCounter";
-import { useInView } from "@/hooks/useInView";
-import {Particles} from "../components/Particles";
-import {DermoscopySVG} from "../components/DermoscopySVG";
+import  useCounter  from "@/hooks/useCounter";
+import useInView from "@/hooks/useInView";
+import {Particles} from "../components/Home/Particles";
+import {DermoscopySVG} from "../components/Home/DermoscopySVG";
 import Image from "next/image";
 import  Logo from "@/public/logo.svg";
 import Link from "next/link";

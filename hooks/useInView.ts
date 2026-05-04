@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from "react";
 
-export function useInView(threshold = 0.2) {
+function useInView(threshold = 0.2) {
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -14,3 +14,5 @@ export function useInView(threshold = 0.2) {
   }, [threshold]);
   return [ref, inView] as const;
 }
+
+export default useInView;
