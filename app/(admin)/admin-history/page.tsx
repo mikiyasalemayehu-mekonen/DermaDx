@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import AdminSidebar from "../_components/sidebar";
 import { Case } from "@/types";
 import {
   X as XIcon,
@@ -78,7 +77,6 @@ const CONDITIONS = ["All Conditions", "Melanoma", "Nevus", "BCC", "Seborrheic K.
 const CLINICIANS  = ["All Staff", "Dr. Aris Thorne", "Dr. Sarah Vance", "Dr. Marcus Sterling", "Dr. Priya Anand"];
 
 export default function AdminHistoryPage() {
-  const [activeNav, setActiveNav]       = useState("history");
   const [selectedCase, setSelectedCase] = useState<Case | null>(CASES[0]);
   const [condFilter, setCondFilter]     = useState("All Conditions");
   const [clinFilter, setClinFilter]     = useState("All Staff");
@@ -92,18 +90,7 @@ export default function AdminHistoryPage() {
   });
 
   return (
-    <div className="flex min-h-screen" style={{ fontFamily: "'DM Sans', system-ui, sans-serif", background: "#f4f7fb" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        .row-hover:hover { background: #f8fafd; }
-        .row-selected { background: #f0f4ff; border-left: 3px solid #0d2444; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
-        .fade-in { animation: fadeUp 0.45s ease both; }
-      `}</style>
-
-      <AdminSidebar active={activeNav} onNav={setActiveNav} />
-
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-screen overflow-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
         {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-400 tracking-wide">
@@ -240,9 +227,6 @@ export default function AdminHistoryPage() {
         </main>
 
 
-      </div>
-
-      {/* Case detail panel */}
       {selectedCase && <CaseDetailPanel c={selectedCase} onClose={() => setSelectedCase(null)} />}
     </div>
   );

@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import AdminSidebar from "../_components/sidebar";
-import { LogOut,User,Search,Plus} from 'lucide-react';
-import FairnessChart from "../_components/FairnessChart";
-
+import { LogOut, User, Search, Plus } from "lucide-react";
+import FairnessChart from "../_components/fairnesschart";
 
 
 const ACTIVITY = [
@@ -22,10 +20,7 @@ const STAT_CARDS = [
 ];
 
 
-
-
 export default function AdminDashboard() {
-  const [activeNav, setActiveNav] = useState("dashboard");
   const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
   const [activitySearch, setActivitySearch] = useState("");
 
@@ -36,18 +31,7 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="flex min-h-screen">
-      <AdminSidebar active={activeNav} onNav={setActiveNav} />
-
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-      <style>{`
-        @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
-        .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card-lift:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-        .row-hover:hover { background: #f8fafd; }
-        .fade-in { animation: fadeUp 0.5s ease forwards; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
-      `}</style>
+    <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
@@ -70,7 +54,7 @@ export default function AdminDashboard() {
         <main className="flex-1 px-8 py-7 overflow-auto space-y-6">
 
           {/* ── Stat cards ── */}
-          <div className="grid grid-cols-4 gap-4 fade-in">
+          <div className="grid grid-cols-4 gap-4 animate-fade-up">
             {STAT_CARDS.map(({ label, value, delta, positive, icon, borderColor }, i) => (
               <div
                 key={label}
@@ -253,7 +237,6 @@ export default function AdminDashboard() {
             </table>
           </div>
         </main>
-      </div>
     </div>
   );
 }

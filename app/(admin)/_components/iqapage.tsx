@@ -1,7 +1,5 @@
 import {  CircleCheck as CheckCircleIcon} from "lucide-react";
 
-
-// ── IQA badge ─────────────────────────────────────────────────────────────────
 function IQABadge({ iqa }: { iqa: string }) {
   const styles: Record<string, string> = {
     Pass:     "text-teal-600",

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import AdminSidebar from "../_components/sidebar";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const CLINICIANS = [
@@ -285,7 +284,6 @@ function AddUserDrawer({ onClose, onCreated }: { onClose: () => void; onCreated:
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function UserManagementPage() {
-  const [activeNav, setActiveNav] = useState("users");
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [showDrawer, setShowDrawer] = useState(false);
@@ -324,17 +322,13 @@ export default function UserManagementPage() {
   const ROLE_OPTIONS = ["All", ...Array.from(new Set(clinicians.map(c => c.role)))];
 
   return (
-    <div className="flex min-h-screen" style={{ fontFamily: "'DM Sans', system-ui, sans-serif", background: "#f4f7fb" }}>
+    <div className="flex-1 flex flex-col min-h-screen" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
         .row-hover:hover { background: #f8fafd; }
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-anim { animation: toastIn 0.3s ease; }
       `}</style>
-
-      <AdminSidebar active={activeNav} onNav={setActiveNav} />
-
-      <div className="flex-1 flex flex-col min-h-screen">
         {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
@@ -488,7 +482,6 @@ export default function UserManagementPage() {
             ))}
           </div>
         </footer>
-      </div>
 
       {/* Drawer overlay */}
       {showDrawer && (

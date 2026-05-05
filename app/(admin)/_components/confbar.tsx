@@ -1,4 +1,4 @@
-// ── Confidence bar ────────────────────────────────────────────────────────────
+
 function ConfBar({ value, color }: { value: number; color: string }) {
   return (
     <div className="flex items-center gap-2">

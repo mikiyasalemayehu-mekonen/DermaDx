@@ -1,4 +1,3 @@
-// ── Toggle ────────────────────────────────────────────────────────────────────
 function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
   return (
     <button type="button" onClick={() => onChange(!value)}

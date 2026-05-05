@@ -1,4 +1,3 @@
-// ── Slider ────────────────────────────────────────────────────────────────────
 function Slider({ value, onChange, min = 0, max = 100, label }: { value: number; onChange: (v: number) => void; min?: number; max?: number; label: string }) {
   return (
     <div>

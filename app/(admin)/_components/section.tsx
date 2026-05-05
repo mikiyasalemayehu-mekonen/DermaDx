@@ -1,5 +1,4 @@
 
-// ── Section wrapper ───────────────────────────────────────────────────────────
 function Section({ title, id, children, action }: { title: string; id: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div id={id} className="scroll-mt-6">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import AdminSidebar from "../_components/sidebar";
-
+import {} from "lucide-react";
 // ── Icons ─────────────────────────────────────────────────────────────────────
 const ExportIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
@@ -295,7 +295,6 @@ function SentimentIcon({ sentiment }: { sentiment: string }) {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function SystemReportsPage() {
-  const [activeNav, setActiveNav] = useState("reports");
   const [exporting, setExporting] = useState(false);
 
   const handleExport = () => {
@@ -304,7 +303,7 @@ export default function SystemReportsPage() {
   };
 
   return (
-    <div className="flex min-h-screen" style={{ fontFamily: "'DM Sans', system-ui, sans-serif", background: "#f4f7fb" }}>
+    <div className="flex-1 flex flex-col min-h-screen overflow-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
         .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -315,13 +314,7 @@ export default function SystemReportsPage() {
         @keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
       `}</style>
 
-      {/* Sidebar */}
-      <AdminSidebar active={activeNav} onNav={setActiveNav} />
-
-      {/* Main */}
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-
-        {/* Top bar */}
+      {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
             <span>ADMIN</span>
@@ -539,7 +532,6 @@ export default function SystemReportsPage() {
             <span className="text-[10px] text-slate-300">© 2023 DermaDx</span>
           </div>
         </footer>
-      </div>
     </div>
   );
 }
