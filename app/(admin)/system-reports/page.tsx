@@ -1,48 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import AdminSidebar from "../_components/sidebar";
-import {} from "lucide-react";
-// ── Icons ─────────────────────────────────────────────────────────────────────
-const ExportIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-    <polyline points="14 2 14 8 20 8" />
-    <line x1="16" y1="13" x2="8" y2="13" strokeLinecap="round" />
-    <line x1="16" y1="17" x2="8" y2="17" strokeLinecap="round" />
-  </svg>
-);
-const UserIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-  </svg>
-);
-const SignOutIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    <polyline points="16 17 21 12 16 7" strokeLinecap="round" />
-    <line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round" />
-  </svg>
-);
-const BellIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
-  </svg>
-);
-const ExternalLinkIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-4 h-4">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
-  </svg>
-);
-const ArrowRightIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-    <line x1="5" y1="12" x2="19" y2="12" strokeLinecap="round" />
-    <polyline points="12 5 19 12 12 19" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+import FairnessBar from "../_components/fairnessbar";
+import ModelPerformanceChart from "../_components/performanceChart";
+import ConditionMixDonut from "../_components/conditionMix";
+import SentimentIcon from "../_components/sentiment";
+import IQAFailuresChart from "../_components/iqafailures";
+import {FileDown,Bell,ExternalLink,ArrowRight} from "lucide-react";
 
-// ── Stat cards data ───────────────────────────────────────────────────────────
+
 const STATS = [
   { label: "Total Analyses",  value: "24,812", delta: "+12%",  positive: true,  icon: "🔬", iconBg: "#eef3f9", borderColor: "#0d2444" },
   { label: "IQA Rejection %", value: "4.2%",   delta: "−0.4%", positive: true,  icon: "📋", iconBg: "#fef9ec", borderColor: "#d97706" },
@@ -50,250 +16,13 @@ const STATS = [
   { label: "Flagged Cases",   value: "128",    delta: "+3",    positive: false,  icon: "🚩", iconBg: "#fef2f2", borderColor: "#dc2626" },
 ];
 
-// ── Model performance SVG line chart ─────────────────────────────────────────
-function ModelPerformanceChart() {
-  const W = 560; const H = 200;
-  const months = ["Jan", "Feb", "Mar", "Apr", "May"];
-
-  // Smooth sinusoidal-like confidence & IQA paths
-  const confidence = [
-    [0, 130], [80, 100], [160, 60], [240, 90], [320, 55], [400, 80], [W, 40],
-  ];
-  const iqaPass = [
-    [0, 155], [80, 145], [160, 130], [240, 120], [320, 125], [400, 118], [W, 110],
-  ];
-
-  const toPath = (pts: number[][]) =>
-    pts.map(([x, y], i) => `${i === 0 ? "M" : "C"} ${x},${y}`).join(" ");
-
-  // Cubic smooth path
-  const smooth = (pts: number[][]): string => {
-    if (pts.length < 2) return "";
-    let d = `M ${pts[0][0]},${pts[0][1]}`;
-    for (let i = 1; i < pts.length; i++) {
-      const prev = pts[i - 1];
-      const curr = pts[i];
-      const cpx1 = prev[0] + (curr[0] - prev[0]) / 3;
-      const cpy1 = prev[1];
-      const cpx2 = curr[0] - (curr[0] - prev[0]) / 3;
-      const cpy2 = curr[1];
-      d += ` C ${cpx1},${cpy1} ${cpx2},${cpy2} ${curr[0]},${curr[1]}`;
-    }
-    return d;
-  };
-
-  const confPath = smooth(confidence);
-  const iqaPath  = smooth(iqaPass);
-
-  return (
-    <svg viewBox={`0 0 ${W} ${H + 30}`} className="w-full">
-      {/* Grid lines */}
-      {[0.25, 0.5, 0.75, 1].map((f, i) => (
-        <line key={i} x1={0} y1={H * f} x2={W} y2={H * f} stroke="#f1f5f9" strokeWidth="1" />
-      ))}
-      {/* IQA area fill */}
-      <path
-        d={`${iqaPath} L ${W},${H} L 0,${H} Z`}
-        fill="url(#iqaGrad)" opacity="0.15"
-      />
-      {/* Confidence area fill */}
-      <path
-        d={`${confPath} L ${W},${H} L 0,${H} Z`}
-        fill="url(#confGrad)" opacity="0.1"
-      />
-      <defs>
-        <linearGradient id="confGrad" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#0d2444" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#0d2444" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="iqaGrad" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#00c4a8" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#00c4a8" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {/* IQA line (dashed teal) */}
-      <path d={iqaPath} fill="none" stroke="#00c4a8" strokeWidth="2" strokeDasharray="5 4" strokeLinecap="round" />
-      {/* Confidence line (solid navy) */}
-      <path d={confPath} fill="none" stroke="#0d2444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Dots on confidence */}
-      {confidence.filter((_, i) => i % 2 === 0).map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="3.5" fill="white" stroke="#0d2444" strokeWidth="2" />
-      ))}
-      {/* Month labels */}
-      {months.map((m, i) => (
-        <text key={m} x={(W / (months.length - 1)) * i} y={H + 22} textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="system-ui">{m}</text>
-      ))}
-    </svg>
-  );
-}
-
-// ── Condition mix donut ───────────────────────────────────────────────────────
-function ConditionMixDonut() {
-  const slices = [
-    { label: "Common",      pct: 82, color: "#0d2444" },
-    { label: "Acne",        pct: 42, color: "#ef4444" },
-    { label: "Derm.",       pct: 28, color: "#00c4a8" },
-    { label: "Other",       pct: 18, color: "#94a3b8" },
-  ];
-
-  // Draw arcs for first donut (big one showing 82%)
-  const R = 54; const cx = 75; const cy = 75;
-  const circumference = 2 * Math.PI * R;
-  const gap = 2;
-
-  const total = 100;
-  const mainPct = 82;
-  const dashMain = (mainPct / 100) * circumference;
-  const gapMain  = circumference - dashMain;
-
-  return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <div className="relative" style={{ width: 150, height: 150 }}>
-        <svg viewBox="0 0 150 150" className="w-full h-full -rotate-90">
-          {/* Background ring */}
-          <circle cx={cx} cy={cy} r={R} fill="none" stroke="#f1f5f9" strokeWidth="14" />
-          {/* Main arc — navy 82% */}
-          <circle
-            cx={cx} cy={cy} r={R}
-            fill="none"
-            stroke="#0d2444"
-            strokeWidth="14"
-            strokeDasharray={`${dashMain} ${gapMain}`}
-            strokeLinecap="round"
-          />
-          {/* Teal accent arc — starts at ~60% mark */}
-          <circle
-            cx={cx} cy={cy} r={R}
-            fill="none"
-            stroke="#00c4a8"
-            strokeWidth="10"
-            strokeDasharray={`${(42 / 100) * circumference * 0.5} ${circumference}`}
-            strokeDashoffset={-dashMain * 0.6}
-            strokeLinecap="round"
-          />
-          {/* Red accent */}
-          <circle
-            cx={cx} cy={cy} r={R}
-            fill="none"
-            stroke="#ef4444"
-            strokeWidth="8"
-            strokeDasharray={`${(28 / 100) * circumference * 0.4} ${circumference}`}
-            strokeDashoffset={-dashMain * 0.3}
-            strokeLinecap="round"
-          />
-        </svg>
-        {/* Centre text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>82%</span>
-          <span className="text-[9px] uppercase tracking-widest text-slate-400 font-semibold">Common</span>
-        </div>
-      </div>
-      {/* Legend */}
-      <div className="flex gap-4 mt-3">
-        {[["#ef4444","Acne","42%"],["#00c4a8","Derm.","28%"]].map(([color,label,pct]) => (
-          <div key={label} className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ background: color }} />
-            <span className="text-[11px] text-slate-500">{label}</span>
-            <span className="text-[11px] font-bold text-slate-700">{pct}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ── IQA Failures bar chart (SVG) ──────────────────────────────────────────────
-function IQAFailuresChart() {
-  const categories = [
-    { label: "Blur",  value: 42, color: "#0d2444" },
-    { label: "Light", value: 31, color: "#0ea5e9" },
-    { label: "Frame", value: 18, color: "#00c4a8" },
-    { label: "Other", value: 9,  color: "#94a3b8" },
-  ];
-  const max = 42; const W = 260; const H = 100;
-  const bw = 36; const gap = 22;
-  const totalW = categories.length * (bw + gap) - gap;
-  const sx = (W - totalW) / 2;
-
-  return (
-    <svg viewBox={`0 0 ${W} ${H + 30}`} className="w-full">
-      {[0.5, 1].map((f, i) => (
-        <line key={i} x1={0} y1={H * f} x2={W} y2={H * f} stroke="#f1f5f9" strokeWidth="1" />
-      ))}
-      {categories.map(({ label, value, color }, i) => {
-        const barH = (value / max) * H;
-        const x = sx + i * (bw + gap);
-        const y = H - barH;
-        return (
-          <g key={label}>
-            <defs>
-              <linearGradient id={`iqa-${i}`} x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity="0.9" />
-                <stop offset="100%" stopColor={color} stopOpacity="0.5" />
-              </linearGradient>
-            </defs>
-            <rect x={x} y={H} width={bw} height={0} rx="4" fill={`url(#iqa-${i})`}>
-              <animate attributeName="y" from={H} to={y} dur="0.6s" begin={`${i * 0.1}s`} fill="freeze" />
-              <animate attributeName="height" from={0} to={barH} dur="0.6s" begin={`${i * 0.1}s`} fill="freeze" />
-            </rect>
-            <text x={x + bw / 2} y={y - 5} textAnchor="middle" fill={color} fontSize="10" fontWeight="700">{value}%</text>
-            <text x={x + bw / 2} y={H + 18} textAnchor="middle" fill="#94a3b8" fontSize="10" fontWeight="600">{label}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-// ── Fairness bar ──────────────────────────────────────────────────────────────
-function FairnessBar({ label, pct }: { label: string; pct: number }) {
-  const color = pct >= 95 ? "#00c4a8" : pct >= 92 ? "#0ea5e9" : "#f59e0b";
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-1.5">
-        <span className="text-sm font-medium text-slate-600">{label}</span>
-        <span className="text-sm font-bold" style={{ color }}>{pct}%</span>
-      </div>
-      <div className="w-full h-2 rounded-full overflow-hidden bg-slate-100">
-        <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${color}, ${color}cc)` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-// ── Feedback table ────────────────────────────────────────────────────────────
 const FEEDBACK = [
   { name: "Dr. Julian Vance",  dept: "Unit B",   case: "#DX-99021", sentiment: "positive", comment: "Analysis was extremely accurate and well-structured." },
   { name: "Dr. Sarah Chen",    dept: "Oncology", case: "#DX-98944", sentiment: "negative", comment: "IQA rejected twice despite optimal image conditions." },
   { name: "Dr. Kwame Asante",  dept: "Derm.",    case: "#DX-98801", sentiment: "positive", comment: "Confidence score matched biopsy outcome perfectly." },
 ];
 
-function SentimentIcon({ sentiment }: { sentiment: string }) {
-  return sentiment === "positive" ? (
-    <div className="w-7 h-7 rounded-full bg-teal-100 flex items-center justify-center">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" strokeWidth={2} className="w-4 h-4">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M8 13s1.5 2 4 2 4-2 4-2" strokeLinecap="round" />
-        <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth={2.5} strokeLinecap="round" />
-        <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth={2.5} strokeLinecap="round" />
-      </svg>
-    </div>
-  ) : (
-    <div className="w-7 h-7 rounded-full bg-rose-100 flex items-center justify-center">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth={2} className="w-4 h-4">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M16 16s-1.5-2-4-2-4 2-4 2" strokeLinecap="round" />
-        <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth={2.5} strokeLinecap="round" />
-        <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth={2.5} strokeLinecap="round" />
-      </svg>
-    </div>
-  );
-}
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function SystemReportsPage() {
   const [exporting, setExporting] = useState(false);
 
@@ -304,15 +33,6 @@ export default function SystemReportsPage() {
 
   return (
     <div className="flex-1 flex flex-col min-h-screen overflow-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card-lift:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.07); }
-        .row-hover:hover { background: #f8fafd; }
-        @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
-        .fade-in { animation: fadeUp 0.5s ease both; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
-      `}</style>
 
       {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
@@ -323,8 +43,8 @@ export default function SystemReportsPage() {
           </div>
           <div className="flex items-center gap-3">
             <button className="relative w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <BellIcon />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-rose-500 rounded-full" />
+              <Bell />
+              <span className="absolute top-1.25 right-1.25 w-1.25 h-1.5 bg-rose-500 rounded-full" />
             </button>
             {/* Doctor info */}
             <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
@@ -368,7 +88,7 @@ export default function SystemReportsPage() {
                   Exporting…
                 </>
               ) : (
-                <><ExportIcon />Export PDF</>
+                <><FileDown className="w-4 h-4" />Export PDF</>
               )}
             </button>
           </div>
@@ -434,7 +154,7 @@ export default function SystemReportsPage() {
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-sm font-bold text-slate-700 uppercase tracking-widest">Fairness Analysis</h2>
                 <button className="flex items-center gap-1 text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">
-                  View Deep-Dive <ArrowRightIcon />
+                  View Deep-Dive <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
               <div className="space-y-4">
@@ -505,7 +225,7 @@ export default function SystemReportsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <button className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-teal-600 transition-colors">
-                        <ExternalLinkIcon />
+                        <ExternalLink className="w-4 h-4" />
                       </button>
                     </td>
                   </tr>
@@ -516,22 +236,12 @@ export default function SystemReportsPage() {
             {/* Load more */}
             <div className="px-6 py-4 border-t border-slate-100 flex justify-center">
               <button className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-teal-600 transition-colors">
-                Load All Feedback <ArrowRightIcon />
+                Load All Feedback <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </main>
 
-        {/* Footer */}
-        <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
-          <p className="text-[10px] text-slate-400 tracking-widest uppercase">For clinical decision support only. Not a diagnostic device.</p>
-          <div className="flex gap-4">
-            {["Terms", "Privacy"].map(t => (
-              <button key={t} className="text-[10px] text-slate-400 hover:text-slate-600 tracking-widest uppercase transition-colors">{t}</button>
-            ))}
-            <span className="text-[10px] text-slate-300">© 2023 DermaDx</span>
-          </div>
-        </footer>
     </div>
   );
 }
