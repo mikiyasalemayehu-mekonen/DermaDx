@@ -12,11 +12,9 @@ export default function ProfilePage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
-
   return (
     <div className="bg-[#f4f7fb] rounded-xl p-6 flex-1">
       <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold mb-5">Profile Settings</p>
-
       <div className="flex items-center gap-4 mb-7">
         <div className="relative shrink-0">
           <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-white shadow-md bg-teal-100">

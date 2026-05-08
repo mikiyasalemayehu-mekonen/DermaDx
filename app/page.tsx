@@ -66,7 +66,7 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login" className="text-sm text-slate-300 hover:text-white transition-colors px-4 py-2">
+            <Link href="/auth/login" className="text-sm text-slate-300 hover:text-white transition-colors px-4 py-2">
               Sign In
             </Link>
             <button className="relative text-sm font-semibold px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:opacity-90 transition-all glow-teal-sm">

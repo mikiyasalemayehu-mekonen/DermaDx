@@ -1,46 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { Smartphone, Lock,EyeIcon,EyeOffIcon ,Shield,Check} from 'lucide-react';
 
 type Step = "password" | "mfa" | "done";
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
-const EyeIcon = ({ open }: { open: boolean }) => open ? (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-4 h-4">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-  </svg>
-) : (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-4 h-4">
-    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-    <line x1="1" y1="1" x2="23" y2="23" strokeLinecap="round" />
-  </svg>
-);
 
-const CheckIcon = ({ size = 4 }: { size?: number }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className={`w-${size} h-${size}`}>
-    <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
-const ShieldIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
+// const CheckIcon = ({ size = 4 }: { size?: number }) => (
+//   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className={`w-${size} h-${size}`}>
+//     <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round" />
+//   </svg>
+// );
 
-const LockIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
-
-const PhoneIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-    <line x1="12" y1="18" x2="12.01" y2="18" strokeLinecap="round" strokeWidth={2.5} />
-  </svg>
-);
 
 // ── Password strength ─────────────────────────────────────────────────────────
 function getStrength(pw: string) {
@@ -79,7 +51,7 @@ function StepDot({ label, num, active, done }: { label: string; num: number; act
       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
         done ? "bg-teal-500 text-white" : active ? "bg-[#0d2444] text-white" : "bg-slate-100 text-slate-400"
       }`}>
-        {done ? <CheckIcon size={3} /> : num}
+        {done ? <Check className="w-3 h-3 text-white" /> : num}
       </div>
       <span className={`text-xs font-semibold ${active ? "text-slate-700" : done ? "text-teal-600" : "text-slate-400"}`}>{label}</span>
     </div>
@@ -173,14 +145,14 @@ export default function ActivationPage() {
             Activate your<br /><span style={{ background: "linear-gradient(135deg, #94d8f0, #00d4b4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>clinical account</span>
           </h2>
           <p className="text-slate-400 text-sm leading-relaxed">
-            You've been provisioned access by your institution's admin. Complete these steps to secure your account and gain access to DermaDx.
+            You&apos;ve been provisioned access by your institution&apos;s admin. Complete these steps to secure your account and gain access to DermaDx.
           </p>
 
           <div className="space-y-3 pt-2">
             {[
-              { icon: <LockIcon />, title: "Set your password", desc: "Minimum 12 characters with complexity requirements" },
-              { icon: <PhoneIcon />, title: "Enable MFA", desc: "Time-based one-time password via authenticator app" },
-              { icon: <ShieldIcon />, title: "Access granted", desc: "Role-scoped dashboard unlocks upon completion" },
+              { icon: <Lock />, title: "Set your password", desc: "Minimum 12 characters with complexity requirements" },
+              { icon: <Smartphone />, title: "Enable MFA", desc: "Time-based one-time password via authenticator app" },
+              { icon: <Shield />, title: "Access granted", desc: "Role-scoped dashboard unlocks upon completion" },
             ].map(({ icon, title, desc }, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -234,11 +206,11 @@ export default function ActivationPage() {
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">New Password</label>
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 transition-all input-ring">
-                  <LockIcon />
+                  <Lock className="w-5 h-5" />
                   <input type={showPw ? "text" : "password"} value={pw} onChange={e => setPw(e.target.value)}
                     placeholder="••••••••••••" className="flex-1 bg-transparent outline-none text-sm text-slate-700 placeholder:text-slate-300 mx-3" />
                   <button type="button" onClick={() => setShowPw(!showPw)} className="text-slate-300 hover:text-slate-500 transition-colors">
-                    <EyeIcon open={showPw} />
+                    <EyeIcon  />
                   </button>
                 </div>
                 {/* Strength bar */}
@@ -263,11 +235,13 @@ export default function ActivationPage() {
                 <div className={`flex items-center border rounded-xl px-4 py-3 transition-all input-ring ${
                   confirmPw && !pwMatch ? "border-rose-300 bg-rose-50" : "bg-slate-50 border-slate-200"
                 }`}>
-                  <LockIcon />
+                  <Lock className="w-5 h-5" />
                   <input type={showConfirm ? "text" : "password"} value={confirmPw} onChange={e => setConfirmPw(e.target.value)}
                     placeholder="••••••••••••" className="flex-1 bg-transparent outline-none text-sm text-slate-700 placeholder:text-slate-300 mx-3" />
                   <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="text-slate-300 hover:text-slate-500 transition-colors">
-                    <EyeIcon open={showConfirm} />
+                    {
+                      showConfirm ? <EyeOffIcon /> : <EyeIcon />
+                    }
                   </button>
                 </div>
               </div>
@@ -277,8 +251,8 @@ export default function ActivationPage() {
                 {rules.map(({ label, ok }) => (
                   <div key={label} className="flex items-center gap-2">
                     <div className={`w-4 h-4 rounded-full flex items-center justify-center transition-all ${ok ? "bg-teal-500" : "bg-slate-100"}`}>
-                      {ok && <CheckIcon size={2} />}
-                    </div>
+                          {ok && <Check className="w-3 h-3 text-white" />}
+                        </div>
                     <span className={`text-xs transition-colors ${ok ? "text-teal-700 font-medium" : "text-slate-400"}`}>{label}</span>
                   </div>
                 ))}
