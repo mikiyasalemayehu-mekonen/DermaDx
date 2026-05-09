@@ -7,13 +7,6 @@ type Step = "password" | "mfa" | "done";
 
 
 
-// const CheckIcon = ({ size = 4 }: { size?: number }) => (
-//   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className={`w-${size} h-${size}`}>
-//     <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round" />
-//   </svg>
-// );
-
-
 // ── Password strength ─────────────────────────────────────────────────────────
 function getStrength(pw: string) {
   let score = 0;

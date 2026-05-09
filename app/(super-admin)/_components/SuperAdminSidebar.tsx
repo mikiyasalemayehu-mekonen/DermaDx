@@ -69,7 +69,7 @@ const NAV = [
   { href: "/superadmin-dashboard", label: "Dashboard",      icon: Icons.Dashboard, badge: null },
   { href: "/clinics",              label: "Clinics",         icon: Icons.Clinics,   badge: "12" },
   { href: "/admins",               label: "Clinic Admins",   icon: Icons.Admins,    badge: "3" },
-  { href: "/reports",              label: "System Reports",  icon: Icons.Reports,   badge: null },
+  { href: "/super-system-reports",              label: "System Reports",  icon: Icons.Reports,   badge: null },
   { href: "/settings",             label: "Settings",        icon: Icons.Settings,  badge: null },
 ];
 
