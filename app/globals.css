@@ -124,6 +124,85 @@ h1, h2, h3, h4, .font-display, .stats-number, .brand-font {
 .animate-check-pop { animation: checkPop  0.5s ease; }
 .animate-toast     { animation: toastIn   0.3s ease; }
 
+/* ── Landing page utilities ───────────────────────────────────────────────── */
+
+.clip-hero { clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%); }
+.clip-trust { clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 94%); }
+.glow-teal { box-shadow: 0 0 40px rgba(0, 102, 204, 0.15), 0 0 80px rgba(0, 102, 204, 0.06); }
+.glow-teal-sm { box-shadow: 0 0 20px rgba(0, 102, 204, 0.2); }
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #6dd5ff 50%, #0099ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.border-gradient {
+  background: linear-gradient(#040d1a, #040d1a) padding-box, linear-gradient(135deg, #0099ff, #003d7a) border-box;
+  border: 1px solid transparent;
+}
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 102, 204, 0.1);
+}
+.line-anim {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 2s ease forwards;
+}
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUpLanding 0.8s ease forwards;
+}
+.scan-line {
+  animation: scan 3s linear infinite;
+}
+.pulse-ring {
+  animation: pulseRing 2.5s ease-out infinite;
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(0, 102, 204, 0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeUpLanding {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scan {
+  0%, 100% { top: 0; opacity: 0.6; }
+  50% { top: 100%; opacity: 0.2; }
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ── Reusable interaction classes ──────────────────────────────────────────── */
 
 .card-lift {
