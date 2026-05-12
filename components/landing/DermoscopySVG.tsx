@@ -43,7 +43,7 @@ export function DermoscopySVG() {
       <text x="307" y="282" fill="#00d4b4" fontSize="11" fontFamily="monospace" fontWeight="bold">94%</text>
 
       {/* Labels */}
-      <rect x="50" y="296" width="130" height="22" rx="4" fill="#0f2744" />
+      <rect x="50" y="296" width="130" height="22" rx="4" fill="#2563eb" />
       <text x="58" y="311" fill="#94b8d8" fontSize="10" fontFamily="monospace">SUSPECTED CONDITION</text>
       <rect x="50" y="324" width="200" height="28" rx="6" fill="#112a4a" />
       <text x="62" y="343" fill="#ffffff" fontSize="13" fontFamily="monospace" fontWeight="bold">Melanoma (Superficial)</text>

@@ -7,6 +7,7 @@ import {DermoscopySVG} from "../components/landing/DermoscopySVG";
 import Image from "next/image";
 import  Logo from "@/public/logo.svg";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-600 flex items-center justify-center"> */}
-              <div className="w-11 h-11 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
               <Image src={Logo} alt="Logo" />
 
             </div>
@@ -47,8 +48,9 @@ export default function Home() {
             <Link href="/auth/login" className="text-sm text-slate-600 hover:text-slate-900 transition-colors px-4 py-2">
               Sign In
             </Link>
-            <button className="relative text-sm font-semibold px-5 py-2.5 rounded-lg bg-linear-to-r from-blue-600 to-blue-500 text-white hover:opacity-90 transition-all glow-teal-sm">
-              Get Started →
+            <button className="relative inline-flex items-center justify-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-lg bg-linear-to-r from-blue-600 to-blue-500 text-white hover:opacity-90 transition-all glow-teal-sm">
+              Get Started
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
@@ -63,7 +65,7 @@ export default function Home() {
             {["Features", "How it Works", "Research", "Contact"].map((item) => (
               <a key={item} className="block text-sm text-slate-600 hover:text-slate-900 py-1 cursor-pointer">{item}</a>
             ))}
-            <button className="w-full mt-2 text-sm font-semibold px-5 py-3 rounded-lg bg-linear-to-r from-blue-600 to-blue-500 text-white">Get Started →</button>
+            <button className="w-full mt-2 inline-flex items-center justify-center gap-2 text-sm font-semibold px-5 py-3 rounded-lg bg-linear-to-r from-blue-600 to-blue-500 text-white">Get Started →</button>
           </div>
         )}
       </nav>
@@ -108,8 +110,8 @@ export default function Home() {
                 </svg>
               </button>
               <button className="group inline-flex items-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-slate-600 hover:text-slate-900 border border-blue-100 hover:border-blue-200 transition-all bg-white/70">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" fill="#2563eb" className="w-3 h-3 translate-x-0.5">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="#111827" className="w-3 h-3 translate-x-0.5">
                     <path d="M5 3l14 9L5 21V3z" />
                   </svg>
                 </div>

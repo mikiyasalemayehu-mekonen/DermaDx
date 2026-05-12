@@ -29,7 +29,7 @@ export default function SecurityPage() {
           </div>
         ))}
         <div className="flex justify-end pt-1">
-          <button className="bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-bold px-5 py-2 rounded-lg transition-all active:scale-95">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all active:scale-95">
             Update Password
           </button>
         </div>

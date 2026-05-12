@@ -89,7 +89,7 @@ export default function UploadPage() {
                   <p className="text-xs text-gray-400 mb-7">Accepted formats: JPEG, PNG, WebP. Maximum file size: 10MB.</p>
                   <button
                     onClick={() => inputRef.current?.click()}
-                    className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
                   >
                     <Image  className="w-5 h-5"/> Browse Files
                   </button>
@@ -108,7 +108,7 @@ export default function UploadPage() {
           {/* Right panels */}
           <div className="w-64 flex flex-col gap-4 shrink-0">
             {/* Privacy & Security */}
-            <div className="bg-[#0f2744] rounded-xl p-5 relative overflow-hidden">
+            <div className="bg-blue-600 rounded-xl p-5 relative overflow-hidden">
               <div className="absolute -bottom-6 -right-6 opacity-[0.07] text-white pointer-events-none">
                 <Lock className="w-24 h-24" />
               </div>

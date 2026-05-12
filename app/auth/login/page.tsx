@@ -23,7 +23,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md bg-white rounded-xl p-10 shadow-sm">
 
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
             <Image
                 src={logo}
                 alt="Logo"
@@ -96,7 +96,7 @@ export default function LoginPage() {
                 Forgot password?
               </a>
             </div>
-            <button className="w-full bg-[#0B2A4A] text-white py-3 rounded-md font-medium hover:bg-[#0A2540] transition">
+            <button className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-[#0A2540] transition">
               Sign In
             </button>
 

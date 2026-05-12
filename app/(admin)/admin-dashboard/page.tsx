@@ -87,7 +87,7 @@ export default function AdminDashboard() {
                       onClick={() => setChartView(v)}
                       className="px-3 py-1.5 rounded-md text-[11px] font-bold uppercase tracking-wide transition-all"
                       style={{
-                        background: chartView === v ? "#0d2444" : "transparent",
+                        background: chartView === v ? "#2563eb" : "transparent",
                         color: chartView === v ? "white" : "#94a3b8",
                       }}
                     >

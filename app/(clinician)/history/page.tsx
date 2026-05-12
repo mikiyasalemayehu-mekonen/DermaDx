@@ -73,7 +73,7 @@ export default function HistoryPage() {
           </div>
           <Link
             href="/upload"
-            className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
           >
             <Plus className="w-4 h-4"/> New Case Analysis
           </Link>
@@ -195,7 +195,7 @@ export default function HistoryPage() {
                   key={p}
                   onClick={() => setCurrentPage(p)}
                   className={`w-8 h-8 rounded-lg text-xs font-bold transition-colors ${
-                    currentPage === p ? "bg-[#0f2744] text-white" : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+                    currentPage === p ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-500 hover:bg-gray-50"
                   }`}
                 >
                   {p}
@@ -205,7 +205,7 @@ export default function HistoryPage() {
               <button
                 onClick={() => setCurrentPage(5)}
                 className={`w-8 h-8 rounded-lg text-xs font-bold transition-colors ${
-                  currentPage === 5 ? "bg-[#0f2744] text-white" : "border border-gray-200 text-gray-500 hover:bg-gray-50"
+                  currentPage === 5 ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-500 hover:bg-gray-50"
                 }`}
               >
                 5

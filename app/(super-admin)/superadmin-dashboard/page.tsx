@@ -5,12 +5,12 @@ import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const STATS = [
-  { label: "Active Clinics",    value: "12",    delta: "+2 this month",   positive: true,  color: "#7c3aed", bg: "#f5f3ff", icon: "🏥" },
+  { label: "Active Clinics",    value: "12",    delta: "+2 this month",   positive: true,  color: "#2563eb", bg: "#eff6ff", icon: "🏥" },
   { label: "Total Clinicians",  value: "284",   delta: "+18 this month",  positive: true,  color: "#0d9488", bg: "#f0fdf9", icon: "👨‍⚕️" },
   { label: "Pending Approvals", value: "5",     delta: "3 clinics, 2 admins", positive: false, color: "#d97706", bg: "#fffbeb", icon: "⏳" },
   { label: "Total Analyses",    value: "42,901",delta: "+5.2k this week", positive: true,  color: "#0d2444", bg: "#f0f4ff", icon: "🔬" },
   { label: "Avg Confidence",    value: "94.8%", delta: "Stable",          positive: true,  color: "#059669", bg: "#ecfdf5", icon: "✅" },
-  { label: "System Uptime",     value: "99.98%",delta: "All regions",     positive: true,  color: "#7c3aed", bg: "#f5f3ff", icon: "⚡" },
+  { label: "System Uptime",     value: "99.98%",delta: "All regions",     positive: true,  color: "#2563eb", bg: "#eff6ff", icon: "⚡" },
 ];
 
 const CLINICS = [
@@ -44,7 +44,7 @@ const PLAN_STYLE: Record<string, string> = {
 };
 
 const TYPE_COLOR: Record<string, string> = {
-  clinic:  "#7c3aed",
+  clinic:  "#2563eb",
   admin:   "#0d9488",
   alert:   "#ef4444",
   system:  "#0d2444",
@@ -64,8 +64,8 @@ function MiniBarChart() {
     <svg viewBox={`0 0 ${W} ${H + 24}`} className="w-full">
       <defs>
         <linearGradient id="barGrad" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#2563eb" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#2563eb" stopOpacity="0.4" />
         </linearGradient>
       </defs>
       {[0.25,0.5,0.75,1].map((f,i) => (
@@ -153,7 +153,7 @@ export default function SuperAdminDashboard() {
               <p className="text-sm text-slate-400 mt-0.5">Real-time visibility across all clinics and tenants.</p>
             </div>
             <button className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 active:scale-95"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 4px 16px rgba(124,58,237,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}>
+              style={{ background: "linear-gradient(135deg, #2563eb, #1e40af)", boxShadow: "0 4px 16px rgba(37,99,235,0.18)", fontFamily: "'Space Grotesk', sans-serif" }}>
               + Onboard New Clinic
             </button>
           </div>
@@ -189,7 +189,7 @@ export default function SuperAdminDashboard() {
                   {(["weekly","monthly"] as const).map(v => (
                     <button key={v} onClick={() => setPeriod(v)}
                       className="px-3 py-1.5 rounded-md text-[11px] font-bold uppercase tracking-wide transition-all"
-                      style={{ background: period===v ? "#7c3aed" : "transparent", color: period===v ? "white" : "#94a3b8" }}>
+                      style={{ background: period===v ? "#2563eb" : "transparent", color: period===v ? "white" : "#94a3b8" }}>
                       {v}
                     </button>
                   ))}
@@ -226,7 +226,7 @@ export default function SuperAdminDashboard() {
                 <h2 className="text-sm font-bold text-slate-700 uppercase tracking-widest">All Clinics</h2>
                 <p className="text-xs text-slate-400 mt-0.5">Platform-wide clinic registry</p>
               </div>
-              <button className="text-xs font-semibold text-violet-600 hover:underline">Manage all →</button>
+              <button className="text-xs font-semibold text-blue-600 hover:underline">Manage all →</button>
             </div>
             <table className="w-full text-sm">
               <thead>

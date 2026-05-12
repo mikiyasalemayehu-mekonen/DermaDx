@@ -27,7 +27,7 @@ export default function Sidebar() {
       {/* Brand */}
 
       <div className="relative px-4 py-2 border-b border-[#e2e8f0] flex flex-row space-x-3 items-center">
-        <div className="w-11 h-11 bg-[#0B2A4A] rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-11 h-11 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
           <Image
             src={logo}
             alt="Logo"
@@ -64,8 +64,8 @@ export default function Sidebar() {
               title={collapsed ? label : undefined}
               className={`w-full flex items-center gap-3 rounded-lg text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? "bg-[#0f2744] text-white"
-                  : "text-[#0f2744] hover:bg-[#0f2744]/80 hover:text-white/80"
+                  ? "bg-blue-500 text-white"
+                  : "text-[#0f2744] hover:bg-blue-50 hover:text-blue-700"
               }`}
               style={{
                 padding: collapsed ? "10px 0" : "10px 12px",
@@ -83,7 +83,7 @@ export default function Sidebar() {
       <div className="px-3 pb-6 space-y-0.5 border-t border-[#e2e8f0] pt-2">
         <button
           title={collapsed ? "Support" : undefined}
-          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150"
+          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white hover:bg-linear-to-r hover:from-blue-600 hover:to-blue-500 transition-all duration-150"
           style={{
             padding: collapsed ? "10px 0" : "10px 12px",
             justifyContent: collapsed ? "center" : "flex-start",
@@ -93,7 +93,7 @@ export default function Sidebar() {
         </button>
         <button
           title={collapsed ? "Sign Out" : undefined}
-          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white/70 hover:bg-[#0f2744] transition-all duration-150"
+          className="w-full flex items-center gap-3 rounded-lg text-sm text-[#0f2744] hover:text-white hover:bg-linear-to-r hover:from-blue-600 hover:to-blue-500 transition-all duration-150"
           style={{
             padding: collapsed ? "10px 0" : "10px 12px",
             justifyContent: collapsed ? "center" : "flex-start",

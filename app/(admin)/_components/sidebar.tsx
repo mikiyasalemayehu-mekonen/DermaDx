@@ -32,7 +32,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
     >
       {/* ── Brand ── */}
       <div className="relative flex items-center gap-3 px-4 py-2 border-b border-[#e2e8f0]">
-        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-[#0f2744]">
+        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-blue-600">
           <Image src={logo} alt="Logo" />
         </div>
         {!collapsed && (
@@ -65,11 +65,11 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
               title={collapsed ? label : undefined}
               className={`relative w-full flex items-center gap-3 rounded-lg transition-all duration-150 ${
                 collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"
-              } ${isActive ? "bg-[#0f2744] text-white" : "text-[#0f2744] hover:bg-[rgba(15,39,68,0.08)]"}`}
+                } ${isActive ? "bg-blue-500 text-white" : "text-[#0f2744] hover:bg-blue-50 hover:text-blue-700"}`}
             >
               {/* Active indicator */}
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r-full bg-white" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r-full bg-blue-100" />
               )}
               <NavIcon />
               {!collapsed && (
@@ -89,23 +89,23 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
 
       {/* ── System status pill ── */}
       {!collapsed && (
-        <div className="mx-3 mb-4 rounded-xl p-3 bg-[rgba(15,39,68,0.05)] border border-[#e2e8f0]">
+        <div className="mx-3 mb-4 rounded-xl p-3 bg-blue-50 border border-blue-100">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-semibold uppercase tracking-widest text-[#0f274466]">
               System
             </span>
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-[#0f2744]" />
-              <span className="text-[10px] font-semibold text-[#0f2744]">Operational</span>
+              <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-blue-600" />
+              <span className="text-[10px] font-semibold text-blue-700">Operational</span>
             </div>
           </div>
           <div className="space-y-1.5">
             <div className="flex justify-between">
               <span className="text-[10px] text-[#0f274466]">Uptime</span>
-              <span className="text-[10px] font-bold text-[#0f2744]">99.98%</span>
+              <span className="text-[10px] font-bold text-blue-700">99.98%</span>
             </div>
-            <div className="w-full h-1 rounded-full overflow-hidden bg-[#0f274414]">
-              <div className="h-full rounded-full w-[99.98%] bg-[#0f2744]" />
+            <div className="w-full h-1 rounded-full overflow-hidden bg-blue-100">
+              <div className="h-full rounded-full w-[99.98%] bg-blue-600" />
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
             key={id}
             onClick={() => onNav?.(id)}
             title={collapsed ? label : undefined}
-            className={`w-full flex items-center gap-3 rounded-lg transition-colors text-[#0f274466] hover:text-[#0f2744] hover:bg-[rgba(15,39,68,0.08)] ${
+            className={`w-full flex items-center gap-3 rounded-lg transition-colors text-[#0f274466] hover:text-blue-700 hover:bg-blue-50 ${
               collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"
             }`}
           >

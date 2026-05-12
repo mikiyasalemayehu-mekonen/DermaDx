@@ -97,13 +97,13 @@ export default function SuperAdminSidebar() {
     >
       {/* Purple glow — distinguishes super admin visually from clinic admin */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(139,92,246,0.06) 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 70%)" }} />
 
       {/* ── Brand ── */}
       <div className="relative flex items-center gap-3 px-4 py-5 border-b"
         style={{ borderColor: "rgba(139,92,246,0.12)" }}>
         <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg"
-          style={{ background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)" }}>
+          style={{ background: "linear-gradient(135deg, #2563eb 0%, #1e40af 100%)" }}>
           <span className="text-white font-black text-[13px]">D</span>
         </div>
         {!collapsed && (
@@ -127,9 +127,9 @@ export default function SuperAdminSidebar() {
 
       {/* ── Super Admin badge ── */}
       {!collapsed && (
-        <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2"
-          style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.15)" }}>
-          <span style={{ color: "#a78bfa" }}><Icons.Shield /></span>
+          <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2"
+          style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}>
+          <span style={{ color: "#93c5fd" }}><Icons.Shield /></span>
           <div>
             <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "rgba(167,139,250,0.8)" }}>Super Admin</p>
             <p className="text-[8px]" style={{ color: "rgba(167,139,250,0.45)" }}>Full platform access</p>
@@ -162,7 +162,7 @@ export default function SuperAdminSidebar() {
               {/* Active indicator — purple */}
               {active && (
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r-full"
-                  style={{ background: "#a78bfa" }} />
+                  style={{ background: "#bfdbfe" }} />
               )}
               <NavIcon />
               {!collapsed && (
@@ -173,7 +173,7 @@ export default function SuperAdminSidebar() {
               )}
               {!collapsed && badge && (
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
-                  style={{ background: "rgba(139,92,246,0.2)", color: "#a78bfa" }}>
+                  style={{ background: "rgba(37,99,235,0.2)", color: "#2563eb" }}>
                   {badge}
                 </span>
               )}

@@ -40,7 +40,7 @@ export default function DashboardPage() {
           </div>
           <Link
             href="/upload"
-            className="flex items-center gap-2 bg-[#0f2744] hover:bg-[#1a3d6b] text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
           >
             <Plus className="w-4 h-4"/> Start New Analysis
           </Link>
@@ -102,7 +102,7 @@ export default function DashboardPage() {
 
           {/* Right column */}
           <div className="w-60 flex flex-col gap-4">
-            <div className="bg-[#0f2744] rounded-xl p-5 flex-1">
+            <div className="bg-blue-600 rounded-xl p-5 flex-1">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
                   <span className="text-white text-[10px] font-bold">i</span>

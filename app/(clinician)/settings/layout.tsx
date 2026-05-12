@@ -69,8 +69,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                   href={href}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                     isActive
-                      ? "bg-[#0f2744] text-white"
-                      : "text-gray-500 hover:bg-gray-50 hover:text-[#0f2744]"
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-500 hover:bg-gray-50 hover:text-blue-700"
                   }`}
                 >
                   <Icon />{label}
