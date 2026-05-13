@@ -102,7 +102,7 @@ export default function SuperAdminSidebar() {
       {/* ── Brand ── */}
       <div className="relative flex items-center gap-3 px-4 py-5 border-b"
         style={{ borderColor: "rgba(139,92,246,0.12)" }}>
-        <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg"
+          <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg"
           style={{ background: "linear-gradient(135deg, #2563eb 0%, #1e40af 100%)" }}>
           <span className="text-white font-black text-[13px]">D</span>
         </div>
@@ -110,7 +110,7 @@ export default function SuperAdminSidebar() {
           <div className="overflow-hidden">
             <p className="text-white font-bold text-[15px] leading-none tracking-tight"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaDx</p>
-            <p className="text-[9px] tracking-[0.18em] uppercase mt-0.5"
+            <p className="text-[10px] tracking-[0.18em] uppercase mt-0.5"
               style={{ color: "rgba(167,139,250,0.6)" }}>Super Admin</p>
           </div>
         )}
@@ -126,21 +126,21 @@ export default function SuperAdminSidebar() {
       </div>
 
       {/* ── Super Admin badge ── */}
-      {!collapsed && (
-          <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2"
-          style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}>
-          <span style={{ color: "#93c5fd" }}><Icons.Shield /></span>
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: "rgba(167,139,250,0.8)" }}>Super Admin</p>
-            <p className="text-[8px]" style={{ color: "rgba(167,139,250,0.45)" }}>Full platform access</p>
+          {!collapsed && (
+            <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2"
+            style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}>
+            <span style={{ color: "#93c5fd" }}><Icons.Shield /></span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgba(167,139,250,0.8)" }}>Super Admin</p>
+              <p className="text-[8px]" style={{ color: "rgba(167,139,250,0.45)" }}>Full platform access</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* ── Main nav ── */}
       <nav className="flex-1 px-2.5 py-4 space-y-0.5 overflow-hidden">
         {!collapsed && (
-          <p className="text-[9px] uppercase tracking-[0.2em] font-semibold px-3 pb-2 mb-1"
+          <p className="text-[10px] uppercase tracking-[0.18em] font-semibold px-3 pb-2 mb-1"
             style={{ color: "rgba(255,255,255,0.18)" }}>Navigation</p>
         )}
         {NAV.map(({ href, label, icon: NavIcon, badge }) => {
@@ -165,12 +165,12 @@ export default function SuperAdminSidebar() {
                   style={{ background: "#bfdbfe" }} />
               )}
               <NavIcon />
-              {!collapsed && (
-                <span className="text-[13px] font-medium flex-1 text-left"
-                  style={{ color: active ? "#ffffff" : "rgba(255,255,255,0.45)" }}>
-                  {label}
-                </span>
-              )}
+                {!collapsed && (
+                  <span className="text-[13px] font-medium flex-1 text-left"
+                    style={{ color: active ? "#ffffff" : "rgba(255,255,255,0.45)" }}>
+                    {label}
+                  </span>
+                )}
               {!collapsed && badge && (
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
                   style={{ background: "rgba(37,99,235,0.2)", color: "#2563eb" }}>
@@ -183,35 +183,35 @@ export default function SuperAdminSidebar() {
       </nav>
 
       {/* ── Platform status ── */}
-      {!collapsed && (
-        <div className="mx-3 mb-4 rounded-xl p-3"
-          style={{ background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.1)" }}>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-semibold uppercase tracking-widest"
-              style={{ color: "rgba(255,255,255,0.25)" }}>Platform</span>
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-violet-400"
-                style={{ animation: "pulse 2s infinite" }} />
-              <span className="text-[10px] text-violet-400 font-semibold">All Systems</span>
+        {!collapsed && (
+          <div className="mx-3 mb-4 rounded-xl p-3"
+            style={{ background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.1)" }}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+                style={{ color: "rgba(255,255,255,0.25)" }}>Platform</span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-violet-400"
+                  style={{ animation: "pulse 2s infinite" }} />
+                <span className="text-[10px] text-violet-400 font-semibold">All Systems</span>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <div className="flex justify-between">
+                <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>Active Clinics</span>
+                <span className="text-[10px] font-bold text-violet-400">12</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>Total Users</span>
+                <span className="text-[10px] font-bold text-violet-400">284</span>
+              </div>
+              <div className="w-full h-1 rounded-full overflow-hidden mt-1"
+                style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div className="h-full rounded-full"
+                  style={{ width: "92%", background: "linear-gradient(90deg, #7c3aed, #a78bfa)" }} />
+              </div>
             </div>
           </div>
-          <div className="space-y-1.5">
-            <div className="flex justify-between">
-              <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>Active Clinics</span>
-              <span className="text-[10px] font-bold text-violet-400">12</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>Total Users</span>
-              <span className="text-[10px] font-bold text-violet-400">284</span>
-            </div>
-            <div className="w-full h-1 rounded-full overflow-hidden mt-1"
-              style={{ background: "rgba(255,255,255,0.06)" }}>
-              <div className="h-full rounded-full"
-                style={{ width: "92%", background: "linear-gradient(90deg, #7c3aed, #a78bfa)" }} />
-            </div>
-          </div>
-        </div>
-      )}
+        )}
 
       {/* ── Bottom links ── */}
       <div className="px-2.5 pb-5 space-y-0.5 border-t pt-3"

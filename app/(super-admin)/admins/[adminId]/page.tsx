@@ -99,8 +99,6 @@ export default function AdminDetailPage() {
         .modal-in { animation: modalIn 0.2s ease; }
       `}</style>
 
-      <SuperAdminSidebar />
-
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
         <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">

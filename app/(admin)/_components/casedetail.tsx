@@ -38,7 +38,7 @@ function CaseDetailPanel({ c, onClose }: { c: Case; onClose: () => void }) {
             <h2 className="text-xl font-bold text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Case {c.id}
             </h2>
-            <p className="text-[9px] tracking-[0.2em] uppercase font-semibold mt-0.5 text-slate-400">Diagnostic Report (Read-Only)</p>
+            <p className="text-[10px] tracking-[0.18em] uppercase font-semibold mt-0.5 text-slate-400">Diagnostic Report (Read-Only)</p>
           </div>
           <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
             <XIcon className="w-4 h-4" />
@@ -53,7 +53,7 @@ function CaseDetailPanel({ c, onClose }: { c: Case; onClose: () => void }) {
         <div className="px-6 py-5 space-y-5 flex-1">
           {/* Primary result */}
           <div>
-            <p className="text-[9px] uppercase tracking-[0.2em] font-semibold text-slate-400 mb-2">Primary Analysis Result</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400 mb-2">Primary Analysis Result</p>
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold text-slate-800 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -80,11 +80,11 @@ function CaseDetailPanel({ c, onClose }: { c: Case; onClose: () => void }) {
           {/* Metrics */}
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-xl p-3.5 bg-slate-50 border border-slate-100">
-              <p className="text-[9px] uppercase tracking-widest font-semibold text-slate-400 mb-1">Image Quality</p>
+              <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400 mb-1">Image Quality</p>
               <p className="text-sm font-bold text-teal-600">Optimal ({c.imageQuality}/100)</p>
             </div>
             <div className="rounded-xl p-3.5 bg-slate-50 border border-slate-100">
-              <p className="text-[9px] uppercase tracking-widest font-semibold text-slate-400 mb-1">Skin Type</p>
+              <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400 mb-1">Skin Type</p>
               <p className="text-sm font-bold text-slate-700">{c.skinType}</p>
             </div>
           </div>
@@ -92,7 +92,7 @@ function CaseDetailPanel({ c, onClose }: { c: Case; onClose: () => void }) {
           {/* Confidence visual */}
           <div className="rounded-xl p-4 bg-slate-50 border border-slate-100">
             <div className="flex justify-between mb-2">
-              <span className="text-[10px] uppercase tracking-widest font-semibold text-slate-400">Confidence Score</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400">Confidence Score</span>
               <span className="text-sm font-bold" style={{ color: c.confidenceColor }}>{c.confidence}%</span>
             </div>
             <div className="w-full h-2 bg-white rounded-full overflow-hidden border border-slate-200">
@@ -103,14 +103,14 @@ function CaseDetailPanel({ c, onClose }: { c: Case; onClose: () => void }) {
 
           {/* Findings */}
           <div>
-            <p className="text-[9px] uppercase tracking-[0.2em] font-semibold text-slate-400 mb-2">Findings Description</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400 mb-2">Findings Description</p>
             <p className="text-sm text-slate-600 leading-relaxed">{c.finding}</p>
           </div>
 
           {/* Clinician + date */}
           <div className="rounded-xl px-4 py-3 border border-slate-100 bg-slate-50 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-full bg-[#0d2444] flex items-center justify-center text-[10px] font-bold text-white">
+              <div className="w-7 h-7 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-[10px] font-bold text-white">
                 {c.clinician.split(" ").map(w => w[0]).join("").slice(0, 2)}
               </div>
               <div>
