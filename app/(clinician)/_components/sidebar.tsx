@@ -21,8 +21,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`relative flex flex-col shrink-0 min-h-screen transition-all duration-300 select-none bg-blue-50 border-r border-[#e2e8f0] ${
-        collapsed ? "w-17" : "w-56"
+      className={`relative flex flex-col shrink-0 min-h-screen transition-all duration-300 select-none bg-[#F8FAFC] border-r border-[#e2e8f0] ${
+        collapsed ? "w-[68px]" : "w-56"
       }`}
     >
       {/* Brand */}
@@ -63,7 +63,7 @@ export default function Sidebar() {
               href={href}
               title={collapsed ? label : undefined}
               className={`relative w-full flex items-center gap-3 rounded-lg transition-all duration-150 ${
-                collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"
+                collapsed ? "py-2.5 px-0 justify-center" : "py-[9px] px-3 justify-start"
               } ${isActive ? "bg-blue-900 text-white" : "text-[#0f2744] hover:bg-blue-100 hover:text-blue-700"}`}
             >
               {isActive && (
@@ -88,7 +88,7 @@ export default function Sidebar() {
             key={id}
             title={collapsed ? label : undefined}
             className={`w-full flex items-center gap-3 rounded-lg transition-colors text-[#0f2744] hover:text-blue-700 hover:bg-blue-50 ${
-              collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"
+              collapsed ? "py-2.5 px-0 justify-center" : "py-[9px] px-3 justify-start"
             }`}
           >
             <Icon className="w-6 h-6" />

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../../_components/SuperAdminSidebar";
 
 // In real app: fetch by params.clinicId from FastAPI
 // import { useParams } from "next/navigation";

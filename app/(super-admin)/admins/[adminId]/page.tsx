@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../../_components/SuperAdminSidebar";
 
 // In real app: const params = useParams(); fetch by params.adminId
 const ADMIN = {

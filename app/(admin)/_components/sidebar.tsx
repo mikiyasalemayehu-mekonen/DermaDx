@@ -27,7 +27,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
   return (
     <aside
       className={`relative flex flex-col shrink-0 min-h-screen transition-all duration-300 select-none bg-[#F8FAFC] border-r border-[#e2e8f0] ${
-        collapsed ? "w-17" : "w-56"
+        collapsed ? "w-[68px]" : "w-56"
       }`}
     >
       {/* ── Brand ── */}

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 // ── Types & Data ──────────────────────────────────────────────────────────────
 type ClinicStatus = "active" | "pending_setup" | "suspended";

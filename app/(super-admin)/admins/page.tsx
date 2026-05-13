@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 type AdminStatus = "active" | "pending_activation" | "suspended";
 
