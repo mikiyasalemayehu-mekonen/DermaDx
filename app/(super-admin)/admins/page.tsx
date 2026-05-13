@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 type AdminStatus = "active" | "pending_activation" | "suspended";
 
@@ -64,8 +63,6 @@ export default function AdminsPage() {
         @keyframes modalIn { from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)} }
         .modal-in { animation: modalIn 0.25s ease; }
       `}</style>
-
-      <SuperAdminSidebar />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}

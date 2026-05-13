@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const STATS = [
@@ -136,8 +135,6 @@ export default function SuperAdminDashboard() {
         @keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
         .fade-in { animation: fadeUp 0.45s ease both; }
       `}</style>
-
-      <SuperAdminSidebar />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         <TopBar />

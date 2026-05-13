@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import SuperAdminSidebar from "../_components/SuperAdminSidebar";
 
 // ── Stat cards ────────────────────────────────────────────────────────────────
 const STATS = [
@@ -204,7 +203,6 @@ export default function SuperAdminReportsPage() {
         .fade-in { animation: fadeUp 0.45s ease both; }
       `}</style>
 
-      <SuperAdminSidebar />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         <TopBar onExport={handleExport} exporting={exporting} />

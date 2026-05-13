@@ -35,7 +35,7 @@ export default function HistoryPage() {
   });
 
   return (
-    <div className="flex-1 flex flex-col bg-[#f4f7fb]">
+    <div className="flex-1 flex flex-col bg-[var(--color-surface)]">
       {/* Custom top bar with doctor info */}
       <header className="bg-white border-b border-gray-100 px-8 py-3 flex items-center justify-between shrink-0">
         <nav className="flex items-center gap-1.5 text-sm text-gray-400">

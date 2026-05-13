@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuperAdminSidebar from "../../_components/SuperAdminSidebar";
 
 // In real app: fetch by params.clinicId from FastAPI
 // import { useParams } from "next/navigation";
@@ -49,8 +48,6 @@ export default function ClinicDetailPage() {
         @keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
         .fade-in { animation: fadeUp 0.45s ease both; }
       `}</style>
-
-      <SuperAdminSidebar />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
