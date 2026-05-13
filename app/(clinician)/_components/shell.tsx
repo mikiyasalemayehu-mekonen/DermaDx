@@ -1,5 +1,5 @@
 
-import {ChevronRight, LogOut ,Users} from 'lucide-react';
+import {ChevronRight, LogOut ,User} from 'lucide-react';
 
 interface TopBarProps {
   crumbs: string[];
@@ -16,7 +16,7 @@ export function TopBar({ crumbs }: TopBarProps) {
               className={
                 i === crumbs.length - 1
                   ? "text-[#0f2744] font-bold uppercase tracking-wide text-[11px]"
-                  : "hover:text-[#0f2744] cursor-pointer transition-colors text-xs"
+                  : "hover:text-[#0f2744] cursor-pointer transition-colors text-[10px] tracking-[0.18em] uppercase"
               }
             >
               {crumb}
@@ -26,7 +26,7 @@ export function TopBar({ crumbs }: TopBarProps) {
       </nav>
       <div className="flex items-center gap-2">
         <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
-          <Users/>
+          <User/>
         </button>
         <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors">
           <LogOut />

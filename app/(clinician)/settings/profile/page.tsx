@@ -61,7 +61,7 @@ export default function ProfilePage() {
       <div className="flex justify-end">
         <button onClick={handleSave}
           className={`flex items-center gap-2 text-sm font-bold px-6 py-2.5 rounded-xl shadow transition-all active:scale-95 ${
-            saved ? "bg-teal-500 text-white" : "bg-[#0f2744] hover:bg-[#1a3d6b] text-white"
+            saved ? "bg-teal-500 text-white" : "bg-blue-900 hover:bg-blue-700 text-white"
           }`}>
           {saved ? <><IconCheck /> Saved!</> : <><IconSave /> Save Changes</>}
         </button>

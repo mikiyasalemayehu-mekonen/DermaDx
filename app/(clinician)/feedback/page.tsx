@@ -88,7 +88,7 @@ export default function FeedbackPage() {
               key={id}
               onClick={() => setSection(id)}
               className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
-                section === id ? "bg-[#0f2744] text-white shadow" : "text-gray-500 hover:text-[#0f2744]"
+                section === id ? "bg-blue-900 text-white shadow" : "text-gray-500 hover:text-[#0f2744]"
               }`}
             >
               {id === "submit" ? "Submit Feedback" : "My Submissions"}
@@ -188,7 +188,7 @@ export default function FeedbackPage() {
 
             {/* Right info panel */}
             <div className="w-60 shrink-0 space-y-4">
-              <div className="bg-[#0f2744] rounded-xl p-5">
+              <div className="bg-blue-900 rounded-xl p-5">
                 <p className="text-white text-xs font-bold uppercase tracking-widest mb-3">Why Your Feedback Matters</p>
                 <ul className="space-y-3">
                   {WHY_MATTERS.map(({ icon, text }) => (

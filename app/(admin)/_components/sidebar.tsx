@@ -32,7 +32,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
     >
       {/* ── Brand ── */}
       <div className="relative flex items-center gap-3 px-4 py-2 border-b border-[#e2e8f0]">
-        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-blue-600">
+        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-blue-900">
           <Image src={logo} alt="Logo" />
         </div>
         {!collapsed && (
@@ -65,7 +65,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
               title={collapsed ? label : undefined}
               className={`relative w-full flex items-center gap-3 rounded-lg transition-all duration-150 ${
                 collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"
-                } ${isActive ? "bg-blue-500 text-white" : "text-[#0f2744] hover:bg-blue-50 hover:text-blue-700"}`}
+                } ${isActive ? "bg-blue-900 text-white" : "text-[#0f2744] hover:bg-blue-50 hover:text-blue-700"}`}
             >
               {/* Active indicator */}
               {isActive && (
