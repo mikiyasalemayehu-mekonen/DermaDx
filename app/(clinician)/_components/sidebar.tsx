@@ -59,7 +59,6 @@ export default function Sidebar() {
           </span>
         </button>
       </div>
-          onClick={() => void handleSignOut()}
 
 
 
