@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TopBar } from "../_components/shell";
-import { FeedbackItem } from "@/types";
 import StarRating from "../_components/starrating";
-import { Check ,Send, Star} from "lucide-react";
+import { Check, Send, Loader2 } from "lucide-react";
+import { submitFeedback, getFeedback, type FeedbackItem } from "@/lib/api/feedback";
+import { getAnalyses, type AnalysisResult } from "@/lib/api/analyses";
 
 
 const FEEDBACK_CATEGORIES = [
@@ -18,23 +19,6 @@ const FEEDBACK_CATEGORIES = [
 
 
 
-const RECENT_FEEDBACK: FeedbackItem[] = [
-  {
-    id: "FB-0041", category: "AI Diagnosis Accuracy",
-    excerpt: "The confidence score for melanoma cases seems slightly over-reported compared to biopsy outcomes.",
-    date: "Oct 22, 2023", status: "Under Review", statusStyle: "bg-amber-100 text-amber-700", rating: 3,
-  },
-  {
-    id: "FB-0038", category: "UI / User Experience",
-    excerpt: "Would love a dark mode option — long sessions in bright clinical environments are tough.",
-    date: "Oct 18, 2023", status: "Acknowledged", statusStyle: "bg-teal-100 text-teal-700", rating: 5,
-  },
-  {
-    id: "FB-0034", category: "Report Generation",
-    excerpt: "PDF export sometimes cuts off the confidence chart on the second page.",
-    date: "Oct 11, 2023", status: "Resolved", statusStyle: "bg-emerald-100 text-emerald-700", rating: 4,
-  },
-];
 
 const RESPONSE_TIMES = [
   { label: "Bug Reports",       time: "24–48 hrs" },
@@ -51,23 +35,70 @@ const WHY_MATTERS = [
 
 
 export default function FeedbackPage() {
+  const [diagnosisId, setDiagnosisId] = useState("");
+  const [analyses, setAnalyses] = useState<AnalysisResult[]>([]);
   const [category,  setCategory]  = useState("");
   const [rating,    setRating]    = useState(0);
   const [message,   setMessage]   = useState("");
-  const [anonymous, setAnonymous] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [section,   setSection]   = useState<"submit" | "history">("submit");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFeedback, setIsLoadingFeedback] = useState(false);
+  const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const canSubmit = category !== "" && rating > 0 && message.trim().length >= 10;
+  useEffect(() => {
+    const loadAnalyses = async () => {
+      try {
+        const data = await getAnalyses({ limit: 20 });
+        setAnalyses(data);
+      } catch (err) {
+        console.error("Failed to load analyses", err);
+      }
+    };
+    void loadAnalyses();
+  }, []);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (section === "history") {
+      const loadFeedback = async () => {
+        setIsLoadingFeedback(true);
+        setError(null);
+        try {
+          const data = await getFeedback();
+          setFeedback(data);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "Failed to load feedback");
+        } finally {
+          setIsLoadingFeedback(false);
+        }
+      };
+      void loadFeedback();
+    }
+  }, [section]);
+  const canSubmit = diagnosisId !== "" && category !== "" && rating > 0 && message.trim().length >= 10;
+  const handleSubmit = async () => {
     if (!canSubmit) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setCategory(""); setRating(0); setMessage(""); setAnonymous(false);
-      setSection("history");
-    }, 2000);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const feedbackText = `[${category}] ${message}`;
+      await submitFeedback({
+        diagnosis_id: diagnosisId,
+        rating,
+        comments: feedbackText,
+      });
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setDiagnosisId(""); setCategory(""); setRating(0); setMessage("");
+        setSection("history");
+      }, 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to submit feedback");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -80,6 +111,11 @@ export default function FeedbackPage() {
           <h1 className="text-2xl font-bold text-[#0f2744]">Feedback</h1>
           <p className="text-sm text-gray-500 mt-0.5">Help us improve DermaDx by sharing your clinical experience and suggestions.</p>
         </div>
+          {error && (
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
 
         {/* Section tabs */}
         <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm w-fit">
@@ -110,6 +146,22 @@ export default function FeedbackPage() {
                 </div>
               ) : (
                 <>
+                  {/* Diagnosis Selection */}
+                  <div>
+                    <label className="block text-xs text-gray-500 font-semibold uppercase tracking-widest mb-2">Analysis / Diagnosis (Required)</label>
+                    <select
+                      value={diagnosisId}
+                      onChange={(e) => setDiagnosisId(e.target.value)}
+                      className="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0f2744]/20 focus:border-[#0f2744]/30 transition-all"
+                    >
+                      <option value="">Select an analysis...</option>
+                      {analyses.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {a.id} - {a.condition} ({a.confidence}%)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   {/* Category */}
                   <div>
                     <label className="block text-xs text-gray-500 font-semibold uppercase tracking-widest mb-2">Feedback Category</label>
@@ -152,34 +204,18 @@ export default function FeedbackPage() {
                   </div>
 
                   {/* Footer row */}
-                  <div className="flex items-center justify-between pt-1">
-                    <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                      <button
-                        type="button"
-                        onClick={() => setAnonymous(!anonymous)}
-                        className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${
-                          anonymous ? "bg-[#0f2744] border-[#0f2744]" : "border-gray-300 bg-white"
-                        }`}
-                      >
-                        {anonymous && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={3} className="w-2.5 h-2.5">
-                            <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        )}
-                      </button>
-                      <span className="text-xs text-gray-500">Submit anonymously</span>
-                    </label>
-
+                  <div className="flex items-center justify-end gap-3 pt-1">
                     <button
-                      onClick={handleSubmit}
-                      disabled={!canSubmit}
+                      onClick={() => void handleSubmit()}
+                      disabled={!canSubmit || isLoading}
                       className={`flex items-center gap-2 text-sm font-bold px-6 py-2.5 rounded-xl shadow transition-all active:scale-95 ${
-                        canSubmit
+                        canSubmit && !isLoading
                           ? "bg-[#0f2744] hover:bg-[#1a3d6b] text-white"
                           : "bg-gray-100 text-gray-400 cursor-not-allowed"
                       }`}
                     >
-                      <Send className="w-4 h-4"/> Submit Feedback
+                      {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4"/>}
+                      {isLoading ? "Submitting..." : "Submit Feedback"}
                     </button>
                   </div>
                 </>
@@ -218,30 +254,45 @@ export default function FeedbackPage() {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
               <p className="text-sm font-bold text-[#0f2744] uppercase tracking-widest">Recent Submissions</p>
-              <span className="text-xs text-gray-400">{RECENT_FEEDBACK.length} total</span>
+              <span className="text-xs text-gray-400">{feedback.length} total</span>
             </div>
-            <div className="divide-y divide-gray-50">
-              {RECENT_FEEDBACK.map((fb) => (
-                <div key={fb.id} className="px-6 py-5 hover:bg-[#f8fafd] transition-colors">
+            {isLoadingFeedback ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+                <span className="ml-2 text-gray-600">Loading feedback...</span>
+              </div>
+            ) : feedback.length === 0 ? (
+              <div className="px-6 py-12 text-center text-gray-400 text-sm">
+                No feedback submitted yet.
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-50">
+                {feedback.map((fb) => (
+                  <div key={fb.id} className="px-6 py-5 hover:bg-[#f8fafd] transition-colors">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <span className="text-xs font-bold text-[#0f2744]">{fb.id}</span>
                         <span className="text-gray-300">·</span>
-                        <span className="text-xs text-gray-400">{fb.category}</span>
+                          <span className="text-xs text-gray-400">{fb.diagnosis_id}</span>
                         <span className="text-gray-300">·</span>
-                        <span className="text-xs text-gray-400">{fb.date}</span>
+                          <span className="text-xs text-gray-400">{new Date(fb.date).toLocaleDateString()}</span>
                       </div>
-                      <p className="text-sm text-gray-600 leading-relaxed">{fb.excerpt}</p>
-                      <Star />
+                        <p className="text-sm text-gray-600 leading-relaxed">{fb.comments}</p>
+                        <div className="mt-2 flex items-center gap-1">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <span key={i} className={`text-sm ${i < fb.rating ? "text-yellow-400" : "text-gray-300"}`}>★</span>
+                          ))}
+                        </div>
                     </div>
-                    <span className={`shrink-0 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest ${fb.statusStyle}`}>
-                      {fb.status}
+                      <span className="shrink-0 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-teal-100 text-teal-700">
+                        SUBMITTED
                     </span>
                   </div>
-                </div>
-              ))}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </main>
