@@ -5,6 +5,8 @@ import Image from "next/image";
 import logo from "@/public/logo.svg";
 import { LogOut ,ChevronRight,LayoutDashboardIcon,History,Settings ,CircleQuestionMark,Users,FileText} from 'lucide-react';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/hooks";
 import { AdminSidebarProps } from "@/types";
 
 const NAV_ITEMS = [
@@ -23,6 +25,18 @@ const BOTTOM_ITEMS = [
 
 export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
+  const { logout } = useAuthContext();
+
+  const handleBottomAction = async (id: string) => {
+    if (id === "signout") {
+      await logout();
+      router.push("/auth/login");
+      return;
+    }
+
+    onNav?.(id);
+  };
 
   return (
     <aside
@@ -116,7 +130,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
         {BOTTOM_ITEMS.map(({ id, label, icon: BotIcon }) => (
           <button
             key={id}
-            onClick={() => onNav?.(id)}
+            onClick={() => void handleBottomAction(id)}
             title={collapsed ? label : undefined}
             className={`w-full flex items-center gap-3 rounded-lg transition-colors text-[#0f274466] hover:text-blue-700 hover:bg-blue-50 ${
               collapsed ? "py-2.5 px-0 justify-center" : "py-2.25 px-3 justify-start"

@@ -3,6 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import PWAInstall from "@/components/PWAInstall";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { AuthProvider } from "@/hooks";
 
 // Note: Google Fonts removed due to build environment constraints
 // Uncomment in production: import { Geist } from "next/font/google";
@@ -56,7 +57,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ServiceWorkerRegister />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <PWAInstall />
       </body>
     </html>

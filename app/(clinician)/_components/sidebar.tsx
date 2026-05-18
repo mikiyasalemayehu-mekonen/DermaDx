@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useState } from "react";
 import logo from "@/public/logo.svg"
 import { LogOut,Microscope,LayoutDashboard,MessageSquare ,CircleQuestionMark,History,Settings,ChevronRight} from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/hooks";
 
 const NAV_ITEMS = [
   { label: "Dashboard",    href: "/dashboard", icon: LayoutDashboard},//className="w-5 h-5
@@ -18,6 +20,13 @@ const NAV_ITEMS = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
+  const { logout } = useAuthContext();
+
+  const handleSignOut = async () => {
+    await logout();
+    router.push("/auth/login");
+  };
 
   return (
     <aside
@@ -50,6 +59,7 @@ export default function Sidebar() {
           </span>
         </button>
       </div>
+          onClick={() => void handleSignOut()}
 
 
 
