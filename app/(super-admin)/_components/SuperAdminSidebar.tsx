@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/hooks";
 
 const Icons = {
   Dashboard: () => (
@@ -83,8 +85,15 @@ const BOTTOM = [
 export default function SuperAdminSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
+  const { logout } = useAuthContext();
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+
+  const handleSignOut = async () => {
+    await logout();
+    router.push("/auth/login");
+  };
 
   return (
     <aside
@@ -182,6 +191,7 @@ export default function SuperAdminSidebar() {
           <Link
             key={href}
             href={href}
+            onClick={href === "/sign-out" ? (e) => { e.preventDefault(); void handleSignOut(); } : undefined}
             className={`w-full flex items-center gap-3 rounded-lg transition-colors text-[#0f274466] hover:text-blue-700 hover:bg-blue-50 ${
               collapsed ? "py-2.5 px-0 justify-center" : "py-[9px] px-3 justify-start"
             }`}

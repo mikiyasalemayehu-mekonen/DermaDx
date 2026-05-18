@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch, getAccessToken } from "./client";
 
 export interface AnalysisResult {
   id: string;
@@ -20,11 +20,11 @@ export interface AnalysisFilters {
 
 export const getAnalyses = (filters?: AnalysisFilters): Promise<AnalysisResult[]> => {
   const params = new URLSearchParams();
-  if (filters?.condition)      params.set("condition",      filters.condition);
-  if (filters?.min_confidence) params.set("min_confidence", String(filters.min_confidence));
-  if (filters?.date_range)     params.set("date_range",     filters.date_range);
-  if (filters?.page)           params.set("page",           String(filters.page));
-  if (filters?.limit)          params.set("limit",          String(filters.limit));
+  if (filters?.condition) params.set("condition", filters.condition);
+  if (filters?.min_confidence !== undefined) params.set("min_confidence", String(filters.min_confidence));
+  if (filters?.date_range) params.set("date_range", filters.date_range);
+  if (filters?.page !== undefined) params.set("page", String(filters.page));
+  if (filters?.limit !== undefined) params.set("limit", String(filters.limit));
   const query = params.toString();
   return apiFetch(`/analyses${query ? `?${query}` : ""}`);
 };
@@ -39,8 +39,7 @@ export const deleteAnalysis = (id: string): Promise<void> =>
   apiFetch(`/analyses/${id}`, { method: "DELETE" });
 
 export const downloadReport = async (id: string): Promise<Blob> => {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token = getAccessToken();
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/analyses/${id}/report`,
     { headers: token ? { Authorization: `Bearer ${token}` } : {} }

@@ -1,8 +1,23 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { TopBar } from "../_components/shell";
-import { Check,Shield,CloudUpload,Image,ArrowRight,Info ,X,SquareCheckBig,Lock} from "lucide-react";
+import {
+  Check,
+  Shield,
+  CloudUpload,
+  Image,
+  ArrowRight,
+  Info,
+  X,
+  SquareCheckBig,
+  Lock,
+  Loader2,
+  FileText,
+  Eye,
+} from "lucide-react";
+import { submitAnalysis, type AnalysisResult } from "@/lib/api/analyses";
 
 const QUALITY_REQS = [
   "Optimal focus on the lesion",
@@ -12,13 +27,21 @@ const QUALITY_REQS = [
 ];
 
 export default function UploadPage() {
+  const router = useRouter();
   const [dragOver, setDragOver] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((f: File | null | undefined) => {
     if (!f) return;
+    setError(null);
+    setSuccessMessage(null);
+    setResult(null);
     setFile(f);
     const reader = new FileReader();
     reader.onload = (e) => setPreview(e.target?.result as string);
@@ -31,7 +54,32 @@ export default function UploadPage() {
     handleFile(e.dataTransfer.files[0]);
   }, [handleFile]);
 
-  const clearFile = () => { setFile(null); setPreview(null); };
+  const clearFile = () => {
+    setFile(null);
+    setPreview(null);
+    setResult(null);
+  };
+
+  const handleSubmit = useCallback(async () => {
+    if (!file) return;
+
+    setIsSubmitting(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const analysis = await submitAnalysis(formData);
+      setResult(analysis);
+      setSuccessMessage("Analysis submitted successfully.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to process analysis");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [file]);
 
   return (
     <div className="flex-1 flex flex-col bg-[#f4f7fb]">
@@ -44,6 +92,18 @@ export default function UploadPage() {
             Upload a high-resolution dermatoscopic image for clinical decision support. Our AI models analyze morphology, color distribution, and border architecture.
           </p>
         </div>
+
+        {error && (
+          <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            {successMessage}
+          </div>
+        )}
 
         <div className="flex gap-5 items-start">
           {/* Drop zone */}
@@ -156,6 +216,38 @@ export default function UploadPage() {
                 <p className="text-sm font-bold text-[#0f2744] leading-tight">Standard Dermoscopy</p>
               </div>
             </div>
+
+            {result && (
+              <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+                <div className="flex items-center gap-2 mb-4">
+                  <FileText className="w-5 h-5 text-[#0f2744]" />
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#0f2744]">Latest Result</h3>
+                </div>
+
+                <div className="space-y-3 text-sm">
+                  <div className="rounded-lg bg-slate-50 p-3">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500 font-semibold">Condition</p>
+                    <p className="font-semibold text-[#0f2744]">{result.condition}</p>
+                  </div>
+                  <div className="rounded-lg bg-slate-50 p-3">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500 font-semibold">Confidence</p>
+                    <p className="font-semibold text-[#0f2744]">{result.confidence}%</p>
+                  </div>
+                  <div className="rounded-lg bg-slate-50 p-3">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500 font-semibold">Risk</p>
+                    <p className="font-semibold text-[#0f2744] capitalize">{result.risk}</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => router.push("/analysis")}
+                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#0f2744] hover:bg-slate-50"
+                >
+                  <Eye className="w-4 h-4" />
+                  Open Analysis Workspace
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </main>
@@ -167,12 +259,21 @@ export default function UploadPage() {
           <span className="text-xs">By submitting, you agree to our clinician terms and diagnostic guidelines.</span>
         </div>
         <button
-          disabled={!file}
+          onClick={() => void handleSubmit()}
+          disabled={!file || isSubmitting}
           className={`flex items-center gap-2 text-sm font-bold px-7 py-3 rounded-xl shadow-md transition-all active:scale-95 ${
-            file ? "bg-blue-900 hover:bg-blue-700 text-white cursor-pointer" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+            file && !isSubmitting ? "bg-blue-900 hover:bg-blue-700 text-white cursor-pointer" : "bg-gray-100 text-gray-400 cursor-not-allowed"
           }`}
         >
-          Process Analysis <ArrowRight className="w-4 h-4"/>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" /> Processing...
+            </>
+          ) : (
+            <>
+              Process Analysis <ArrowRight className="w-4 h-4"/>
+            </>
+          )}
         </button>
       </div>
     </div>
