@@ -20,6 +20,8 @@ export default function PWAInstall() {
 
     window.addEventListener('beforeinstallprompt', handler);
 
+    // production: no debug forcing here
+
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
