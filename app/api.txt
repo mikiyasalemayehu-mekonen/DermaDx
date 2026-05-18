@@ -1,0 +1,126 @@
+Shared / Auth
+
+POST /auth/login — email/password login; returns access token, refresh token, role, clinic context, and onboarding state.
+POST /auth/logout — revoke the current refresh token/session.
+POST /auth/refresh — rotate access tokens.
+GET /auth/me — current user profile, role(s), clinic membership, MFA status, onboarding progress.
+POST /auth/set-password — used by invite/activation links to set an initial password.
+POST /auth/mfa/setup — generate TOTP secret and QR payload.
+POST /auth/mfa/verify — verify MFA code during setup or login.
+POST /auth/password/forgot — send reset link.
+POST /auth/password/reset — complete password reset.
+POST /auth/invites/accept — generic invite acceptance for clinicians/admins.
+POST /auth/onboarding/accept-terms — HIPAA / platform terms acceptance.
+POST /auth/onboarding/confirm-role — confirm assigned role and institution profile.
+GET /notifications — fetch user notifications.
+POST /notifications/{id}/read — mark notification as read.
+Clinician
+
+GET /clinician/dashboard/summary — cards like total analyses, pending reviews, average confidence, uptime.
+GET /analyses — clinician history list with filters: condition, min_confidence, date_range, status, page, limit.
+POST /analyses — upload one or more images and create a new case for inference.
+GET /analyses/{id} — full case detail, model outputs, image quality, timestamps, notes.
+DELETE /analyses/{id} — delete a draft or permitted case.
+GET /analyses/{id}/report — download report PDF or report JSON.
+POST /analyses/{id}/review — mark a case reviewed, add clinical notes, or request follow-up.
+GET /clinician/history — optional alias for GET /analyses if you want a route aligned to the UI.
+GET /feedback — the current clinician’s submitted feedback.
+POST /feedback — submit feedback with category, rating, message, and anonymous flag.
+GET /settings/profile — profile data for the clinician settings page.
+PATCH /settings/profile — update name, phone, avatar, preferred contact details.
+GET /settings/preferences — theme, language, notification preferences.
+PATCH /settings/preferences — update preferences.
+GET /settings/security — current security settings and MFA state.
+POST /settings/security/password — change password.
+POST /settings/security/mfa/setup — start MFA enrollment from settings.
+POST /settings/security/mfa/verify — confirm MFA enrollment.
+GET /history/export — optional CSV/PDF export for case history.
+Admin
+
+GET /admin/dashboard/summary — clinic-level metrics, user counts, case counts, activity, model health.
+GET /admin/history — clinic-scoped analysis history and audit-visible case activity.
+GET /admin/users — clinicians/staff in the clinic with search and role filters.
+POST /admin/users — create or invite a new clinician/staff member.
+GET /admin/users/{id} — user detail.
+PATCH /admin/users/{id} — edit role, department, status, contact data.
+POST /admin/users/{id}/suspend — disable access.
+POST /admin/users/{id}/reactivate — restore access.
+POST /admin/users/{id}/resend-invite — resend activation email.
+GET /admin/access-requests — pending clinician access requests.
+POST /admin/access-requests/{id}/approve — approve request and generate invite.
+POST /admin/access-requests/{id}/reject — reject request with optional note.
+GET /admin/reports/system — clinic dashboard/system report summary.
+GET /admin/reports/fairness — fairness by skin type / cohort for the clinic.
+GET /admin/reports/activity — activity log with pagination and search.
+GET /admin/reports/export — export PDF/CSV report.
+GET /admin/settings/profile — admin profile settings.
+PATCH /admin/settings/profile — update admin profile.
+GET /admin/settings/config — clinic configuration settings.
+PATCH /admin/settings/config — update clinic-wide config.
+GET /admin/settings/model — clinic model thresholds and model preferences.
+PATCH /admin/settings/model — update model thresholds and rules.
+GET /admin/settings/notifications — notification preferences.
+PATCH /admin/settings/notifications — update notifications.
+GET /admin/settings/about — read-only product/about info.
+GET /admin/clinicians/invite-requests — if you want a dedicated invite queue instead of folding it into access requests.
+Super Admin
+
+GET /super-admin/dashboard/summary — platform-wide KPIs across all tenants.
+GET /super-admin/clinics — list clinics with plan, status, users, analyses, country, license.
+GET /super-admin/clinics/{id} — clinic detail page.
+POST /super-admin/clinics/onboard — onboard a new clinic and first admin.
+PATCH /super-admin/clinics/{id} — update clinic metadata and plan.
+POST /super-admin/clinics/{id}/activate — reactivate a suspended clinic.
+POST /super-admin/clinics/{id}/suspend — suspend a clinic.
+GET /super-admin/clinics/{id}/users — clinic members/admins.
+GET /super-admin/clinics/{id}/analyses — clinic-level usage and performance summary.
+GET /super-admin/admins — all clinic admins across tenants.
+GET /super-admin/admins/{id} — admin detail page.
+POST /super-admin/admins — create/invite a clinic admin.
+PATCH /super-admin/admins/{id} — update admin data, role, or clinic assignment.
+POST /super-admin/admins/{id}/deactivate — disable an admin.
+POST /super-admin/admins/{id}/resend-invite — resend admin activation link.
+GET /super-admin/reports/system — platform reports, uptime, growth, totals.
+GET /super-admin/reports/fairness — cross-tenant fairness metrics.
+GET /super-admin/activity — platform audit/activity feed.
+GET /super-admin/settings/platform — global platform config.
+PATCH /super-admin/settings/platform — update platform limits, maintenance mode, regions, audit logging.
+GET /super-admin/settings/security — global auth policy.
+PATCH /super-admin/settings/security — MFA policy, password rules, invite expiry, IP whitelist.
+GET /super-admin/settings/model — global model config and deployment info.
+PATCH /super-admin/settings/model — thresholds, auto-update, rollout settings.
+GET /super-admin/settings/billing — plans, subscriptions, seat limits.
+PATCH /super-admin/settings/billing — update plan definitions or tenant subscription state.
+GET /super-admin/settings/notifications — platform notification policy.
+PATCH /super-admin/settings/notifications — update notification defaults.
+GET /super-admin/settings/about — platform metadata and version info.
+Tables to create
+
+users — global identity table; id, email, password_hash, full_name, phone, status, mfa_enabled, last_login_at, created_at, updated_at.
+roles — role definitions; examples: clinician, clinic_admin, super_admin, maybe staff.
+permissions — granular permission catalog.
+role_permissions — join table mapping roles to permissions.
+user_roles — if a user can have more than one role.
+clinics — tenant table; id, name, license_number, country, status, plan_id, created_at.
+clinic_members — membership table linking users to clinics; includes role in clinic, department, status, invite state.
+clinic_settings — tenant-specific settings like thresholds, notifications, model preference, branding.
+plans — pricing/feature tiers for clinics.
+subscriptions — clinic subscription state, renewal date, seat limits, billing status.
+invitations — invite tokens for clinicians/admins; includes email, role, clinic_id, token, expires_at, accepted_at.
+access_requests — incoming clinician requests before approval; stores license, institution, role, department, document path, status, review note.
+mfa_devices — MFA enrollment records and TOTP metadata per user.
+password_reset_tokens — password reset flow tokens and expiry.
+sessions or refresh_tokens — refresh token/session persistence and revocation.
+analysis_cases — one row per submitted clinical case; id, clinic_id, clinician_id, status, predicted_condition, confidence_score, risk_level, iqa_score, timestamps.
+analysis_images — uploaded images for each case; file key, mime type, dimensions, quality metadata.
+analysis_predictions — optional detailed model outputs per class or lesion finding.
+analysis_reports — generated report metadata and storage path for PDF/JSON output.
+case_reviews — clinician review actions, notes, and secondary review status.
+feedback — clinician feedback submissions; category, rating, message, anonymous flag, status, response.
+notifications — user notifications with read state and entity linkage.
+audit_logs — immutable audit trail for admin/super-admin actions.
+model_versions — model deployment history, version, environment, rollout state, metrics.
+reports_exports — async export jobs for PDFs/CSVs.
+system_settings — global key/value settings for platform-wide configuration.
+support_tickets — optional if you want support workflows later.
+
