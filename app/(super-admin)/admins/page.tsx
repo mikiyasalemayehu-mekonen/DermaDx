@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getSuperAdmins, createSuperAdmin, type SuperAdminAdmin } from "@/lib/api/superadmin";
+import { getClinics, type Clinic } from "@/lib/api/clinics";
 
 type AdminStatus = "active" | "pending_activation" | "suspended";
-
 interface ClinicAdmin {
   id: string;
   name: string;
@@ -22,14 +23,7 @@ interface ClinicAdmin {
   avatarBg: string;
 }
 
-const ADMINS: ClinicAdmin[] = [
-  { id: "a001", name: "Dr. Aris Thorne",    email: "a.thorne@memorial.org",   phone: "+1 555 012 3456", profId: "MD-9920-X12", clinic: "Memorial Health Systems", clinicId: "c001", dept: "Dermatology", status: "active",             mfa: true,  joined: "Jan 2023", lastLogin: "Today",     avatar: "AT", avatarBg: "#0f3460" },
-  { id: "a002", name: "Dr. Sarah Mitchell", email: "s.mitchell@kings.nhs.uk", phone: "+44 20 1234 5678", profId: "MD-4412-UK9", clinic: "Kings Medical Centre",    clinicId: "c002", dept: "Oncology",    status: "active",             mfa: true,  joined: "Mar 2023", lastLogin: "Yesterday", avatar: "SM", avatarBg: "#0d3d52" },
-  { id: "a003", name: "Dr. Kwame Asante",   email: "k.asante@accrahealth.gh", phone: "+233 30 222 1111", profId: "MD-3310-GH4", clinic: "Accra Health Institute",  clinicId: "c003", dept: "Pathology",   status: "pending_activation", mfa: false, joined: "Oct 2023", lastLogin: "Never",     avatar: "KA", avatarBg: "#1a3a2a" },
-  { id: "a004", name: "Nina Kowalski",      email: "n.kowalski@medlab.pl",    phone: "+48 22 111 2222",  profId: "LT-9920-PL2", clinic: "Warsaw MedLab",           clinicId: "c004", dept: "Laboratory",  status: "active",             mfa: true,  joined: "Jun 2023", lastLogin: "2d ago",    avatar: "NK", avatarBg: "#3a1a2a" },
-  { id: "a005", name: "Dr. Lior Ben-David", email: "l.bendavid@hadassah.il",  phone: "+972 2 677 7777",  profId: "MD-5512-IL7", clinic: "Hadassah Medical Centre", clinicId: "c005", dept: "Dermatology", status: "active",             mfa: true,  joined: "Feb 2023", lastLogin: "Today",     avatar: "LB", avatarBg: "#0f4c75" },
-  { id: "a006", name: "Dr. Amara Diallo",   email: "a.diallo@dakar.sn",       phone: "+221 33 000 1111", profId: "MD-0041-SN3", clinic: "Clinique Dakar",          clinicId: "c006", dept: "Dermatology", status: "suspended",          mfa: false, joined: "Aug 2023", lastLogin: "45d ago",   avatar: "AD", avatarBg: "#3a2010" },
-];
+
 
 const STATUS_STYLE: Record<AdminStatus, string> = {
   active:             "bg-teal-100 text-teal-700",
@@ -42,14 +36,88 @@ export default function AdminsPage() {
   const [statusFilter, setStatus]   = useState<"all" | AdminStatus>("all");
   const [showInviteModal, setModal] = useState(false);
   const [toast, setToast]           = useState("");
+  const [admins, setAdmins]         = useState<ClinicAdmin[]>([]);
+  const [clinics, setClinics]       = useState<Clinic[]>([]);
+  const [loading, setLoading]       = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [inviteForm, setInviteForm] = useState({ full_name: "", email: "", clinic_id: "" });
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 3000); };
 
-  const filtered = ADMINS.filter(a => {
+  // Load admins + clinics
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      setLoading(true);
+      try {
+        const [a, c] = await Promise.all([getSuperAdmins(), getClinics()]);
+        if (!mounted) return;
+        // map backend shape to UI shape
+        const mapped: ClinicAdmin[] = (a || []).map((x: SuperAdminAdmin, i: number) => ({
+          id: x.id,
+          name: x.full_name,
+          email: x.email,
+          phone: "",
+          profId: "",
+          clinic: (c || []).find(cl => cl.id === x.clinic_id)?.name || "",
+          clinicId: x.clinic_id,
+          dept: "",
+          status: (x.status as AdminStatus) || "active",
+          mfa: false,
+          joined: x.created_at || "",
+          lastLogin: "",
+          avatar: x.full_name.split(" ").map((w: string) => w[0]).join("").slice(0,2),
+          avatarBg: "#0f4c75",
+        }));
+        setAdmins(mapped);
+        setClinics(c || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+    return () => { mounted = false; };
+  }, []);
+
+  const filtered = admins.filter(a => {
     const matchSearch = !search || a.name.toLowerCase().includes(search.toLowerCase()) || a.clinic.toLowerCase().includes(search.toLowerCase()) || a.email.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "all" || a.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+  const handleInvite = async () => {
+    if (!inviteForm.full_name || !inviteForm.email || !inviteForm.clinic_id) return showToast("Please fill all fields");
+    setSubmitting(true);
+    try {
+      const created = await createSuperAdmin(inviteForm);
+      setAdmins((s) => [...s, {
+        id: created.id,
+        name: created.full_name,
+        email: created.email,
+        phone: "",
+        profId: "",
+        clinic: clinics.find(cl => cl.id === created.clinic_id)?.name || "",
+        clinicId: created.clinic_id,
+        dept: "",
+        status: created.status as AdminStatus || "pending_activation",
+        mfa: false,
+        joined: created.created_at || "",
+        lastLogin: "",
+        avatar: created.full_name.split(" ").map((w: string) => w[0]).join("").slice(0,2),
+        avatarBg: "#0f4c75",
+      }]);
+      setModal(false);
+      setInviteForm({ full_name: "", email: "", clinic_id: "" });
+      showToast("Invitation sent");
+    } catch (err: any) {
+      console.error(err);
+      showToast(err?.message || "Failed to invite admin");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen" style={{ fontFamily: "'DM Sans', system-ui, sans-serif", background: "#f4f7fb" }}>
@@ -73,10 +141,10 @@ export default function AdminsPage() {
           </div>
           <div className="flex items-center gap-2">
             {[
-              [ADMINS.length.toString(),                                          "Total",   "#f5f3ff", "#7c3aed"],
-              [ADMINS.filter(a=>a.status==="active").length.toString(),           "Active",  "#f0fdf9", "#0d9488"],
-              [ADMINS.filter(a=>a.status==="pending_activation").length.toString(),"Pending", "#fffbeb", "#d97706"],
-              [ADMINS.filter(a=>!a.mfa).length.toString(),                        "No MFA",  "#fff1f2", "#e11d48"],
+              [admins.length.toString(),                                          "Total",   "#f5f3ff", "#7c3aed"],
+              [admins.filter(a=>a.status==="active").length.toString(),           "Active",  "#f0fdf9", "#0d9488"],
+              [admins.filter(a=>a.status==="pending_activation").length.toString(),"Pending", "#fffbeb", "#d97706"],
+              [admins.filter(a=>!a.mfa).length.toString(),                        "No MFA",  "#fff1f2", "#e11d48"],
             ].map(([count, label, bg, color]) => (
               <div key={label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
                 style={{ background: bg, color }}>
@@ -119,7 +187,7 @@ export default function AdminsPage() {
               ))}
             </div>
             <div className="ml-auto text-xs text-slate-400">
-              <span className="font-bold text-slate-600">{filtered.length}</span> of <span className="font-bold text-slate-600">{ADMINS.length}</span>
+              <span className="font-bold text-slate-600">{filtered.length}</span> of <span className="font-bold text-slate-600">{admins.length}</span>
             </div>
           </div>
 
@@ -212,22 +280,33 @@ export default function AdminsPage() {
                 <p className="text-violet-400/60 text-[10px] mt-0.5 tracking-widest uppercase">Creates admin account + sends activation email</p>
               </div>
               <div className="px-7 py-6 space-y-4">
-                {[["Full Name","Dr. Jane Doe"], ["Professional Email","admin@clinic.org"], ["Professional ID","MD-XXXX-XXX"], ["Assign to Clinic","Select clinic…"]].map(([label, placeholder]) => (
-                  <div key={label}>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">{label}</label>
-                    <input placeholder={placeholder}
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all" />
-                  </div>
-                ))}
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Full Name</label>
+                  <input value={inviteForm.full_name} onChange={e => setInviteForm({...inviteForm, full_name: e.target.value})}
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Professional Email</label>
+                  <input value={inviteForm.email} onChange={e => setInviteForm({...inviteForm, email: e.target.value})}
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Assign to Clinic</label>
+                  <select value={inviteForm.clinic_id} onChange={e => setInviteForm({...inviteForm, clinic_id: e.target.value})}
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all">
+                    <option value="">Select clinic…</option>
+                    {clinics.map(cl => <option key={cl.id} value={cl.id}>{cl.name}</option>)}
+                  </select>
+                </div>
                 <div className="px-4 py-3 rounded-xl border text-xs text-slate-500 leading-relaxed" style={{ background: "#f5f3ff", borderColor: "#ddd6fe" }}>
                   <span className="font-bold text-violet-700">Note:</span> The admin will receive an invitation email with a 72-hour activation link. MFA enrollment is required on first login.
                 </div>
               </div>
               <div className="px-7 pb-6 space-y-2.5">
-                <button onClick={() => { setModal(false); showToast("✓ Invitation sent to clinic admin."); }}
+                <button onClick={handleInvite} disabled={submitting}
                   className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all active:scale-[0.98]"
                   style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Send Invitation
+                  {submitting ? "Sending…" : "Send Invitation"}
                 </button>
                 <button onClick={() => setModal(false)}
                   className="w-full py-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">
