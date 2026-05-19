@@ -3,21 +3,16 @@
 import { useState } from "react";
 import { Case } from "@/types";
 import {
-  X as XIcon,
   Calendar as CalIcon,
   ChevronDown as ChevronIcon,
   Search as SearchIcon,
-  User as UserIcon,
-  LogOut as SignOutIcon,
-
 } from "lucide-react";
 import CaseDetailPanel from "../_components/casedetail";
 import ConfBar from "../_components/confbar";
 import IQABadge from "../_components/iqapage";
 
 
-const CASES: Case[] = [
-  {
+const CASES: Case[] = [  {
     id: "#DX-8291", clinician: "Dr. Aris Thorne",    clinicianRole: "Chief Dermatologist",
     condition: "Melanoma", conditionColor: "bg-rose-100 text-rose-700",
     confidence: 94, confidenceColor: "#0d2444",
@@ -91,19 +86,6 @@ export default function AdminHistoryPage() {
 
   return (
     <div className="flex-1 flex flex-col min-h-screen overflow-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-        {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 tracking-wide">
-            <span className="font-medium">ADMIN</span>
-            <span className="text-slate-300">›</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">History</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><UserIcon className="w-5 h-5" /></button>
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><SignOutIcon className="w-5 h-5" /></button>
-          </div>
-        </header>
-
         <main className="flex-1 px-8 py-7 overflow-auto space-y-5 fade-in">
           {/* Heading */}
           <div>
@@ -149,7 +131,7 @@ export default function AdminHistoryPage() {
             </div>
 
             {/* Search */}
-            <div className="flex-1 min-w-[180px]">
+            <div className="flex-1" style={{ minWidth: 180 }}>
               <label className="block text-[9px] uppercase tracking-widest font-bold text-slate-400 mb-1.5">Search</label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2"><SearchIcon className="w-4 h-4 text-slate-400" strokeWidth={1.8} /></span>
@@ -216,7 +198,7 @@ export default function AdminHistoryPage() {
                 <button className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-50 text-xs">‹</button>
                 {[1,2,3].map(p => (
                   <button key={p} className="w-7 h-7 rounded-lg text-xs font-bold transition-colors"
-                    style={{ background: p===1 ? "#0b1f3a" : "#f1f5f9", color: p===1 ? "white" : "#64748b" }}>{p}</button>
+                    style={{ background: p===1 ? "#1c398e" : "#f1f5f9", color: p===1 ? "white" : "#64748b" }}>{p}</button>
                 ))}
                 <span className="text-slate-300 text-xs px-0.5">…</span>
                 <button className="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 text-xs font-bold">29</button>

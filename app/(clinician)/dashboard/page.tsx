@@ -29,7 +29,7 @@ const GUIDELINES = [
 export default function DashboardPage() {
   return (
     <div className="flex-1 flex flex-col bg-[#f4f7fb]">
-      <TopBar crumbs={["Home", "Dashboard"]} />
+
 
       <main className="flex-1 px-8 py-7 space-y-6 overflow-auto">
         {/* Welcome */}
