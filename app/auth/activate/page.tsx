@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { setPassword } from "@/lib/api/auth";
 import { Smartphone, Lock,EyeIcon,EyeOffIcon ,Shield,Check} from 'lucide-react';
 
@@ -69,8 +69,17 @@ export default function ActivationPage() {
   const otpFilled   = otp.every(d => d !== "");
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams?.get("token") || "";
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const t = sp.get("token") || "";
+      setToken(t);
+    } catch (e) {
+      setToken("");
+    }
+  }, []);
 
   const rules = [
     { label: "At least 8 characters",          ok: pw.length >= 8 },
