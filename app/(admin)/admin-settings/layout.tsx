@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Bell as LucideBellIcon,
-  HelpCircle as LucideHelpIcon,
   Shield as LucideShieldIcon,
   Sliders as LucideSlidersIcon,
   Cpu as LucideCpuIcon,
@@ -24,35 +23,6 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 
   return (
     <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-      <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2 text-xs text-slate-400 tracking-wide">
-          <span className="font-medium">Admin</span>
-          <span className="text-slate-300">›</span>
-          <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">Settings</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-            <LucideBellIcon className="w-5 h-5" />
-          </button>
-          <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-            <LucideHelpIcon className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
-            <div className="text-right">
-              <p className="text-xs font-bold text-slate-700 leading-tight">Dr. Aris Thorne</p>
-              <p className="text-[9px] text-slate-400 uppercase tracking-widest">System Admin</p>
-            </div>
-            <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-teal-200">
-              <svg viewBox="0 0 32 32" className="w-full h-full">
-                <rect width="32" height="32" fill="#ccf0eb" />
-                <circle cx="16" cy="12" r="6" fill="#5eead4" />
-                <ellipse cx="16" cy="26" rx="10" ry="7" fill="#5eead4" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 px-8 py-7 overflow-auto fade-in">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Settings</h1>
@@ -80,7 +50,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                     href={href}
                     className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150"
                     style={{
-                      background: isActive ? "#0d2444" : "transparent",
+                      background: isActive ? "#1c398e" : "transparent",
+
                       color: isActive ? "white" : "#64748b",
                     }}
                   >

@@ -98,32 +98,7 @@ export default function HistoryPage() {
   return (
     <div className="flex-1 flex flex-col bg-[var(--color-surface)]">
       {/* Custom top bar with doctor info */}
-      <header className="bg-white border-b border-gray-100 px-8 py-3 flex items-center justify-between shrink-0">
-        <nav className="flex items-center gap-1.5 text-sm text-gray-400">
-          <span className="hover:text-[#0f2744] cursor-pointer transition-colors text-xs">Home</span>
-          <ChevronRight  className="w-3.5 h-3.5" />
-          <span className="text-[#0f2744] font-bold uppercase tracking-wide text-[11px]">History</span>
-        </nav>
-        <div className="flex items-center gap-3">
-          <button className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors relative">
-            <Bell />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full" />
-          </button>
-          <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200">
-            <div className="text-right">
-              <p className="text-xs font-bold text-[#0f2744] leading-tight">Dr. Aris Thorne</p>
-              <p className="text-[9px] text-gray-400 uppercase tracking-widest">Chief Dermatologist</p>
-            </div>
-            <div className="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center overflow-hidden border-2 border-teal-300">
-              <svg viewBox="0 0 36 36" className="w-full h-full">
-                <rect width="36" height="36" fill="#b2dfdb" />
-                <circle cx="18" cy="14" r="7" fill="#80cbc4" />
-                <ellipse cx="18" cy="30" rx="11" ry="8" fill="#80cbc4" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </header>
+
 
       <main className="flex-1 px-8 py-7 overflow-auto space-y-5">
         {error && (

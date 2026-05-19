@@ -103,7 +103,6 @@ export default function FeedbackPage() {
 
   return (
     <div className="flex-1 flex flex-col bg-[#f4f7fb]">
-      <TopBar crumbs={["Home", "Feedback"]} />
 
       <main className="flex-1 px-8 py-7 overflow-auto space-y-6">
         {/* Heading */}

@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { LogOut, User, Search, Plus } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import FairnessChart from "../_components/fairnesschart";
 
 
-const ACTIVITY = [
-  { name: "Dr. Julian Vance",    role: "Chief Pathologist",  action: "New Analysis Created", context: "Patient ID: #4492-Au", time: "2 mins ago",  status: "COMPLETED",  statusStyle: "bg-teal-100 text-teal-700",  avatar: "JV", avatarBg: "#0f4c75" },
+const ACTIVITY = [  { name: "Dr. Julian Vance",    role: "Chief Pathologist",  action: "New Analysis Created", context: "Patient ID: #4492-Au", time: "2 mins ago",  status: "COMPLETED",  statusStyle: "bg-teal-100 text-teal-700",  avatar: "JV", avatarBg: "#0f4c75" },
   { name: "Sarah Chen",          role: "System Admin",       action: "Policy Update",         context: "User Access Control", time: "14 mins ago", status: "PROCESSING", statusStyle: "bg-blue-100 text-blue-700",   avatar: "SC", avatarBg: "#1a3a5c" },
   { name: "Dr. Elena Rodriguez", role: "Dermatologist",      action: "Export Report",          context: "Monthly Clinical Audit", time: "45 mins ago", status: "COMPLETED", statusStyle: "bg-teal-100 text-teal-700", avatar: "ER", avatarBg: "#0d3d52" },
   { name: "Dr. Kwame Asante",    role: "Senior Clinician",   action: "Model Feedback",         context: "Case DX-9821",       time: "1 hr ago",    status: "REVIEWED",   statusStyle: "bg-slate-100 text-slate-600", avatar: "KA", avatarBg: "#2d4a2d" },
@@ -32,24 +31,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-
-        {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
-            <span>ADMIN</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">System Overview</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <User className="w-5 h-5" />
-            </button>
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <LogOut className="w-5 h-5" />
-            </button>
-          </div>
-        </header>
-
         {/* Content */}
         <main className="flex-1 px-8 py-7 overflow-auto space-y-6">
 
@@ -113,7 +94,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* System Health */}
-            <div className="w-64 shrink-0 rounded-xl p-6 flex flex-col" style={{ background: "linear-gradient(160deg, #0b1f3a 0%, #0d2a4a 100%)" }}>
+            <div className="w-64 shrink-0 rounded-xl p-6 flex flex-col " style={{ background: "linear-gradient(160deg, #1c398e 0%, #162456 100%)" }}>
               <div className="mb-5">
                 <h3 className="text-white font-bold text-base" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>System Health</h3>
                 <p className="text-teal-400/60 text-[10px] mt-0.5 tracking-wide">Real-time infrastructure status</p>
@@ -178,7 +159,8 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white transition-all hover:opacity-90"
-                  style={{ background: "linear-gradient(135deg, #0b1f3a, #0d3260)" }}>
+                  style={{ background: "linear-gradient(135deg, #1c398e, #1c398e)" }}>
+
                   <Plus className="h-4 w-4" />Export
                 </button>
               </div>

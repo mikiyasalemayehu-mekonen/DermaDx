@@ -83,7 +83,7 @@ export default function UploadPage() {
 
   return (
     <div className="flex-1 flex flex-col bg-[#f4f7fb]">
-      <TopBar crumbs={["Home", "New Analysis", "Upload Image"]} />
+
 
       <main className="flex-1 px-8 py-7 overflow-auto">
         <div className="mb-6">

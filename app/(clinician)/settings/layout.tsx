@@ -49,7 +49,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
 
   return (
     <div className="flex-1 flex flex-col bg-[#f4f7fb]">
-      <TopBar crumbs={["Home", "Settings"]} />
+
 
       <main className="flex-1 px-8 py-7 overflow-auto">
         <div className="mb-6">

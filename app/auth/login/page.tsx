@@ -25,7 +25,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  
+
   const router = useRouter();
   const { login, isLoading, error, isAuthenticated, clearError, user } = useAuthContext();
 
@@ -46,14 +46,14 @@ export default function LoginPage() {
 
     try {
       const user = await login(email, password);
-      
+
       // Store remember me preference
       if (rememberMe) {
         localStorage.setItem("rememberEmail", email);
       } else {
         localStorage.removeItem("rememberEmail");
       }
-      
+
       router.push(getDashboardRoute(user?.role));
     } catch (err) {
       // Error is handled by the auth context and displayed via `error` state
@@ -75,8 +75,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md bg-white rounded-xl p-10 shadow-sm">
 
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
-              <Image
+            <div className="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center shadow-md">              <Image
                 src={logo}
                 alt="Logo"
               />
@@ -155,8 +154,8 @@ export default function LoginPage() {
             {/* OPTIONS */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-slate-500">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   className="accent-blue-600"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
@@ -170,10 +169,10 @@ export default function LoginPage() {
               </a>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-[#0A2540] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-blue-900 text-white py-3 rounded-md font-medium hover:bg-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
