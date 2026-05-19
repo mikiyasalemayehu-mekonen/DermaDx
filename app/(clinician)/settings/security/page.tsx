@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { setupMFA, verifyMFA, getMe } from "@/lib/api/auth";
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return (
@@ -14,6 +15,34 @@ function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
 export default function SecurityPage() {
   const [twoFA,        setTwoFA]        = useState(true);
   const [sessionAlert, setSessionAlert] = useState(false);
+  const [qrUrl, setQrUrl] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+  const [me, setMe] = useState<any>(null);
+
+  const handleSetup = async () => {
+    try {
+      const res = await setupMFA();
+      // res.qr_url is provisioning URI - render via external QR API
+      setQrUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(res.qr_url)}`);
+      const profile = await getMe();
+      setMe(profile);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleVerify = async () => {
+    if (!me) return;
+    try {
+      await verifyMFA({ token: me.user_id, code: mfaCode });
+      setTwoFA(true);
+      setQrUrl(null);
+      setMfaCode("");
+      alert("MFA enabled successfully");
+    } catch (err: any) {
+      alert(err?.message || "MFA verification failed");
+    }
+  };
 
   return (
     <div className="bg-[#f4f7fb] rounded-xl p-6 flex-1 space-y-5">
@@ -49,6 +78,34 @@ export default function SecurityPage() {
             <Toggle value={value} onChange={() => set(!value)} />
           </div>
         ))}
+        {/* MFA setup area */}
+        <div className="pt-3 border-t border-gray-100">
+          {!qrUrl ? (
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-700 font-medium">Set up MFA</p>
+                <p className="text-xs text-gray-400">Set up Time-based One-Time Password (TOTP) using an authenticator app</p>
+              </div>
+              <div>
+                <button onClick={handleSetup} className="bg-blue-900 hover:bg-blue-700 text-white text-sm font-bold px-4 py-2 rounded-lg">
+                  Setup MFA
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <img src={qrUrl} alt="MFA QR" className="w-36 h-36 bg-white p-2 rounded" />
+              <div className="flex-1">
+                <p className="text-sm font-medium">Scan the QR with your authenticator app, then enter the 6-digit code below.</p>
+                <div className="mt-3 flex items-center gap-2">
+                  <input value={mfaCode} onChange={(e) => setMfaCode(e.target.value)} placeholder="123456" className="px-3 py-2 border rounded w-36" />
+                  <button onClick={handleVerify} className="bg-teal-500 hover:bg-teal-600 text-white px-3 py-2 rounded">Verify & Enable</button>
+                  <button onClick={() => setQrUrl(null)} className="text-sm text-gray-500 underline">Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

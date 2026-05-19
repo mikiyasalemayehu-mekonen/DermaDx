@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { setPassword } from "@/lib/api/auth";
 import { Smartphone, Lock,EyeIcon,EyeOffIcon ,Shield,Check} from 'lucide-react';
 
 type Step = "password" | "mfa" | "done";
@@ -66,6 +68,10 @@ export default function ActivationPage() {
   const pwValid     = strength >= 3 && pwMatch;
   const otpFilled   = otp.every(d => d !== "");
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams?.get("token") || "";
+
   const rules = [
     { label: "At least 8 characters",          ok: pw.length >= 8 },
     { label: "At least one uppercase letter",  ok: /[A-Z]/.test(pw) },
@@ -91,10 +97,20 @@ export default function ActivationPage() {
     }
   };
 
-  const handleSetPassword = () => {
+  const handleSetPassword = async () => {
     if (!pwValid) return;
     setLoading(true);
-    setTimeout(() => { setLoading(false); setStep("mfa"); }, 1000);
+    try {
+      if (!token) throw new Error("Missing activation token");
+      await setPassword({ token, password: pw });
+      setLoading(false);
+      // After successful activation, redirect to login so user can authenticate
+      router.push('/auth/login?activated=1');
+    } catch (err: any) {
+      console.error(err);
+      setLoading(false);
+      alert(err?.message || "Failed to activate account");
+    }
   };
 
   const handleVerifyMFA = () => {

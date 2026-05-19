@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check as IconCheck, Save as IconSave, Camera as IconCamera } from "lucide-react";
+import { getMe, type UserProfile } from "@/lib/api/auth";
 
 export default function ProfilePage() {
-  const [fullName, setFullName] = useState("Aris Thorne");
-  const [phone,    setPhone]    = useState("+1 (555) 012-3456");
+  const [fullName, setFullName] = useState("");
+  const [phone,    setPhone]    = useState("");
   const [saved,    setSaved]    = useState(false);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const me: UserProfile = await getMe();
+        setFullName(me.full_name || "");
+        setEmail(me.email || "");
+      } catch (err) {
+        // ignore - keep defaults
+      }
+    };
+    void load();
+  }, []);
 
   const handleSave = () => {
     setSaved(true);
@@ -35,8 +50,8 @@ export default function ProfilePage() {
           </div>
         </div>
         <div>
-          <p className="font-bold text-[#0f2744] text-base leading-tight">Dr. Aris Thorne</p>
-          <p className="text-xs text-gray-400 mt-0.5">Senior Dermatopathologist • St. Jude Medical</p>
+          <p className="font-bold text-[#0f2744] text-base leading-tight">{fullName || "Clinician"}</p>
+          <p className="text-xs text-gray-400 mt-0.5">{email}</p>
         </div>
       </div>
 

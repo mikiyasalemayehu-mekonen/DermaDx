@@ -1,39 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getClinics, onboardClinic, suspendClinic, activateClinic, type Clinic as ClinicType } from "@/lib/api/clinics";
 
 // ── Types & Data ──────────────────────────────────────────────────────────────
-type ClinicStatus = "active" | "pending_setup" | "suspended";
+type ClinicStatus = "active" | "pending_setup" | "pending" | "suspended";
 type Plan = "Enterprise" | "Professional" | "Basic";
 
 interface Clinic {
   id: string;
   name: string;
-  adminName: string;
-  adminEmail: string;
-  plan: Plan;
-  users: number;
-  analyses: number;
+  admin_email: string;
+  license_number: string;
+  department: string;
   status: ClinicStatus;
-  joined: string;
-  country: string;
-  license: string;
+  created_at: string;
 }
 
-const CLINICS: Clinic[] = [
-  { id: "c001", name: "Memorial Health Systems",  adminName: "Dr. Aris Thorne",    adminEmail: "a.thorne@memorial.org",   plan: "Enterprise",   users: 48,  analyses: 12400, status: "active",        joined: "Jan 2023", country: "USA",      license: "HC-US-77210" },
-  { id: "c002", name: "Kings Medical Centre",     adminName: "Dr. Sarah Mitchell", adminEmail: "s.mitchell@kings.nhs.uk", plan: "Professional", users: 31,  analyses: 8900,  status: "active",        joined: "Mar 2023", country: "UK",       license: "HC-UK-44981" },
-  { id: "c003", name: "Accra Health Institute",   adminName: "Dr. Kwame Asante",   adminEmail: "k.asante@accrahealth.gh", plan: "Basic",        users: 12,  analyses: 2100,  status: "pending_setup", joined: "Oct 2023", country: "Ghana",    license: "HC-GH-11042" },
-  { id: "c004", name: "Warsaw MedLab",            adminName: "Nina Kowalski",      adminEmail: "n.kowalski@medlab.pl",    plan: "Professional", users: 22,  analyses: 5600,  status: "active",        joined: "Jun 2023", country: "Poland",   license: "HC-PL-33019" },
-  { id: "c005", name: "Hadassah Medical Centre",  adminName: "Dr. Lior Ben-David", adminEmail: "l.bendavid@hadassah.il",  plan: "Enterprise",   users: 61,  analyses: 18200, status: "active",        joined: "Feb 2023", country: "Israel",   license: "HC-IL-88321" },
-  { id: "c006", name: "Clinique Dakar",           adminName: "Dr. Amara Diallo",   adminEmail: "a.diallo@clinique-dakar.sn", plan: "Basic",     users: 8,   analyses: 980,   status: "suspended",     joined: "Aug 2023", country: "Senegal",  license: "HC-SN-02218" },
-  { id: "c007", name: "Cairo Derm Institute",     adminName: "Dr. Layla Hassan",   adminEmail: "l.hassan@cairoderm.eg",  plan: "Professional", users: 19,  analyses: 4100,  status: "active",        joined: "Jul 2023", country: "Egypt",    license: "HC-EG-55671" },
-];
+// Local UI interface for display enrichment
+interface ClinicDisplay extends Clinic {
+  adminName?: string;
+  plan?: Plan;
+  users?: number;
+  analyses?: number;
+  joined?: string;
+  country?: string;
+  license?: string;
+}
 
+// Clinics will be fetched from backend
 const STATUS_STYLE: Record<ClinicStatus, string> = {
   active:        "bg-teal-100 text-teal-700",
   pending_setup: "bg-amber-100 text-amber-700",
+  pending:       "bg-amber-100 text-amber-700",
   suspended:     "bg-rose-100 text-rose-700",
 };
 const PLAN_STYLE: Record<Plan, string> = {
@@ -62,17 +62,89 @@ const ExternalIcon = () => (
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function ClinicsPage() {
+  const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch]       = useState("");
   const [statusFilter, setStatus] = useState<"all" | ClinicStatus>("all");
   const [planFilter, setPlan]     = useState<"all" | Plan>("all");
   const [showModal, setShowModal] = useState(false);
   const [toast, setToast]         = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    adminEmail: "",
+    clinicName: "",
+    department: "",
+  });
 
-  const filtered = CLINICS.filter(c => {
-    const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.adminName.toLowerCase().includes(search.toLowerCase());
+  // Fetch clinics on mount
+  useEffect(() => {
+    const loadClinics = async () => {
+      setLoading(true);
+      try {
+        const data = await getClinics();
+        setClinics(data || []);
+      } catch (err: any) {
+        console.error(err);
+        setError(err?.message || "Failed to load clinics");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadClinics();
+  }, []);
+
+  const handleOnboard = async () => {
+    if (!formData.fullName || !formData.adminEmail || !formData.clinicName || !formData.department) {
+      showToast("Please fill all required fields");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const newClinic = await onboardClinic({
+        full_name: formData.fullName,
+        professional_email: formData.adminEmail,
+        license_number: "HC-PENDING",
+        clinic_name: formData.clinicName,
+        department: formData.department,
+      });
+      setClinics([...clinics, newClinic]);
+      setShowModal(false);
+      setFormData({ fullName: "", adminEmail: "", clinicName: "", department: "" });
+      showToast(`✓ Clinic "${formData.clinicName}" onboarded. Invitation email sent.`);
+    } catch (err: any) {
+      console.error(err);
+      showToast(`Error: ${err?.message || "Failed to onboard clinic"}`);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleSuspend = async (clinic: Clinic) => {
+    try {
+      await suspendClinic(clinic.id);
+      setClinics(clinics.map(c => c.id === clinic.id ? { ...c, status: "suspended" } : c));
+      showToast(`${clinic.name} suspended.`);
+    } catch (err: any) {
+      showToast(`Error: ${err?.message || "Failed to suspend clinic"}`);
+    }
+  };
+
+  const handleActivate = async (clinic: Clinic) => {
+    try {
+      await activateClinic(clinic.id);
+      setClinics(clinics.map(c => c.id === clinic.id ? { ...c, status: "active" } : c));
+      showToast(`${clinic.name} reactivated.`);
+    } catch (err: any) {
+      showToast(`Error: ${err?.message || "Failed to activate clinic"}`);
+    }
+  };
+
+  const filtered = clinics.filter(c => {
+    const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.admin_email.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "all" || c.status === statusFilter;
-    const matchPlan   = planFilter   === "all" || c.plan   === planFilter;
-    return matchSearch && matchStatus && matchPlan;
+    return matchSearch && matchStatus;
   });
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 3000); };
@@ -100,10 +172,10 @@ export default function ClinicsPage() {
           <div className="flex items-center gap-2">
             {/* Summary pills */}
             {[
-              ["12", "Total", "#f5f3ff", "#7c3aed"],
-              ["9",  "Active", "#f0fdf9", "#0d9488"],
-              ["2",  "Pending", "#fffbeb", "#d97706"],
-              ["1",  "Suspended", "#fff1f2", "#e11d48"],
+              [String(clinics.length), "Total", "#f5f3ff", "#7c3aed"],
+              [String(clinics.filter(c => c.status === "active").length),  "Active", "#f0fdf9", "#0d9488"],
+              [String(clinics.filter(c => c.status === "pending").length),  "Pending", "#fffbeb", "#d97706"],
+              [String(clinics.filter(c => c.status === "suspended").length),  "Suspended", "#fff1f2", "#e11d48"],
             ].map(([count, label, bg, color]) => (
               <div key={label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
                 style={{ background: bg, color }}>
@@ -120,15 +192,27 @@ export default function ClinicsPage() {
               <h1 className="text-2xl font-bold text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Clinic Management</h1>
               <p className="text-sm text-slate-400 mt-0.5">Onboard, manage, and monitor all registered clinics on the platform.</p>
             </div>
-            <button onClick={() => setShowModal(true)}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 active:scale-95"
+            <button onClick={() => setShowModal(true)} disabled={loading}
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
               style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 4px 16px rgba(124,58,237,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}>
               + Onboard New Clinic
             </button>
           </div>
 
-          {/* Filters */}
-          <div className="bg-white rounded-xl shadow-sm px-5 py-4 flex items-end gap-4 flex-wrap">
+          {error && (
+            <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 text-rose-700 text-sm">
+              {error}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="bg-white rounded-xl shadow-sm p-8 text-center text-slate-500">
+              Loading clinics...
+            </div>
+          ) : (
+            <>
+              {/* Filters */}
+              <div className="bg-white rounded-xl shadow-sm px-5 py-4 flex items-end gap-4 flex-wrap">
             <div className="relative flex-1 min-w-[200px]">
               <span className="absolute left-3 top-1/2 -translate-y-1/2"><SearchIcon /></span>
               <input value={search} onChange={e => setSearch(e.target.value)}
@@ -142,27 +226,14 @@ export default function ClinicsPage() {
                   className="appearance-none pl-3 pr-8 py-2.5 text-sm border border-slate-200 rounded-lg bg-slate-50 text-slate-600 focus:outline-none cursor-pointer">
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
-                  <option value="pending_setup">Pending Setup</option>
+                  <option value="pending">Pending</option>
                   <option value="suspended">Suspended</option>
                 </select>
                 <span className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"><ChevronIcon /></span>
               </div>
             </div>
-            <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Plan</label>
-              <div className="relative">
-                <select value={planFilter} onChange={e => setPlan(e.target.value as any)}
-                  className="appearance-none pl-3 pr-8 py-2.5 text-sm border border-slate-200 rounded-lg bg-slate-50 text-slate-600 focus:outline-none cursor-pointer">
-                  <option value="all">All Plans</option>
-                  <option value="Enterprise">Enterprise</option>
-                  <option value="Professional">Professional</option>
-                  <option value="Basic">Basic</option>
-                </select>
-                <span className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"><ChevronIcon /></span>
-              </div>
-            </div>
             <div className="ml-auto text-xs text-slate-400">
-              <span className="font-bold text-slate-600">{filtered.length}</span> of <span className="font-bold text-slate-600">{CLINICS.length}</span> clinics
+              <span className="font-bold text-slate-600">{filtered.length}</span> of <span className="font-bold text-slate-600">{clinics.length}</span> clinics
             </div>
           </div>
 
@@ -171,7 +242,7 @@ export default function ClinicsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100" style={{ background: "#fafbfc" }}>
-                  {["Clinic", "Admin", "Plan", "Users", "Analyses", "Country", "Status", "Actions"].map(h => (
+                  {["Clinic", "Admin", "Department", "License", "Status", "Actions"].map(h => (
                     <th key={h} className="px-5 py-3.5 text-left text-[10px] uppercase tracking-widest text-slate-400 font-semibold">{h}</th>
                   ))}
                 </tr>
@@ -187,38 +258,33 @@ export default function ClinicsPage() {
                         </div>
                         <div>
                           <p className="text-xs font-bold text-slate-700">{c.name}</p>
-                          <p className="text-[10px] text-slate-400 font-mono">{c.license}</p>
+                          <p className="text-[10px] text-slate-400 font-mono">{c.license_number}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <p className="text-xs font-semibold text-slate-600">{c.adminName}</p>
-                      <p className="text-[10px] text-slate-400">{c.adminEmail}</p>
+                      <p className="text-xs font-semibold text-slate-600">{c.admin_email}</p>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${PLAN_STYLE[c.plan]}`}>{c.plan}</span>
-                    </td>
-                    <td className="px-5 py-4 text-xs text-slate-600 font-medium">{c.users}</td>
-                    <td className="px-5 py-4 text-xs text-slate-600 font-medium">{c.analyses.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-xs text-slate-500">{c.country}</td>
+                    <td className="px-5 py-4 text-xs text-slate-600">{c.department}</td>
+                    <td className="px-5 py-4 text-xs text-slate-500">{c.license_number}</td>
                     <td className="px-5 py-4">
                       <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full tracking-widest uppercase ${STATUS_STYLE[c.status]}`}>
-                        {c.status.replace("_", " ")}
+                        {c.status}
                       </span>
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Link href={`/clinics/${c.id}`}
+                        <Link href={`/super-admin/clinics/${c.id}`}
                           className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-violet-200 text-violet-600 hover:bg-violet-50 transition-colors">
                           <ExternalIcon />View
                         </Link>
                         {c.status === "active" ? (
-                          <button onClick={() => showToast(`${c.name} suspended.`)}
+                          <button onClick={() => handleSuspend(c)}
                             className="px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-rose-200 text-rose-500 hover:bg-rose-50 transition-colors">
                             Suspend
                           </button>
                         ) : c.status === "suspended" ? (
-                          <button onClick={() => showToast(`${c.name} reactivated.`)}
+                          <button onClick={() => handleActivate(c)}
                             className="px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-teal-200 text-teal-600 hover:bg-teal-50 transition-colors">
                             Reactivate
                           </button>
@@ -233,6 +299,8 @@ export default function ClinicsPage() {
               <p className="text-[11px] text-slate-400">Showing <span className="font-bold text-slate-600">{filtered.length}</span> clinics</p>
             </div>
           </div>
+            </>
+          )}
         </main>
 
         <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
@@ -253,34 +321,25 @@ export default function ClinicsPage() {
                 <p className="text-violet-400/60 text-[10px] mt-0.5 tracking-widest uppercase">Creates a clinic admin account + sends invitation</p>
               </div>
               <div className="px-7 py-6 space-y-4">
-                {[["Clinic Name", "Memorial Health Systems"], ["Admin Full Name", "Dr. Jane Doe"], ["Admin Email", "admin@clinic.org"], ["Medical Licence No.", "HC-XX-00000"]].map(([label, placeholder]) => (
-                  <div key={label}>
+                {[["Clinic Name", "clinicName", "Memorial Health Systems"], ["Admin Full Name", "fullName", "Dr. Jane Doe"], ["Admin Email", "adminEmail", "admin@clinic.org"], ["Department", "department", "Dermatology"]].map(([label, key, placeholder]) => (
+                  <div key={key}>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">{label}</label>
                     <input placeholder={placeholder}
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-700 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all" />
+                      value={formData[key as keyof typeof formData]}
+                      onChange={e => setFormData({...formData, [key]: e.target.value})}
+                      disabled={submitting}
+                      className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-700 placeholder:text-slate-300 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition-all disabled:opacity-50" />
                   </div>
                 ))}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Plan</label>
-                    <select className="w-full px-3 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-600 focus:outline-none cursor-pointer">
-                      <option>Basic</option><option>Professional</option><option>Enterprise</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Country</label>
-                    <input placeholder="USA" className="w-full px-3 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none transition-all" />
-                  </div>
-                </div>
               </div>
               <div className="px-7 pb-6 space-y-2.5">
-                <button onClick={() => { setShowModal(false); showToast("✓ Clinic onboarded. Invitation email sent to admin."); }}
-                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all active:scale-[0.98]"
+                <button onClick={handleOnboard} disabled={submitting}
+                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all active:scale-[0.98] disabled:opacity-50"
                   style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Create Clinic & Send Invitation
+                  {submitting ? "Creating..." : "Create Clinic & Send Invitation"}
                 </button>
-                <button onClick={() => setShowModal(false)}
-                  className="w-full py-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">
+                <button onClick={() => setShowModal(false)} disabled={submitting}
+                  className="w-full py-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors disabled:opacity-50">
                   Cancel
                 </button>
               </div>
