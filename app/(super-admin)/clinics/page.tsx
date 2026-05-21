@@ -164,26 +164,7 @@ export default function ClinicsPage() {
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 tracking-wide">
-            <span>SUPER ADMIN</span><span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">Clinics</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* Summary pills */}
-            {[
-              [String(clinics.length), "Total", "#f5f3ff", "#7c3aed"],
-              [String(clinics.filter(c => c.status === "active").length),  "Active", "#f0fdf9", "#0d9488"],
-              [String(clinics.filter(c => c.status === "pending").length),  "Pending", "#fffbeb", "#d97706"],
-              [String(clinics.filter(c => c.status === "suspended").length),  "Suspended", "#fff1f2", "#e11d48"],
-            ].map(([count, label, bg, color]) => (
-              <div key={label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
-                style={{ background: bg, color }}>
-                <span className="font-black">{count}</span> {label}
-              </div>
-            ))}
-          </div>
-        </header>
+        
 
         <main className="flex-1 px-8 py-7 overflow-auto space-y-5 fade-in">
           {/* Heading */}
@@ -197,6 +178,39 @@ export default function ClinicsPage() {
               style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 4px 16px rgba(124,58,237,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}>
               + Onboard New Clinic
             </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#7c3aed" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#f5f3ff", color: "#7c3aed" }}>📊</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Total</p>
+                <p className="text-2xl font-bold text-slate-800">{clinics.length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#0d9488" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#ecfdf5", color: "#0d9488" }}>✅</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Active</p>
+                <p className="text-2xl font-bold text-slate-800">{clinics.filter(c => c.status === "active").length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#d97706" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#fffbeb", color: "#d97706" }}>⏳</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Pending</p>
+                <p className="text-2xl font-bold text-slate-800">{clinics.filter(c => c.status === "pending").length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#ef4444" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#fff1f2", color: "#ef4444" }}>🚫</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Suspended</p>
+                <p className="text-2xl font-bold text-slate-800">{clinics.filter(c => c.status === "suspended").length}</p>
+              </div>
+            </div>
           </div>
 
           {error && (

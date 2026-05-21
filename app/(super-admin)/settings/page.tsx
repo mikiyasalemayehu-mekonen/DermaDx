@@ -168,26 +168,6 @@ export default function SuperAdminSettingsPage() {
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 tracking-wide">
-            <span>SUPER ADMIN</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">Settings</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* Maintenance mode pill */}
-            {maintenanceMode && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-700 bg-amber-100">
-                <div className="w-2 h-2 rounded-full bg-amber-500" style={{ animation: "pulse 1.5s infinite" }} />
-                Maintenance Mode Active
-              </div>
-            )}
-            <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>SA</div>
-            </div>
-          </div>
-        </header>
 
         <main className="flex-1 px-8 py-7 overflow-auto fade-in">
           {/* Heading */}

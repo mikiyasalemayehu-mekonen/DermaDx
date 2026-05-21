@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell, ChevronRight } from "lucide-react";
+import { useAuthContext } from "@/hooks";
 
 const HEADER_ROUTES: Record<string, string[]> = {
   "/dashboard": ["Home", "Dashboard"],
@@ -36,6 +37,9 @@ function getCrumbs(pathname: string) {
 export function ClinicianHeader() {
   const pathname = usePathname();
   const crumbs = getCrumbs(pathname);
+  const { user } = useAuthContext();
+  const displayName = user?.full_name ?? user?.email ?? "";
+  const roleLabel = user?.role === "super_admin" ? "Super Admin" : user?.role === "administrator" ? "System Admin" : user?.role === "clinician" ? "Clinician" : "";
 
   return (
     <header className="bg-white border-b border-gray-100 px-8 py-3 flex items-center justify-between shrink-0">
@@ -68,9 +72,9 @@ export function ClinicianHeader() {
         </button>
         <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200">
           <div className="text-right">
-            <p className="text-xs font-bold text-[#0f2744] leading-tight">Dr. Aris Thorne</p>
-            <p className="text-[9px] text-gray-400 uppercase tracking-widest">Chief Dermatologist</p>
-          </div>
+              <p className="text-xs font-bold text-[#0f2744] leading-tight">{displayName || ""}</p>
+              <p className="text-[9px] text-gray-400 uppercase tracking-widest">{roleLabel}</p>
+            </div>
           <div className="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center overflow-hidden border-2 border-teal-300">
             <svg viewBox="0 0 36 36" className="w-full h-full" aria-hidden="true">
               <rect width="36" height="36" fill="#b2dfdb" />

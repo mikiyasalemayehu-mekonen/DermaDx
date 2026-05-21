@@ -4,26 +4,6 @@ import { usePathname } from "next/navigation";
 import { Bell, HelpCircle } from "lucide-react";
 import { useAuthContext } from "@/hooks";
 
-const ROUTE_TITLES: Record<string, string[]> = {
-  "/admin-dashboard": ["Admin", "System Overview"],
-  "/user-management": ["Admin", "User Management"],
-  "/user-management/requests": ["Admin", "User Management", "Access Requests"],
-  "/system-reports": ["Admin", "System Reports"],
-  "/admin-history": ["Admin", "History"],
-  "/admin-settings": ["Admin", "Settings"],
-  "/admin-settings/profile": ["Admin", "Settings", "Profile"],
-  "/admin-settings/config": ["Admin", "Settings", "System Config"],
-  "/admin-settings/model": ["Admin", "Settings", "Model Management"],
-  "/admin-settings/notifications": ["Admin", "Settings", "Notifications"],
-  "/admin-settings/about": ["Admin", "Settings", "About System"],
-  "/clinicians": ["Admin", "Clinicians"],
-  "/clinicians/invite": ["Admin", "Clinicians", "Invite"],
-  "/superadmin-dashboard": ["Admin", "Super Admin"],
-  "/super-system-reports": ["Admin", "Super System Reports"],
-  "/admins": ["Admin", "Admins"],
-  "/clinics": ["Admin", "Clinics"],
-};
-
 function titleCase(segment: string) {
   return segment
     .split("-")
@@ -32,16 +12,13 @@ function titleCase(segment: string) {
 }
 
 function getCrumbs(pathname: string) {
-  if (ROUTE_TITLES[pathname]) return ROUTE_TITLES[pathname];
-
   const segments = pathname.split("/").filter(Boolean);
-  if (segments.length === 0) return ["Admin"];
-
-  return ["Admin", ...segments.map(titleCase)];
+  if (segments.length === 0) return ["Home"];
+  return [segments.length > 0 ? (segments[0] === "(admin)" || segments[0] === "(super-admin)" ? "Admin" : titleCase(segments[0])) : "Home", ...segments.slice(1).map(titleCase)];
 }
 
-export function AdminHeader() {
-  const pathname = usePathname();
+export default function TopHeader() {
+  const pathname = usePathname() ?? "/";
   const crumbs = getCrumbs(pathname);
   const { user } = useAuthContext();
   const displayName = user?.full_name ?? user?.email ?? "";

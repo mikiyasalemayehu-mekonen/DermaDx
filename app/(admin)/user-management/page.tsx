@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Search, Filter, MoreVertical, User, LogOut, Plus } from "lucide-react";
 import AddUserDrawer from "./_components/userdrawer";
+import {
+  getClinicians,
+  inviteClinician,
+  updateClinician,
+  deactivateClinician,
+} from "../../../lib/api/clinicians";
 
-const CLINICIANS = [
-  { username: "s_mitchell", name: "Sarah Mitchell",  email: "s.mitchell@dermadx.io", role: "DERMATOLOGIST", avatar: "SM", avatarBg: "#0f3460", status: "Active" },
-  { username: "r_kapoor",   name: "Rajesh Kapoor",   email: "r.kapoor@dermadx.io",   role: "LAB TECH",      avatar: "RK", avatarBg: "#7c4a03", status: "Active" },
-  { username: "e_lyon",     name: "Eleanor Lyon",    email: "e.lyon@dermadx.io",     role: "ADMIN",         avatar: "EL", avatarBg: "#374151", status: "Active" },
-  { username: "t_weaver",   name: "Thomas Weaver",   email: "t.weaver@dermadx.io",   role: "DERMATOLOGIST", avatar: "TW", avatarBg: "#0f4c75", status: "Active" },
-  { username: "m_okafor",   name: "Maria Okafor",    email: "m.okafor@dermadx.io",   role: "PATHOLOGIST",   avatar: "MO", avatarBg: "#1a3a2a", status: "Suspended" },
-  { username: "j_chen",     name: "James Chen",      email: "j.chen@dermadx.io",     role: "DERMATOLOGIST", avatar: "JC", avatarBg: "#2d1a4a", status: "Active" },
-];
+type UIClinician = {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
+  avatarBg: string;
+  status: string;
+};
+
+// clinicians will be loaded from the API
 
 const ROLE_COLORS: Record<string, string> = {
   "DERMATOLOGIST": "bg-blue-100 text-blue-700",
@@ -23,34 +33,69 @@ const ROLE_COLORS: Record<string, string> = {
 
 
 
- function UserManagementPage() {
+function UserManagementPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [showDrawer, setShowDrawer] = useState(false);
-  const [clinicians, setClinicians] = useState(CLINICIANS);
+  const [clinicians, setClinicians] = useState<UIClinician[]>([]);
+  const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState("");
 
-  const handleCreated = (name: string) => {
-    setClinicians((currentClinicians) => [
-      {
-        username: name.toLowerCase().replace(/\s+/g, "_"),
-        name,
-        email: "",
-        role: "DERMATOLOGIST",
-        avatar: name
-          .split(" ")
-          .filter(Boolean)
-          .map((part) => part[0])
-          .join("")
-          .slice(0, 2)
-          .toUpperCase(),
+  const fetchClinicians = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getClinicians();
+      const mapped = data.map((c: any) => ({
+        id: c.id,
+        username: (c.email || c.full_name || "").split("@")[0].toLowerCase(),
+        name: c.full_name,
+        email: c.email,
+        role: (c.role || "").toUpperCase(),
+        avatar: (c.full_name || c.email || "").split(" ").map((p: string) => p[0]).join("").slice(0,2).toUpperCase(),
         avatarBg: "#0d7070",
-        status: "Active",
-      },
-      ...currentClinicians,
-    ]);
-    setToast(`${name} has been added successfully.`);
+        status: c.status === "active" ? "Active" : c.status === "inactive" ? "Suspended" : c.status,
+      }));
+      setClinicians(mapped);
+    } catch (err: any) {
+      setToast(err?.message || "Failed to load clinicians");
+      setTimeout(() => setToast(""), 3500);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchClinicians();
+  }, [fetchClinicians]);
+
+  const handleCreated = () => {
+    setToast("User invite sent.");
     setTimeout(() => setToast(""), 3500);
+    fetchClinicians();
+  };
+
+  const handleSuspend = async (id: string) => {
+    try {
+      await deactivateClinician(id);
+      setToast("User suspended.");
+      fetchClinicians();
+    } catch (err: any) {
+      setToast(err?.message || "Failed to suspend user");
+    }
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  const handleEdit = async (id: string) => {
+    const newRole = window.prompt("Enter new role (e.g. DERMATOLOGIST):");
+    if (!newRole) return;
+    try {
+      await updateClinician(id, { role: newRole });
+      setToast("User updated.");
+      fetchClinicians();
+    } catch (err: any) {
+      setToast(err?.message || "Failed to update user");
+    }
+    setTimeout(() => setToast(""), 3000);
   };
 
   const filtered = clinicians.filter(c => {
@@ -69,18 +114,7 @@ const ROLE_COLORS: Record<string, string> = {
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-anim { animation: toastIn 0.3s ease; }
       `}</style>
-        {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
-            <span>ADMIN</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">User Management</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><User className="w-4 h-4" /></button>
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><LogOut className="w-5 h-5" /></button>
-          </div>
-        </header>
+        
 
         <main className="flex-1 px-8 py-7 space-y-5 overflow-auto">
           {/* Page heading */}
@@ -97,6 +131,42 @@ const ROLE_COLORS: Record<string, string> = {
             >
               <Plus className="w-4 h-4" />Add New User
             </button>
+          </div>
+
+          {/* Summary cards (moved from header) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#7c3aed" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#f5f3ff", color: "#7c3aed" }}>📊</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Total</p>
+                <p className="text-2xl font-bold text-slate-800">{clinicians.length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#0d9488" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#ecfdf5", color: "#0d9488" }}>✅</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Active</p>
+                <p className="text-2xl font-bold text-slate-800">{clinicians.filter(c => c.status === "Active").length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#d97706" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#fffbeb", color: "#d97706" }}>⏳</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">Pending</p>
+                <p className="text-2xl font-bold text-slate-800">{clinicians.filter(c => c.status === "Pending").length}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border-l-4" style={{ borderLeftColor: "#ef4444" }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#fff1f2", color: "#ef4444" }}>🔒</div>
+              <div>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">No MFA</p>
+                <p className="text-2xl font-bold text-slate-800">N/A</p>
+                <p className="text-xs text-slate-400 mt-1">(requires backend field)</p>
+              </div>
+            </div>
           </div>
 
           {/* Filters */}
@@ -176,8 +246,8 @@ const ROLE_COLORS: Record<string, string> = {
                     {/* Actions */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="px-3 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors">Edit</button>
-                        <button className="px-3 py-1 text-[11px] font-semibold rounded-lg border border-rose-200 text-rose-500 hover:bg-rose-50 transition-colors">Suspend</button>
+                        <button onClick={() => handleEdit(c.id)} className="px-3 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors">Edit</button>
+                        <button onClick={() => handleSuspend(c.id)} className="px-3 py-1 text-[11px] font-semibold rounded-lg border border-rose-200 text-rose-500 hover:bg-rose-50 transition-colors">Suspend</button>
                         <button className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-colors">
                           <MoreVertical className="w-4 h-4" />
                         </button>

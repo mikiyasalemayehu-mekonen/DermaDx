@@ -205,7 +205,7 @@ export default function SuperAdminReportsPage() {
 
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        <TopBar onExport={handleExport} exporting={exporting} />
+        {/* <TopBar onExport={handleExport} exporting={exporting} /> */}
 
         <main className="flex-1 px-8 py-7 overflow-auto space-y-6 fade-in">
 

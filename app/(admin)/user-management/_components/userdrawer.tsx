@@ -1,5 +1,6 @@
 "use client";
 import {useState} from "react";
+import { inviteClinician } from "../../../../lib/api/clinicians";
 import { X,Info ,Shield} from "lucide-react";
 
 
@@ -23,7 +24,7 @@ function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) =>
 
 
 const CLINICAL_ROLES = ["Dermatologist", "Lab Technician", "Pathologist", "Radiologist", "System Admin", "Nurse Practitioner"];
-function AddUserDrawer({ onClose, onCreated }: { onClose: () => void; onCreated: (name: string) => void }) {
+function AddUserDrawer({ onClose, onCreated }: { onClose: () => void; onCreated: () => void }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("Dermatologist");
@@ -35,14 +36,22 @@ function AddUserDrawer({ onClose, onCreated }: { onClose: () => void; onCreated:
 
   const canSubmit = fullName.trim().length > 2 && email.includes("@");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!canSubmit) return;
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await inviteClinician({ email, full_name: fullName, role, department });
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => { onCreated(fullName); onClose(); }, 1400);
-    }, 1200);
+      setTimeout(() => {
+        onCreated();
+        onClose();
+      }, 900);
+    } catch (err: any) {
+      setLoading(false);
+      console.error("Invite failed:", err);
+      // show minimal UX feedback by keeping drawer open and not setting success
+    }
   };
 
   return (

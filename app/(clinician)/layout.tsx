@@ -1,6 +1,6 @@
 import Sidebar from "./_components/sidebar";
 import { Footer } from "./_components/footer";
-import { ClinicianHeader } from "./_components/clinician-header";
+import TopHeader from "@/app/_components/TopHeader";
 
 export default function ClinicianLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export default function ClinicianLayout({ children }: { children: React.ReactNod
       <div className="flex flex-1 min-h-0">
         <Sidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <ClinicianHeader />
+          <TopHeader />
           {children}
         </div>
       </div>

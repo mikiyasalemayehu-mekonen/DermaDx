@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Case } from "@/types";
 import {
   Calendar as CalIcon,
@@ -12,72 +12,81 @@ import ConfBar from "../_components/confbar";
 import IQABadge from "../_components/iqapage";
 
 
-const CASES: Case[] = [  {
-    id: "#DX-8291", clinician: "Dr. Aris Thorne",    clinicianRole: "Chief Dermatologist",
-    condition: "Melanoma", conditionColor: "bg-rose-100 text-rose-700",
-    confidence: 94, confidenceColor: "#0d2444",
-    iqa: "Pass", date: "Oct 24, 2023", skinType: "Fitzpatrick IV",
-    imageQuality: 98,
-    finding: "Lesion exhibits significant irregular pigment distribution and peripheral globule formation. AI detection indicates a high probability score for early-stage superficial spreading melanoma. Clinical correlation and immediate biopsy are strongly recommended.",
-    risk: "high",
-  },
-  {
-    id: "#DX-8290", clinician: "Dr. Sarah Vance",    clinicianRole: "Dermatologist",
-    condition: "Nevus", conditionColor: "bg-teal-100 text-teal-700",
-    confidence: 81, confidenceColor: "#00c4a8",
-    iqa: "Pass", date: "Oct 24, 2023", skinType: "Fitzpatrick II",
-    imageQuality: 91,
-    finding: "Symmetric melanocytic nevus with uniform pigment network. No atypical features detected. Routine monitoring recommended at 12-month intervals. Patient should be advised on dermoscopic self-check practices.",
-    risk: "low",
-  },
-  {
-    id: "#DX-8289", clinician: "Dr. Marcus Sterling", clinicianRole: "Consultant",
-    condition: "BCC", conditionColor: "bg-slate-100 text-slate-600",
-    confidence: 62, confidenceColor: "#f59e0b",
-    iqa: "Marginal", date: "Oct 23, 2023", skinType: "Fitzpatrick III",
-    imageQuality: 67,
-    finding: "Possible basal cell carcinoma with arborizing vessels observed. Image quality flagged as marginal due to partial out-of-focus regions. Re-imaging recommended before finalising diagnosis.",
-    risk: "medium",
-  },
-  {
-    id: "#DX-8288", clinician: "Dr. Aris Thorne",    clinicianRole: "Chief Dermatologist",
-    condition: "Melanoma", conditionColor: "bg-rose-100 text-rose-700",
-    confidence: 98, confidenceColor: "#0d2444",
-    iqa: "Pass", date: "Oct 23, 2023", skinType: "Fitzpatrick V",
-    imageQuality: 99,
-    finding: "Nodular melanoma with high-confidence detection. Asymmetric structure, multiple colours, and irregular border noted. Urgent surgical referral warranted. Case escalated to oncology team.",
-    risk: "high",
-  },
-  {
-    id: "#DX-8287", clinician: "Dr. Priya Anand",    clinicianRole: "Senior Clinician",
-    condition: "Seborrheic K.", conditionColor: "bg-amber-100 text-amber-700",
-    confidence: 87, confidenceColor: "#00c4a8",
-    iqa: "Pass", date: "Oct 22, 2023", skinType: "Fitzpatrick I",
-    imageQuality: 95,
-    finding: "Classic seborrheic keratosis with milia-like cysts and comedo-like openings. Benign lesion. No clinical intervention required. Patient reassured.",
-    risk: "low",
-  },
-  {
-    id: "#DX-8286", clinician: "Dr. Sarah Vance",    clinicianRole: "Dermatologist",
-    condition: "Actinic K.", conditionColor: "bg-orange-100 text-orange-700",
-    confidence: 78, confidenceColor: "#f59e0b",
-    iqa: "Pass", date: "Oct 22, 2023", skinType: "Fitzpatrick II",
-    imageQuality: 88,
-    finding: "Actinic keratosis with scaly surface texture and erythematous base. Pre-malignant lesion detected. Cryotherapy or topical treatment recommended. Follow-up in 6 weeks.",
-    risk: "medium",
-  },
-];
+import { getAnalyses, type AnalysisResult } from "@/lib/api/analyses";
+import { getClinicians } from "@/lib/api/clinicians";
+
+const CONDITION_COLORS: Record<string, string> = {
+  Melanoma: "bg-rose-100 text-rose-700",
+  Nevus: "bg-teal-100 text-teal-700",
+  BCC: "bg-slate-100 text-slate-600",
+  "Seborrheic K.": "bg-amber-100 text-amber-700",
+  "Actinic K.": "bg-orange-100 text-orange-700",
+};
+
+function mapConfidenceColor(v: number) {
+  if (v >= 95) return "#0d2444";
+  if (v >= 90) return "#0d9488";
+  if (v >= 80) return "#f59e0b";
+  return "#ef4444";
+}
 
 const CONDITIONS = ["All Conditions", "Melanoma", "Nevus", "BCC", "Seborrheic K.", "Actinic K."];
 const CLINICIANS  = ["All Staff", "Dr. Aris Thorne", "Dr. Sarah Vance", "Dr. Marcus Sterling", "Dr. Priya Anand"];
 
 export default function AdminHistoryPage() {
-  const [selectedCase, setSelectedCase] = useState<Case | null>(CASES[0]);
+  const [selectedCase, setSelectedCase] = useState<Case | null>(null);
   const [condFilter, setCondFilter]     = useState("All Conditions");
   const [clinFilter, setClinFilter]     = useState("All Staff");
   const [search, setSearch]             = useState("");
 
-  const filtered = CASES.filter(c => {
+  const [cases, setCases] = useState<Case[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const analyses = await getAnalyses({ limit: 100 });
+        const clinicians = await getClinicians();
+        const cliniciansMap = new Map<string, { full_name?: string; role?: string }>();
+        clinicians.forEach((cl: any) => cliniciansMap.set(cl.id || cl._id || String(cl.user_id || ""), { full_name: cl.full_name || cl.name || "Unknown", role: cl.role || "" }));
+
+        const mapped = (analyses as AnalysisResult[]).map((a) => {
+          const clin = cliniciansMap.get(a.clinician_id) || { full_name: "Unknown", role: "" };
+          const conf = Math.round((a.confidence ?? 0) * 100) / 100;
+          const iqa = conf >= 75 ? "Pass" : conf >= 50 ? "Marginal" : "Fail";
+          return {
+            id: a.id,
+            clinician: clin.full_name || "Unknown",
+            clinicianRole: clin.role || "",
+            condition: a.condition,
+            conditionColor: CONDITION_COLORS[a.condition] || "bg-slate-100 text-slate-600",
+            confidence: conf,
+            confidenceColor: mapConfidenceColor(conf),
+            iqa: iqa as Case["iqa"],
+            date: a.date,
+            skinType: "-",
+            imageQuality: Math.min(100, Math.round(conf)),
+            finding: a.status ? `${a.status} • Confidence ${conf}%` : `Confidence ${conf}%`,
+            risk: a.risk as Case["risk"],
+          } as Case;
+        });
+
+        if (mounted) setCases(mapped);
+      } catch (err: any) {
+        if (mounted) setError(err?.message || "Failed to load cases");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    load();
+    return () => { mounted = false; };
+  }, []);
+
+  const filtered = cases.filter(c => {
     const matchCond = condFilter === "All Conditions" || c.condition === condFilter;
     const matchClin = clinFilter === "All Staff" || c.clinician === clinFilter;
     const matchSearch = search === "" || c.id.toLowerCase().includes(search.toLowerCase()) || c.clinician.toLowerCase().includes(search.toLowerCase());
@@ -192,7 +201,7 @@ export default function AdminHistoryPage() {
             {/* Pagination */}
             <div className="px-5 py-3.5 border-t border-slate-100 flex items-center justify-between" style={{ background: "#fafbfc" }}>
               <p className="text-[11px] text-slate-400 uppercase tracking-widest">
-                Showing <span className="font-bold text-slate-600">1–15</span> of <span className="font-bold text-slate-600">432</span> cases
+                Showing <span className="font-bold text-slate-600">1–{Math.min(15, filtered.length)}</span> of <span className="font-bold text-slate-600">{cases.length}</span> cases
               </p>
               <div className="flex items-center gap-1">
                 <button className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-50 text-xs">‹</button>
