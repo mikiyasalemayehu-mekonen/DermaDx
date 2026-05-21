@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import SuperAdminSidebar from "./_components/SuperAdminSidebar";
+import Footer  from "@/components/footer";
 
 // Replace this with your real session helper once lib/auth.ts is filled
 // import { getSession } from "@/lib/auth";
@@ -35,6 +36,7 @@ export default async function SuperAdminLayout({
         <SuperAdminSidebar />
         <div className="flex-1 flex flex-col min-w-0">{children}</div>
       </div>
+      <Footer />
     </div>
   );
 }

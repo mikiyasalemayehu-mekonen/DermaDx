@@ -34,34 +34,6 @@ export default function SystemReportsPage() {
   return (
     <div className="flex-1 flex flex-col min-h-screen overflow-hidden" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
 
-      {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
-            <span>ADMIN</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">System Reports</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="relative w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-              <Bell />
-              <span className="absolute top-1.25 right-1.25 w-1.25 h-1.5 bg-rose-500 rounded-full" />
-            </button>
-            {/* Doctor info */}
-            <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
-              <div className="text-right">
-                <p className="text-xs font-bold text-slate-700 leading-tight">Dr. Aris Thorne</p>
-                <p className="text-[9px] text-slate-400 uppercase tracking-widest">System Admin</p>
-              </div>
-              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-teal-200">
-                <svg viewBox="0 0 32 32" className="w-full h-full">
-                  <rect width="32" height="32" fill="#ccf0eb" />
-                  <circle cx="16" cy="12" r="6" fill="#5eead4" />
-                  <ellipse cx="16" cy="26" rx="10" ry="7" fill="#5eead4" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </header>
 
         {/* Content */}
         <main className="flex-1 px-8 py-7 overflow-auto space-y-5">
@@ -76,8 +48,8 @@ export default function SystemReportsPage() {
             </div>
             <button
               onClick={handleExport}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all active:scale-95 hover:opacity-90"
-              style={{ background: "#00c4a8", boxShadow: "0 4px 16px rgba(0,196,168,0.3)", fontFamily: "'Space Grotesk', sans-serif" }}
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all active:scale-95 hover:opacity-90 bg-blue-900"
+
             >
               {exporting ? (
                 <>

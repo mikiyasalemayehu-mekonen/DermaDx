@@ -56,27 +56,26 @@ export function AdminHeader() {
         ))}
       </nav>
 
-      <div className="flex items-center gap-2">
-        <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors" type="button">
-          <Bell className="w-5 h-5" />
-        </button>
-        <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors" type="button">
-          <HelpCircle className="w-5 h-5" />
-        </button>
-        <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
-          <div className="text-right">
-            <p className="text-xs font-bold text-slate-700 leading-tight">Dr. Aris Thorne</p>
-            <p className="text-[9px] text-slate-400 uppercase tracking-widest">System Admin</p>
+    <div className="flex items-center gap-3">
+            <button className="relative w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+              <Bell />
+              <span className="absolute top-1.25 right-1.25 w-1.25 h-1.5 bg-rose-500 rounded-full" />
+            </button>
+            {/* Doctor info */}
+            <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
+              <div className="text-right">
+                <p className="text-xs font-bold text-slate-700 leading-tight">Dr. Aris Thorne</p>
+                <p className="text-[9px] text-slate-400 uppercase tracking-widest">System Admin</p>
+              </div>
+              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-teal-200">
+                <svg viewBox="0 0 32 32" className="w-full h-full">
+                  <rect width="32" height="32" fill="#ccf0eb" />
+                  <circle cx="16" cy="12" r="6" fill="#5eead4" />
+                  <ellipse cx="16" cy="26" rx="10" ry="7" fill="#5eead4" />
+                </svg>
+              </div>
+            </div>
           </div>
-          <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-teal-200">
-            <svg viewBox="0 0 32 32" className="w-full h-full" aria-hidden="true">
-              <rect width="32" height="32" fill="#ccf0eb" />
-              <circle cx="16" cy="12" r="6" fill="#5eead4" />
-              <ellipse cx="16" cy="26" rx="10" ry="7" fill="#5eead4" />
-            </svg>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }

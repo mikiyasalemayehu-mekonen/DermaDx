@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/hooks";
+import Image from "next/image";
+import logo from "@/public/logo.svg";
 
 const Icons = {
   Dashboard: () => (
@@ -102,8 +104,8 @@ export default function SuperAdminSidebar() {
       }`}
     >
       <div className="relative flex items-center gap-3 px-4 py-2 border-b border-[#e2e8f0]">
-        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-blue-900 text-white">
-          <span className="font-bold text-lg">D</span>
+        <div className="shrink-0 w-11 h-11 rounded-lg flex items-center justify-center shadow-md bg-blue-900">
+          <Image src={logo} alt="Logo" />
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
@@ -133,9 +135,7 @@ export default function SuperAdminSidebar() {
       )}
 
       <nav className="flex-1 px-2.5 py-4 space-y-0.5 overflow-hidden">
-        {!collapsed && (
-          <p className="text-[10px] uppercase tracking-[0.18em] font-semibold px-3 pb-2 mb-1 text-[#0f274466]">Navigation</p>
-        )}
+
         {NAV.map(({ href, label, icon: NavIcon, badge }) => {
           const active = isActive(href);
           return (

@@ -69,18 +69,7 @@ const ROLE_COLORS: Record<string, string> = {
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-anim { animation: toastIn 0.3s ease; }
       `}</style>
-        {/* Top bar */}
-        <header className="bg-white border-b border-slate-100 px-8 py-3.5 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium tracking-wide">
-            <span>ADMIN</span>
-            <span className="text-slate-300">/</span>
-            <span className="text-slate-700 font-bold uppercase tracking-widest text-[11px]">User Management</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><User className="w-4 h-4" /></button>
-            <button className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors"><LogOut className="w-5 h-5" /></button>
-          </div>
-        </header>
+
 
         <main className="flex-1 px-8 py-7 space-y-5 overflow-auto">
           {/* Page heading */}
@@ -92,8 +81,8 @@ const ROLE_COLORS: Record<string, string> = {
             </div>
             <button
               onClick={() => setShowDrawer(true)}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white shadow-md transition-all active:scale-95 hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #0b1f3a 0%, #0d3260 100%)", boxShadow: "0 4px 16px rgba(11,31,58,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white shadow-md transition-all active:scale-95 hover:opacity-90 bg-blue-900"
+
             >
               <Plus className="w-4 h-4" />Add New User
             </button>
