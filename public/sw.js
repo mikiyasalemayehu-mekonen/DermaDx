@@ -2,7 +2,7 @@
 
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'dermadx-v1';
+const CACHE_NAME = 'dermacare-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',

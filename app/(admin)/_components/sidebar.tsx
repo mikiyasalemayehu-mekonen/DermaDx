@@ -51,7 +51,7 @@ export default function AdminSidebar({ active, onNav }: AdminSidebarProps) {
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
-            <p className="font-bold text-lg leading-none tracking-wide text-[#0f2744]">DermaDx</p>
+            <p className="font-bold text-lg leading-none tracking-wide text-[#0f2744]">DermaCare</p>
             <p className="text-[10px] tracking-[0.18em] uppercase mt-0.5 text-[#0f274466]">Admin Console</p>
           </div>
         )}

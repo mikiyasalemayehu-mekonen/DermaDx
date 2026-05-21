@@ -5,12 +5,12 @@ import { Search, Filter, MoreVertical, User, LogOut, Plus } from "lucide-react";
 import AddUserDrawer from "./_components/userdrawer";
 
 const CLINICIANS = [
-  { username: "s_mitchell", name: "Sarah Mitchell",  email: "s.mitchell@dermadx.io", role: "DERMATOLOGIST", avatar: "SM", avatarBg: "#0f3460", status: "Active" },
-  { username: "r_kapoor",   name: "Rajesh Kapoor",   email: "r.kapoor@dermadx.io",   role: "LAB TECH",      avatar: "RK", avatarBg: "#7c4a03", status: "Active" },
-  { username: "e_lyon",     name: "Eleanor Lyon",    email: "e.lyon@dermadx.io",     role: "ADMIN",         avatar: "EL", avatarBg: "#374151", status: "Active" },
-  { username: "t_weaver",   name: "Thomas Weaver",   email: "t.weaver@dermadx.io",   role: "DERMATOLOGIST", avatar: "TW", avatarBg: "#0f4c75", status: "Active" },
-  { username: "m_okafor",   name: "Maria Okafor",    email: "m.okafor@dermadx.io",   role: "PATHOLOGIST",   avatar: "MO", avatarBg: "#1a3a2a", status: "Suspended" },
-  { username: "j_chen",     name: "James Chen",      email: "j.chen@dermadx.io",     role: "DERMATOLOGIST", avatar: "JC", avatarBg: "#2d1a4a", status: "Active" },
+  { username: "s_mitchell", name: "Sarah Mitchell",  email: "s.mitchell@dermacare.io", role: "DERMATOLOGIST", avatar: "SM", avatarBg: "#0f3460", status: "Active" },
+  { username: "r_kapoor",   name: "Rajesh Kapoor",   email: "r.kapoor@dermacare.io",   role: "LAB TECH",      avatar: "RK", avatarBg: "#7c4a03", status: "Active" },
+  { username: "e_lyon",     name: "Eleanor Lyon",    email: "e.lyon@dermacare.io",     role: "ADMIN",         avatar: "EL", avatarBg: "#374151", status: "Active" },
+  { username: "t_weaver",   name: "Thomas Weaver",   email: "t.weaver@dermacare.io",   role: "DERMATOLOGIST", avatar: "TW", avatarBg: "#0f4c75", status: "Active" },
+  { username: "m_okafor",   name: "Maria Okafor",    email: "m.okafor@dermacare.io",   role: "PATHOLOGIST",   avatar: "MO", avatarBg: "#1a3a2a", status: "Suspended" },
+  { username: "j_chen",     name: "James Chen",      email: "j.chen@dermacare.io",     role: "DERMATOLOGIST", avatar: "JC", avatarBg: "#2d1a4a", status: "Active" },
 ];
 
 const ROLE_COLORS: Record<string, string> = {

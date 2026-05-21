@@ -19,13 +19,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "DermaDx | AI-Powered Clinical Decision Support for Dermatology",
+  title: "DermaCare | AI-Powered Clinical Decision Support for Dermatology",
   description: "Empowering clinicians with high-precision dermatological screening tools.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "DermaDx",
+    title: "DermaCare",
   },
   formatDetection: {
     telephone: false,
@@ -53,7 +53,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="DermaDx" />
+        <meta name="apple-mobile-web-app-title" content="DermaCare" />
       </head>
       <body className="min-h-full flex flex-col">
         <ServiceWorkerRegister />

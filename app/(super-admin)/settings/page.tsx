@@ -196,7 +196,7 @@ export default function SuperAdminSettingsPage() {
               Platform Settings
             </h1>
             <p className="text-sm text-slate-400 mt-0.5">
-              Global configuration for the entire DermaDx SaaS platform.
+              Global configuration for the entire DermaCare SaaS platform.
             </p>
           </div>
 
@@ -447,12 +447,12 @@ export default function SuperAdminSettingsPage() {
 
                   <Section title="Platform Information">
                     {[
-                      ["Product",         "DermaDx SaaS Platform"],
+                      ["Product",         "DermaCare SaaS Platform"],
                       ["Version",         "v4.2.1-prod"],
                       ["Build",           "2024.01.15.RC1"],
                       ["Compliance",      "HIPAA · GDPR · CE Marked · SOC 2 Type II"],
                       ["Active Region",   "EU West (Ireland)"],
-                      ["Support Email",   "platform@dermadx.health"],
+                      ["Support Email",   "platform@dermacare.health"],
                       ["SLA",             "99.9% uptime guarantee"],
                     ].map(([k, v]) => (
                       <div key={k} className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
@@ -468,8 +468,8 @@ export default function SuperAdminSettingsPage() {
         </main>
 
         <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
-          <p className="text-[10px] text-slate-400 tracking-widest uppercase">DermaDx Platform · Super Admin Console</p>
-          <span className="text-[10px] text-slate-300">© 2024 DermaDx</span>
+          <p className="text-[10px] text-slate-400 tracking-widest uppercase">DermaCare Platform · Super Admin Console</p>
+          <span className="text-[10px] text-slate-300">© 2024 DermaCare</span>
         </footer>
       </div>
 

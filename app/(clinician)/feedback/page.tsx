@@ -108,7 +108,7 @@ export default function FeedbackPage() {
         {/* Heading */}
         <div>
           <h1 className="text-2xl font-bold text-[#0f2744]">Feedback</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Help us improve DermaDx by sharing your clinical experience and suggestions.</p>
+          <p className="text-sm text-gray-500 mt-0.5">Help us improve DermaCare by sharing your clinical experience and suggestions.</p>
         </div>
           {error && (
             <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
