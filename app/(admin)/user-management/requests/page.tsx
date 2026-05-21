@@ -176,7 +176,7 @@ export default function PendingRequestsPage() {
 
         <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
           <p className="text-[10px] text-slate-400 tracking-widest uppercase">For clinical decision support only. Not a diagnostic device.</p>
-          <span className="text-[10px] text-slate-300">© 2023 DermaDx</span>
+          <span className="text-[10px] text-slate-300">© 2023 DermaCare</span>
         </footer>
       </div>
 

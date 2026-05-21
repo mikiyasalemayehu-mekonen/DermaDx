@@ -41,7 +41,7 @@ export default function OnboardingPage() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-600 flex items-center justify-center shadow-lg">
               <span className="text-white font-black text-sm">D</span>
             </div>
-            <span className="font-bold text-lg text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaDx</span>
+            <span className="font-bold text-lg text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaCare</span>
           </div>
           <div className="flex items-center justify-center gap-3">
             {[["1", "Terms & HIPAA"], ["2", "Confirm Role"], ["3", "Access Ready"]].map(([num, label], i) => {
@@ -72,13 +72,13 @@ export default function OnboardingPage() {
             <div onScroll={handleScroll}
               className="hipaa-scroll overflow-y-auto px-7 py-5 text-xs text-slate-500 leading-relaxed space-y-4"
               style={{ maxHeight: 280 }}>
-              <p><span className="font-bold text-slate-700">1. Nature of the Platform.</span> DermaDx is a clinical decision support tool designed for use by licensed healthcare professionals. It is not a standalone diagnostic device and does not replace clinical judgement.</p>
-              <p><span className="font-bold text-slate-700">2. HIPAA Compliance.</span> As a user of DermaDx, you acknowledge that you may encounter protected health information (PHI) during your use of the platform. You agree to handle all such information in compliance with the Health Insurance Portability and Accountability Act (HIPAA) and any applicable state laws.</p>
+              <p><span className="font-bold text-slate-700">1. Nature of the Platform.</span> DermaCare is a clinical decision support tool designed for use by licensed healthcare professionals. It is not a standalone diagnostic device and does not replace clinical judgement.</p>
+              <p><span className="font-bold text-slate-700">2. HIPAA Compliance.</span> As a user of DermaCare, you acknowledge that you may encounter protected health information (PHI) during your use of the platform. You agree to handle all such information in compliance with the Health Insurance Portability and Accountability Act (HIPAA) and any applicable state laws.</p>
               <p><span className="font-bold text-slate-700">3. Data Security.</span> You are responsible for maintaining the confidentiality of your account credentials. You must not share access with any other individual. Any breach of security must be reported to your institution's admin immediately.</p>
               <p><span className="font-bold text-slate-700">4. Clinical Responsibility.</span> AI-generated analysis results are intended to assist, not replace, clinical decision-making. Final diagnostic decisions remain the sole responsibility of the licensed clinician.</p>
-              <p><span className="font-bold text-slate-700">5. Audit & Logging.</span> All actions performed within DermaDx are logged for compliance and audit purposes. These logs may be reviewed by your institution's compliance officers.</p>
+              <p><span className="font-bold text-slate-700">5. Audit & Logging.</span> All actions performed within DermaCare are logged for compliance and audit purposes. These logs may be reviewed by your institution's compliance officers.</p>
               <p><span className="font-bold text-slate-700">6. Data Retention.</span> Patient images and analysis reports are retained according to your institution's configured retention policy. You may not export or transmit PHI outside of approved channels.</p>
-              <p><span className="font-bold text-slate-700">7. Acceptable Use.</span> You agree not to use DermaDx for any purpose other than legitimate clinical assessment within your authorised scope of practice.</p>
+              <p><span className="font-bold text-slate-700">7. Acceptable Use.</span> You agree not to use DermaCare for any purpose other than legitimate clinical assessment within your authorised scope of practice.</p>
               <p className="text-slate-400 italic">By ticking the checkbox below, you confirm you have read and understood these terms in their entirety.</p>
             </div>
 
@@ -101,7 +101,7 @@ export default function OnboardingPage() {
                   {agreed && <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={3} className="w-3 h-3"><polyline points="20 6 9 17 4 12" strokeLinecap="round" /></svg>}
                 </button>
                 <span className="text-sm text-slate-600 leading-relaxed">
-                  I have read, understood, and agree to the <span className="font-semibold text-slate-800">DermaDx Clinical Terms of Use</span> and confirm I will handle all patient data in accordance with <span className="font-semibold text-slate-800">HIPAA regulations</span>.
+                  I have read, understood, and agree to the <span className="font-semibold text-slate-800">DermaCare Clinical Terms of Use</span> and confirm I will handle all patient data in accordance with <span className="font-semibold text-slate-800">HIPAA regulations</span>.
                 </span>
               </label>
 
@@ -174,7 +174,7 @@ export default function OnboardingPage() {
                 cursor: roleConfirmed ? "pointer" : "not-allowed", boxShadow: roleConfirmed ? "0 4px 16px rgba(13,148,136,0.25)" : "none",
                 fontFamily: "'Space Grotesk', sans-serif" }}>
               {loading ? <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}><circle cx="12" cy="12" r="9" strokeOpacity="0.3" /><path d="M12 3a9 9 0 0 1 9 9" strokeLinecap="round" /></svg>
-                : "Confirm & Enter DermaDx →"}
+                : "Confirm & Enter DermaCare →"}
             </button>
           </div>
         )}

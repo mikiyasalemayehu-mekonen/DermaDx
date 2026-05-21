@@ -50,10 +50,10 @@ export default function PWAInstall() {
   return (
     <div className="fixed bottom-4 right-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg p-4 max-w-sm animate-in slide-in-from-bottom-4 z-50">
       <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-        Install DermaDx
+        Install DermaCare
       </h3>
       <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
-        Add DermaDx to your home screen for quick access and offline support.
+        Add DermaCare to your home screen for quick access and offline support.
       </p>
       <div className="flex gap-2">
         <button

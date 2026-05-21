@@ -1,4 +1,4 @@
-# DermaDx Progressive Web Application (PWA) Setup Guide
+# DermaCare Progressive Web Application (PWA) Setup Guide
 
 Your application has been successfully configured as a Progressive Web Application! Here's what has been set up and what you need to do to complete it.
 
@@ -160,4 +160,4 @@ Your service worker implements:
 
 ---
 
-**Your DermaDx app is now PWA-enabled! 🎉**
+**Your DermaCare app is now PWA-enabled! 🎉**

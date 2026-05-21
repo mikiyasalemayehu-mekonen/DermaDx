@@ -23,14 +23,14 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section title="About DermaDx" id="about2">
+      <Section title="About DermaCare" id="about2">
         {[
-          ["Product",       "DermaDx Enterprise"],
+          ["Product",       "DermaCare Enterprise"],
           ["Version",       "v4.2.1-prod"],
           ["Build",         "2023T1.05.RC1"],
           ["License",       "Memorial Health Systems"],
           ["Compliance",    "HIPAA • GDPR • CE Marked"],
-          ["Support Email", "enterprise@dermadx.health"],
+          ["Support Email", "enterprise@dermacare.health"],
         ].map(([k, v]) => (
           <div key={k} className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
             <span className="text-xs text-slate-400 font-medium">{k}</span>
@@ -38,7 +38,7 @@ export default function AboutPage() {
           </div>
         ))}
         <p className="text-xs text-slate-400 pt-2 leading-relaxed">
-          DermaDx Enterprise v4.2.1 • Licensed to Memorial Health Systems<br />
+          DermaCare Enterprise v4.2.1 • Licensed to Memorial Health Systems<br />
           <span className="text-slate-300">Build: 2023T1.05.RC1</span>
         </p>
       </Section>

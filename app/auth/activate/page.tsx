@@ -153,7 +153,7 @@ export default function ActivationPage() {
             <span className="text-white font-black text-sm">D</span>
           </div>
           <div>
-            <p className="text-white font-bold text-base leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaDx</p>
+            <p className="text-white font-bold text-base leading-none" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaCare</p>
             <p className="text-teal-400/50 text-[9px] tracking-[0.2em] uppercase mt-0.5">Clinical Portal</p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function ActivationPage() {
             Activate your<br /><span style={{ background: "linear-gradient(135deg, #94d8f0, #00d4b4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>clinical account</span>
           </h2>
           <p className="text-slate-400 text-sm leading-relaxed">
-            You&apos;ve been provisioned access by your institution&apos;s admin. Complete these steps to secure your account and gain access to DermaDx.
+            You&apos;ve been provisioned access by your institution&apos;s admin. Complete these steps to secure your account and gain access to DermaCare.
           </p>
 
           <div className="space-y-3 pt-2">
@@ -345,7 +345,7 @@ export default function ActivationPage() {
               <div>
                 <h2 className="text-2xl font-bold text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Account Activated!</h2>
                 <p className="text-slate-400 text-sm mt-2 leading-relaxed">
-                  Your DermaDx clinical account is now secure and ready. Your role-scoped dashboard is loading.
+                  Your DermaCare clinical account is now secure and ready. Your role-scoped dashboard is loading.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3 text-left">

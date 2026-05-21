@@ -35,7 +35,7 @@ export default function Home() {
               <Image src={Logo} alt="Logo" />
 
             </div>
-            <span className="font-bold text-lg tracking-tight text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaDx</span>
+            <span className="font-bold text-lg tracking-tight text-slate-800" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaCare</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -173,7 +173,7 @@ export default function Home() {
       <section className="py-28 relative" style={{ background: "#f8fbff" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16">
-            <span className="text-blue-700 text-sm font-semibold tracking-[0.2em] uppercase">Why DermaDx?</span>
+            <span className="text-blue-700 text-sm font-semibold tracking-[0.2em] uppercase">Why DermaCare?</span>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mt-3 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Built different.<br /><span className="text-gradient">Performs differently.</span>
             </h2>
@@ -302,7 +302,7 @@ export default function Home() {
           {/* Testimonial card */}
           <div className="space-y-4">
             {[
-              { quote: "DermaDx cut our biopsy-referral turnaround from 3 days to same-day. The accuracy is genuinely impressive.", name: "Dr. Sarah Mitchell", role: "Chief of Dermatology, UCSF", avatar: "SM" },
+              { quote: "DermaCare cut our biopsy-referral turnaround from 3 days to same-day. The accuracy is genuinely impressive.", name: "Dr. Sarah Mitchell", role: "Chief of Dermatology, UCSF", avatar: "SM" },
               { quote: "The only AI tool our team actually trusts for high-risk lesion screening. It's become part of our daily workflow.", name: "Dr. James Okonkwo", role: "Consultant Dermatologist, Lagos", avatar: "JO" },
             ].map(({ quote, name, role, avatar }, i) => (
               <div key={i} className="bg-white/90 backdrop-blur rounded-2xl p-6 border border-blue-100 shadow-sm">
@@ -342,7 +342,7 @@ export default function Home() {
           </h2>
 
           <p className="text-slate-600 text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-            Join 400+ healthcare facilities using DermaDx to improve early detection rates and patient outcomes.
+            Join 400+ healthcare facilities using DermaCare to improve early detection rates and patient outcomes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -367,7 +367,7 @@ export default function Home() {
                 <div className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <span className="text-white font-black text-xs">D</span>
                 </div>
-                <span className="font-bold text-slate-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaDx</span>
+                <span className="font-bold text-slate-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>DermaCare</span>
               </div>
               <p className="text-slate-600 text-sm leading-relaxed">Clinical AI for dermatology. Built for precision. Trusted globally.</p>
             </div>
@@ -388,7 +388,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-blue-100 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-xs">© 2024 DermaDx Clinical Systems. For clinical decision support only — not a standalone diagnostic device.</p>
+            <p className="text-slate-500 text-xs">© 2024 DermaCare Clinical Systems. For clinical decision support only — not a standalone diagnostic device.</p>
             <div className="flex gap-6">
               {["Privacy", "Terms", "Security", "Status"].map((item) => (
                 <a key={item} className="text-slate-600 text-xs hover:text-slate-900 transition-colors cursor-pointer">{item}</a>

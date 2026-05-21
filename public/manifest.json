@@ -1,6 +1,6 @@
 {
-  "name": "DermaDx - AI-Powered Clinical Decision Support",
-  "short_name": "DermaDx",
+  "name": "DermaCare - AI-Powered Clinical Decision Support",
+  "short_name": "DermaCare",
   "description": "Empowering clinicians with high-precision dermatological screening tools.",
   "start_url": "/",
   "display": "standalone",
