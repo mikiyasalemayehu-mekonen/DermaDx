@@ -126,8 +126,8 @@ function UserManagementPage() {
             </div>
             <button
               onClick={() => setShowDrawer(true)}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white shadow-md transition-all active:scale-95 hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #0b1f3a 0%, #0d3260 100%)", boxShadow: "0 4px 16px rgba(11,31,58,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white shadow-md transition-all active:scale-95 hover:opacity-90 bg-blue-900"
+
             >
               <Plus className="w-4 h-4" />Add New User
             </button>

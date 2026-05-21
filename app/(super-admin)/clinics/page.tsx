@@ -174,8 +174,8 @@ export default function ClinicsPage() {
               <p className="text-sm text-slate-400 mt-0.5">Onboard, manage, and monitor all registered clinics on the platform.</p>
             </div>
             <button onClick={() => setShowModal(true)} disabled={loading}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 4px 16px rgba(124,58,237,0.25)", fontFamily: "'Space Grotesk', sans-serif" }}>
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white bg-blue-900 hover:bg-blue-800 shadow-lg transition-all active:scale-95 disabled:opacity-50"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               + Onboard New Clinic
             </button>
           </div>
@@ -317,10 +317,7 @@ export default function ClinicsPage() {
           )}
         </main>
 
-        <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
-          <p className="text-[10px] text-slate-400 tracking-widest uppercase">DermaCare Platform · Super Admin Console</p>
-          <span className="text-[10px] text-slate-300">© 2024 DermaCare</span>
-        </footer>
+
       </div>
 
       {/* Onboard modal */}
@@ -348,8 +345,8 @@ export default function ClinicsPage() {
               </div>
               <div className="px-7 pb-6 space-y-2.5">
                 <button onClick={handleOnboard} disabled={submitting}
-                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all active:scale-[0.98] disabled:opacity-50"
-                  style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", fontFamily: "'Space Grotesk', sans-serif" }}>
+                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-blue-900 hover:bg-blue-800 shadow-lg transition-all active:scale-[0.98] disabled:opacity-50"
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                   {submitting ? "Creating..." : "Create Clinic & Send Invitation"}
                 </button>
                 <button onClick={() => setShowModal(false)} disabled={submitting}

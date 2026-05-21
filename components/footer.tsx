@@ -1,4 +1,4 @@
-export function Footer() {
+ function Footer() {
   return (
     <footer className="shrink-0 border-t border-gray-200 bg-white px-4 py-3 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-6xl flex-row flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center sm:justify-between sm:text-left">
@@ -25,3 +25,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export default Footer;

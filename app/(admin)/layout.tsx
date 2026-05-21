@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import AdminSidebar from "./_components/sidebar";
-import AdminFooter from "./_components/footer";
-import TopHeader from "@/app/_components/TopHeader";
+import Footer  from "@/components/footer";
+import { AdminHeader } from "./_components/admin-header";
 
 const PATH_TO_NAV: Record<string, string> = {
   "/admin-dashboard": "dashboard",
@@ -26,11 +26,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex flex-1 min-h-0">
         <AdminSidebar active={active} onNav={() => {}} />
         <div className="flex-1 flex flex-col min-w-0">
-          <TopHeader />
+          <AdminHeader />
           {children}
         </div>
       </div>
-      <AdminFooter />
+      <Footer />
     </div>
   );
 }

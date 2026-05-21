@@ -1,6 +1,6 @@
 import Sidebar from "./_components/sidebar";
-import { Footer } from "./_components/footer";
-import TopHeader from "@/app/_components/TopHeader";
+import  Footer  from "@/components/footer";
+import { ClinicianHeader } from "./_components/clinician-header";
 
 export default function ClinicianLayout({ children }: { children: React.ReactNode }) {
   return (

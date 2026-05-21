@@ -276,10 +276,7 @@ export default function AdminsPage() {
           </div>
         </main>
 
-        <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
-          <p className="text-[10px] text-slate-400 tracking-widest uppercase">DermaCare Platform · Super Admin Console</p>
-          <span className="text-[10px] text-slate-300">© 2024 DermaCare</span>
-        </footer>
+
       </div>
 
       {/* Invite modal */}

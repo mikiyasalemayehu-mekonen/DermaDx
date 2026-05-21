@@ -48,8 +48,8 @@ export default function SystemReportsPage() {
             </div>
             <button
               onClick={handleExport}
-              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all active:scale-95 hover:opacity-90"
-              style={{ background: "#00c4a8", boxShadow: "0 4px 16px rgba(0,196,168,0.3)", fontFamily: "'Space Grotesk', sans-serif" }}
+              className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all active:scale-95 hover:opacity-90 bg-blue-900"
+
             >
               {exporting ? (
                 <>

@@ -69,8 +69,8 @@ export function AdminHeader() {
         </button>
         <div className="flex items-center gap-2.5 pl-3 border-l border-slate-100">
           <div className="text-right">
-            <p className="text-xs font-bold text-slate-700 leading-tight">{displayName || ""}</p>
-            <p className="text-[9px] text-slate-400 uppercase tracking-widest">{roleLabel}</p>
+            <p className="text-xs font-bold text-slate-700 leading-tight">Dr. Aris Thorne</p>
+            <p className="text-[9px] text-slate-400 uppercase tracking-widest">System Admin</p>
           </div>
           <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-teal-200">
             <svg viewBox="0 0 32 32" className="w-full h-full" aria-hidden="true">

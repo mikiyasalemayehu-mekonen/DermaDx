@@ -149,8 +149,8 @@ export default function SuperAdminDashboard() {
               </h1>
               <p className="text-sm text-slate-400 mt-0.5">Real-time visibility across all clinics and tenants.</p>
             </div>
-            <button className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 active:scale-95"
-              style={{ background: "linear-gradient(135deg, #2563eb, #1e40af)", boxShadow: "0 4px 16px rgba(37,99,235,0.18)", fontFamily: "'Space Grotesk', sans-serif" }}>
+            <button className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl text-white bg-blue-900 hover:bg-blue-800 shadow-lg transition-all active:scale-95"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               + Onboard New Clinic
             </button>
           </div>
@@ -263,10 +263,7 @@ export default function SuperAdminDashboard() {
           </div>
         </main>
 
-        <footer className="bg-white border-t border-slate-100 px-8 py-3 flex justify-between items-center shrink-0">
-          <p className="text-[10px] text-slate-400 tracking-widest uppercase">DermaCare Platform · Super Admin Console</p>
-          <span className="text-[10px] text-slate-300">© 2024 DermaCare</span>
-        </footer>
+
       </div>
     </div>
   );
